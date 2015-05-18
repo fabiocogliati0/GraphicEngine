@@ -111,8 +111,8 @@ namespace GraphicEngine
 
 		void cleanupDevice()
 		{
-			//if (mDevice)
-				//mDevice->ClearState();	//TODO perchè non va?
+			if (mDevice)
+				mDeviceContext->ClearState();
 
 			if (mRenderTargetView)
 				mRenderTargetView->Release();
@@ -121,7 +121,7 @@ namespace GraphicEngine
 				mSwapChain->Release();
 
 			if (mDevice)
-				mDevice->Release();			//TODO da un breakpoint qui quando si chiude la finestra, perchè?
+				mDevice->Release();
 		}
 
 		void render()
@@ -135,6 +135,11 @@ namespace GraphicEngine
 			
 			//swap buffers
 			mSwapChain->Present(0, 0);
+		}
+
+		ID3D11Device* getDevice() const
+		{
+			return mDevice;
 		}
 
 	private:

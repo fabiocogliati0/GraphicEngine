@@ -35,6 +35,7 @@ namespace GraphicEngine
 		return 0;
 	}
 
+
 	class Window
 	{
 
@@ -48,7 +49,7 @@ namespace GraphicEngine
 			const LPCWSTR iWindowClassName,
 			LONG iWidth,
 			LONG iHeight
-			)
+			) : mRenderer(nullptr)
 		{
 			//Create window descriptor
 			mWindowClass.cbSize = sizeof(WNDCLASSEX);
@@ -90,22 +91,35 @@ namespace GraphicEngine
 			//show Window
 			ShowWindow(mWindowHandler, iNCmdShow);
 
-			//create DirectxRender
-			mRenderer = DirectXRenderer(mWindowHandler, iMultiSampleCount);
+			//Create renderer
+			mRenderer = new DirectXRenderer(mWindowHandler, iMultiSampleCount);
 
+		}
+
+		~Window()
+		{
+			if (mRenderer != nullptr)
+			{
+				delete mRenderer;
+			}
 		}
 
 		void render()
 		{
-			mRenderer.render();
+			mRenderer->render();
 		}
 
+		//PENSARE COME FARE A PRENDERE IL DEVICE
+		DirectXRenderer* getRender() const
+		{
+			return mRenderer;
+		}
 
 	private :
 	
 		WNDCLASSEX mWindowClass;
 		HWND mWindowHandler;
-		DirectXRenderer mRenderer;
+		DirectXRenderer* mRenderer;
 
 	};
 

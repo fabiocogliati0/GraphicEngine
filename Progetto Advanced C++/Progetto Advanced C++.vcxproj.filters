@@ -51,20 +51,20 @@
     <ClInclude Include="DirectXRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\pixelShader.hlsl">
+    <FxCompile Include="..\..\GraphicsProgrammingCode14\GraphicsProgrammingCode\GraphicsProgramming\01-RenderingTriangolo\Src\Shaders\vertexShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\vertexShader.hlsl">
+    <FxCompile Include="..\..\GraphicsProgrammingCode14\GraphicsProgrammingCode\GraphicsProgramming\01-RenderingTriangolo\Src\Shaders\pixelShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

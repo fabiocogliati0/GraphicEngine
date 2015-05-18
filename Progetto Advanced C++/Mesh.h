@@ -26,8 +26,7 @@ namespace GraphicEngine
 			unsigned int iVerticesNumber,
 			unsigned int* iIndices,
 			unsigned int iIndicesNumber,
-			ID3D11Device* iDevice,
-			ID3DBlob* iVertexShaderBlob
+			ID3D11Device* iDevice
 			)
 		{
 			D3D11_BUFFER_DESC bufferDesc;
@@ -57,9 +56,7 @@ namespace GraphicEngine
 			assert(SUCCEEDED(result));
 
 			//Input Layout	//ATTENZIONE: layoutVertex è globale, vedere se si può fare un po' un design migliore
-			result = iDevice->CreateInputLayout(layoutVertex, 1, iVertexShaderBlob->GetBufferPointer(), iVertexShaderBlob->GetBufferSize(), &mInputLayout);
-
-			//iVertexShaderBlob->Release();	//dove fare sta release?
+			//result = iDevice->CreateInputLayout(layoutVertex, 1, iVertexShaderBlob->GetBufferPointer(), iVertexShaderBlob->GetBufferSize(), &mInputLayout);
 		}
 
 		void render(ID3D11DeviceContext* iContext)
@@ -67,7 +64,7 @@ namespace GraphicEngine
 			UINT32 stride = sizeof(Vertex);
 			UINT32 offset = 0;
 
-			iContext->IASetInputLayout(mInputLayout);
+			//iContext->IASetInputLayout(mInputLayout);
 			iContext->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
 			iContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 			iContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -83,7 +80,7 @@ namespace GraphicEngine
 		unsigned int mVertexCount;
 		unsigned int mIndexCount;
 
-		ID3D11InputLayout* mInputLayout;
+		//ID3D11InputLayout* mInputLayout;
 
 	};
 
