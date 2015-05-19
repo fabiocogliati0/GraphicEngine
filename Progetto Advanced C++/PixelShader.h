@@ -6,55 +6,24 @@
 
 namespace GraphicEngine
 {
-	
+
 	class PixelShader
 	{
 
 	public:
 
-		PixelShader() 
-			: mPixelShader(nullptr)
-		{ }
+		PixelShader();
 
-		PixelShader(const LPCWSTR& iFileName, ID3D11Device* iDevice)
-		{
-			UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
+		PixelShader(const LPCWSTR& iFileName, ID3D11Device* iDevice);
 
-#if defined( DEBUG ) || defined( _DEBUG )
-			flags |= D3DCOMPILE_DEBUG;
-#endif
+		ID3D11PixelShader* getShader() const;
 
-			// Vertex shader (compilato a build-time).
-			// Caricamento del precompilato.
-			ID3DBlob* pixelShaderBlob = nullptr;
-			HRESULT result = D3DReadFileToBlob(iFileName, &pixelShaderBlob);
-			assert(!FAILED(result));
+		~PixelShader();
 
-			// Creazione dello shader.
-			result = iDevice->CreatePixelShader(pixelShaderBlob->GetBufferPointer(), pixelShaderBlob->GetBufferSize(), nullptr, &mPixelShader);
-			assert(!FAILED(result));
-
-			if (pixelShaderBlob)
-				pixelShaderBlob->Release();
-		}
-
-		ID3D11PixelShader* getShader() const
-		{
-			return mPixelShader;
-		}
-
-		~PixelShader()
-		{
-			if (mPixelShader)
-			{
-				mPixelShader->Release();
-			}
-		}
-		
 	private:
 
 		ID3D11PixelShader* mPixelShader;
 
 	};
-	
+
 }

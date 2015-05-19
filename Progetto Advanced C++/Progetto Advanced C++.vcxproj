@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\GraphicsProgrammingCode14\GraphicsProgrammingCode\GraphicsProgramming\01-RenderingTriangolo\Src\Shaders\pixelShader.hlsl">
