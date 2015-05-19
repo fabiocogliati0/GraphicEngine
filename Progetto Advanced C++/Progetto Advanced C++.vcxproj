@@ -16,9 +16,10 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="DirectXRenderer.h" />
-    <ClInclude Include="ShaderCompiler.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Trasformations.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
@@ -38,6 +39,10 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0_level_9_3</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Material.cd" />
+    <None Include="Window.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC9DB536-B4F1-4FAA-8954-B2BB75CCCE40}</ProjectGuid>
