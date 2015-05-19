@@ -33,11 +33,6 @@ namespace GraphicEngine
 			pixelShaderBlob->Release();
 	}
 
-	ID3D11PixelShader* PixelShader::getShader() const
-	{
-		return mPixelShader;
-	}
-
 	PixelShader::~PixelShader()
 	{
 		if (mPixelShader)
@@ -46,5 +41,9 @@ namespace GraphicEngine
 		}
 	}
 
+	void PixelShader::renderSetup(ID3D11DeviceContext* iContext) const
+	{
+		iContext->PSSetShader(mPixelShader, nullptr, 0);
+	}
 
 }

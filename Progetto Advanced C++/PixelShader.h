@@ -1,8 +1,6 @@
 #pragma once
 
-#include <d3dcompiler.h>
 #include <d3d11.h>
-#include <cassert>
 
 namespace GraphicEngine
 {
@@ -16,9 +14,9 @@ namespace GraphicEngine
 
 		PixelShader(const LPCWSTR& iFileName, ID3D11Device* iDevice);
 
-		ID3D11PixelShader* getShader() const;
-
 		~PixelShader();
+		
+		void renderSetup(ID3D11DeviceContext* iContext) const;
 
 	private:
 

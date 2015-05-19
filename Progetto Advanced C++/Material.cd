@@ -5,25 +5,18 @@
   </Comment>
   <Class Name="GraphicEngine::Material">
     <Position X="3.75" Y="1.25" Width="3" />
+    <NestedTypes>
+      <Struct Name="GraphicEngine::Material::MaterialStruct" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Material.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AEEAgAAABAAAAAAAAAAABgAAAAAgAAAgAAAAAAgAAAA=</HashCode>
+      <HashCode>AEEAkAAAAAAAAAAAAAAABAAAAAAwAAAAAAAAAAgAAAA=</HashCode>
       <FileName>Material.h</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="mMaterialStruct" />
-      <Field Name="mMaterialBuffer" />
-      <Field Name="mVertexShader" />
-      <Field Name="mPixelShader" />
-      <Field Name="mTextureResourceView" />
-    </ShowAsAssociation>
   </Class>
-  <Struct Name="GraphicEngine::MaterialStruct">
-    <Position X="8.25" Y="1.25" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAAhCAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAABCAAA=</HashCode>
-      <FileName>Material.h</FileName>
-    </TypeIdentifier>
-  </Struct>
   <Struct Name="ID3D11Buffer" Collapsed="true">
     <Position X="8.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>

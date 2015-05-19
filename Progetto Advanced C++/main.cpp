@@ -18,11 +18,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GraphicEngine::Window window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", 600L, 600L);
 	ID3D11Device* device = window.getRender()->getDevice();	//TODO: non è bellissima sta cosa
 
-	GraphicEngine::VertexShader vertexShader = 
-		GraphicEngine::VertexShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/vertexShader.cso", device);
+	GraphicEngine::VertexShader* vertexShader = 
+		new GraphicEngine::VertexShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/vertexShader.cso", device);
 	
-	GraphicEngine::PixelShader vertexShader = 
-		GraphicEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/pixelShader.cso", device);
+	GraphicEngine::PixelShader* pixelShader = 
+		new GraphicEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/pixelShader.cso", device);
 
 	//Create Material
 	DirectX::XMFLOAT4 ambiental(0.1f, 0.3f, 0.3f, 1.0f);
@@ -32,7 +32,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	float shininess = 128;
 
 	GraphicEngine::Material* material =
-		new GraphicEngine::Material(ambiental, diffusive, specular, emissive, shininess,nullptr, vertexShader, pixelShader, device);
+		new GraphicEngine::Material(ambiental, diffusive, specular, emissive, shininess, vertexShader, pixelShader, device);
 
 	//Create Mesh
 	
@@ -68,9 +68,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	//clean
-	vertexShader->Release();
-	pixelShader->Release();
 	delete material;
+	delete vertexShader;
+	delete pixelShader;
+
+	material = nullptr;
+	vertexShader = nullptr;
+	pixelShader = nullptr;
 
 	return static_cast<int>(msg.wParam);
 
