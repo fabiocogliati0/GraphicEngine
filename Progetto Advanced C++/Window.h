@@ -52,21 +52,22 @@ namespace GraphicEngine
 			) : mRenderer(nullptr)
 		{
 			//Create window descriptor
-			mWindowClass.cbSize = sizeof(WNDCLASSEX);
-			mWindowClass.style = CS_HREDRAW | CS_VREDRAW;
-			mWindowClass.lpfnWndProc = WndProc;
-			mWindowClass.cbClsExtra = 0;
-			mWindowClass.cbWndExtra = 0;
-			mWindowClass.hInstance = iHInstance;
-			mWindowClass.hIcon = LoadIcon(iHInstance, (LPCTSTR)IDI_APPLICATION);
-			mWindowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-			mWindowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-			mWindowClass.lpszMenuName = nullptr;
-			mWindowClass.lpszClassName = iWindowClassName;
-			mWindowClass.hIconSm = LoadIcon(iHInstance, (LPCTSTR)IDI_APPLICATION);
+			WNDCLASSEX windowClassDesc;
+			windowClassDesc.cbSize = sizeof(WNDCLASSEX);
+			windowClassDesc.style = CS_HREDRAW | CS_VREDRAW;
+			windowClassDesc.lpfnWndProc = WndProc;
+			windowClassDesc.cbClsExtra = 0;
+			windowClassDesc.cbWndExtra = 0;
+			windowClassDesc.hInstance = iHInstance;
+			windowClassDesc.hIcon = LoadIcon(iHInstance, (LPCTSTR)IDI_APPLICATION);
+			windowClassDesc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+			windowClassDesc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+			windowClassDesc.lpszMenuName = nullptr;
+			windowClassDesc.lpszClassName = iWindowClassName;
+			windowClassDesc.hIconSm = LoadIcon(iHInstance, (LPCTSTR)IDI_APPLICATION);
 
 			//Class registration
-			if (!RegisterClassEx(&mWindowClass))
+			if (!RegisterClassEx(&windowClassDesc))
 				assert(false);
 
 			//Create Window
@@ -117,7 +118,6 @@ namespace GraphicEngine
 
 	private :
 	
-		WNDCLASSEX mWindowClass;
 		HWND mWindowHandler;
 		DirectXRenderer* mRenderer;
 

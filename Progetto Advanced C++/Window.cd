@@ -1,75 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Window">
-    <Position X="2" Y="1" Width="1.75" />
+    <Position X="1.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAQAEAABAAAAQCAAQAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAEAABAAAAQCAAQAAA=</HashCode>
       <FileName>Window.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="mRenderer" />
-      <Field Name="mWindowClass" />
-      <Field Name="mWindowHandler" />
     </ShowAsAssociation>
   </Class>
   <Class Name="GraphicEngine::DirectXRenderer">
-    <Position X="5.75" Y="0.75" Width="2.5" />
+    <Position X="4.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>EAAAAABAAIAABBAAAAAAAACACAAAAAAQAAAAIAAQAAA=</HashCode>
       <FileName>DirectXRenderer.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Field Name="mDriverType" />
+      <Field Name="mSwapChain" />
       <Field Name="mDevice" />
       <Field Name="mDeviceContext" />
-      <Field Name="mDriverType" />
       <Field Name="mRenderTargetView" />
-      <Field Name="mSwapChain" />
     </ShowAsAssociation>
   </Class>
   <Struct Name="ID3D11Device" Collapsed="true">
-    <Position X="10.25" Y="1.25" Width="1.5" />
+    <Position X="8.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAKCQAWUJCAUBCgAQIgCAICADIADAEBAAIUgCKAE=</HashCode>
       <FileName>c:\program files (x86)\windows kits\8.1\include\um\d3d11.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="ID3D11DeviceContext" Collapsed="true">
-    <Position X="10.25" Y="2.25" Width="1.5" />
+    <Position X="8.5" Y="2.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>NAoqAQVCNBBgShQpQSQEEUgAIiACMCEABgLGoAqLAUQ=</HashCode>
       <FileName>c:\program files (x86)\windows kits\8.1\include\um\d3d11.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="ID3D11RenderTargetView" Collapsed="true">
-    <Position X="10.25" Y="3.25" Width="1.5" />
+    <Position X="8.5" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>c:\program files (x86)\windows kits\8.1\include\um\d3d11.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="IDXGISwapChain" Collapsed="true">
-    <Position X="10.25" Y="4.25" Width="1.5" />
+    <Position X="8.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAYAAAAAAAAAEBBAAAAgAIAAACAgAAAAAAAAAAAAAAg=</HashCode>
       <FileName>c:\program files (x86)\windows kits\8.1\include\shared\dxgi.h</FileName>
     </TypeIdentifier>
   </Struct>
-  <Typedef Name="WNDCLASSEX" Collapsed="true">
-    <Position X="0.75" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>c:\program files (x86)\windows kits\8.1\include\um\winuser.h</FileName>
-    </TypeIdentifier>
-  </Typedef>
-  <Typedef Name="HWND" Collapsed="true">
-    <Position X="3.25" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>c:\program files (x86)\windows kits\8.1\include\shared\wtypes.h</FileName>
-    </TypeIdentifier>
-  </Typedef>
   <Enum Name="D3D_DRIVER_TYPE" Collapsed="true">
-    <Position X="10.25" Y="0.5" Width="1.5" />
+    <Position X="8.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAABBAIAIA=</HashCode>
       <FileName>c:\program files (x86)\windows kits\8.1\include\um\d3dcommon.h</FileName>
