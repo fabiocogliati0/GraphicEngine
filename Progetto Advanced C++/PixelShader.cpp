@@ -43,6 +43,7 @@ namespace GraphicEngine
 
 	void PixelShader::renderSetup(ID3D11DeviceContext* iContext) const
 	{
+		//TODO: il puntatore a pixelshader può essere nullo, che fare?
 		iContext->PSSetShader(mPixelShader, nullptr, 0);
 	}
 

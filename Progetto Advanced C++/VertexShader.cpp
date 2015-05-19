@@ -7,11 +7,16 @@
 namespace GraphicEngine
 {
 	
-	VertexShader::VertexShader() : mVertexShader(nullptr) 
+	VertexShader::VertexShader() 
+		: mVertexShader(nullptr), mInputLayout(nullptr)
 	{
 	}
 
-	VertexShader::VertexShader(const LPCWSTR& iFileName, ID3D11Device* iDevice)
+	VertexShader::VertexShader(
+		const LPCWSTR& iFileName,
+		const D3D11_INPUT_ELEMENT_DESC* iInputLayoutDesc, 
+		unsigned int iInputLayoutSize,
+		ID3D11Device* iDevice)
 	{
 		UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
 
@@ -19,18 +24,21 @@ namespace GraphicEngine
 		flags |= D3DCOMPILE_DEBUG;
 #endif
 
-		// Vertex shader (compilato a build-time).
-		// Caricamento del precompilato.
-		ID3DBlob* pixelShaderBlob = nullptr;
-		HRESULT result = D3DReadFileToBlob(iFileName, &pixelShaderBlob);
+		//Load precompiled shaders
+		ID3DBlob* vertexShaderBlob = nullptr;
+		HRESULT result = D3DReadFileToBlob(iFileName, &vertexShaderBlob);
 		assert(!FAILED(result));
 
-		// Creazione dello shader.
-		result = iDevice->CreateVertexShader(pixelShaderBlob->GetBufferPointer(), pixelShaderBlob->GetBufferSize(), nullptr, &mVertexShader);
+		//Create Shader and link to the device
+		result = iDevice->CreateVertexShader(vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), nullptr, &mVertexShader);
 		assert(!FAILED(result));
 
-		if (pixelShaderBlob)
-			pixelShaderBlob->Release();
+		//Create input layout
+		result = iDevice->CreateInputLayout(iInputLayoutDesc, iInputLayoutSize, vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &mInputLayout);
+
+		//Release Shader file
+		if (vertexShaderBlob)
+			vertexShaderBlob->Release();
 	}
 
 	VertexShader::~VertexShader()
@@ -43,6 +51,8 @@ namespace GraphicEngine
 
 	void VertexShader::renderSetup(ID3D11DeviceContext* iContext) const
 	{
+		//TODO: i puntatori a inputLayout e vertexShader possono essere nulli, che fare?
+		iContext->IASetInputLayout(mInputLayout);
 		iContext->VSSetShader(mVertexShader, nullptr, 0);
 	}
 

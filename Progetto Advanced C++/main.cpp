@@ -14,13 +14,19 @@ const int gMultiSampleCount = 1;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-
+	//Create Window
 	GraphicEngine::Window window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", 600L, 600L);
 	ID3D11Device* device = window.getRender()->getDevice();	//TODO: non è bellissima sta cosa
 
+	//Create Vertex Shader
 	GraphicEngine::VertexShader* vertexShader = 
-		new GraphicEngine::VertexShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/vertexShader.cso", device);
+		new GraphicEngine::VertexShader(
+		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/vertexShader.cso",
+		GraphicEngine::layoutVertex,
+		GraphicEngine::layoutVertexSize,
+		device);
 	
+	//Create Pixel Shader
 	GraphicEngine::PixelShader* pixelShader = 
 		new GraphicEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/pixelShader.cso", device);
 
@@ -35,7 +41,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		new GraphicEngine::Material(ambiental, diffusive, specular, emissive, shininess, vertexShader, pixelShader, device);
 
 	//Create Mesh
-	
 	GraphicEngine::Vertex vertices[] =
 	{
 		{ DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f) },

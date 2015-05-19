@@ -17,7 +17,7 @@ namespace GraphicEngine
 
 		Material(
 			const DirectX::XMFLOAT4& iAmbiental,
-			const DirectX::XMFLOAT4& iDiffuse,
+			const DirectX::XMFLOAT4& iDiffusive,
 			const DirectX::XMFLOAT4& iSpecular,
 			const DirectX::XMFLOAT4& iEmissive,
 			float iShininess,
@@ -32,6 +32,25 @@ namespace GraphicEngine
 
 		void setPixelShader(const PixelShader* iPixelShader);
 
+		void setAmbiental(const DirectX::XMFLOAT4& iAmbiental);
+
+		void setDiffusive(const DirectX::XMFLOAT4& iDiffusive);
+
+		void setSpecular(const DirectX::XMFLOAT4& iSpecular);
+
+		void setEmissive(const DirectX::XMFLOAT4& iEmissive);
+
+		void setShininess(float iShininess);
+
+		DirectX::XMFLOAT4 getAmbiental() const;
+
+		DirectX::XMFLOAT4 getDiffusive() const;
+
+		DirectX::XMFLOAT4 getSpecular() const;
+
+		DirectX::XMFLOAT4 getEmissive() const;
+
+		float getShininess() const;
 
 	private:
 

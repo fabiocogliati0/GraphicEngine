@@ -17,4 +17,6 @@ namespace GraphicEngine
 		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
+	const unsigned int layoutVertexSize = 2;
+
 }
