@@ -12,7 +12,6 @@
 namespace GraphicEngine
 {
 
-
 	Material::Material(
 		const DirectX::XMFLOAT4& iAmbiental,
 		const DirectX::XMFLOAT4& iDiffusive,
@@ -44,7 +43,8 @@ namespace GraphicEngine
 
 	Material::~Material()
 	{
-		mMaterialBuffer->Release();
+		if (mMaterialBuffer)
+			mMaterialBuffer->Release();
 	}
 
 	void Material::renderSetup(ID3D11DeviceContext* iContext) const

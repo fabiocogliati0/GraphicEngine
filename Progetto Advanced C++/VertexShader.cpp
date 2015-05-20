@@ -44,9 +44,7 @@ namespace GraphicEngine
 	VertexShader::~VertexShader()
 	{
 		if (mVertexShader)
-		{
 			mVertexShader->Release();
-		}
 	}
 
 	void VertexShader::renderSetup(ID3D11DeviceContext* iContext) const

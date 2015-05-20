@@ -7,10 +7,15 @@
 namespace GraphicEngine
 {
 
+	WorldTransform::WorldTransform(ID3D11Device* iDevice)
+		:WorldTransform(DirectX::XMMatrixIdentity(),iDevice)
+	{
+	}
+
 	WorldTransform::WorldTransform(
 		const DirectX::XMMATRIX& iWorld,
 		ID3D11Device* iDevice) :
-		mWorldTransformStruct(iWorld)
+			mWorldTransformStruct(iWorld)
 	{
 
 		HRESULT result;
@@ -27,7 +32,13 @@ namespace GraphicEngine
 
 	WorldTransform::~WorldTransform()
 	{
-		mWorldTransformBuffer->Release();
+		if (mWorldTransformBuffer)
+			mWorldTransformBuffer->Release();
+	}
+
+	void WorldTransform::renderSetup(ID3D11DeviceContext* iContext) const
+	{
+		iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);
 	}
 
 	void WorldTransform::translate(float iX, float iY, float iZ)

@@ -11,11 +11,15 @@ namespace GraphicEngine
 
 	public:
 
+		WorldTransform(ID3D11Device* iDevice);
+
 		WorldTransform(
 			const DirectX::XMMATRIX& iWorld,
 			ID3D11Device* iDevice);
 
 		~WorldTransform();
+
+		void renderSetup(ID3D11DeviceContext* iContext) const;
 
 		void translate(float iX, float iY, float iZ);
 

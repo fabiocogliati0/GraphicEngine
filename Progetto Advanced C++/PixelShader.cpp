@@ -36,9 +36,7 @@ namespace GraphicEngine
 	PixelShader::~PixelShader()
 	{
 		if (mPixelShader)
-		{
 			mPixelShader->Release();
-		}
 	}
 
 	void PixelShader::renderSetup(ID3D11DeviceContext* iContext) const
