@@ -42,6 +42,11 @@ namespace GraphicEngine
 		mPixelShader = iPixelShader;
 	}
 
+	Material::~Material()
+	{
+		mMaterialBuffer->Release();
+	}
+
 	void Material::renderSetup(ID3D11DeviceContext* iContext) const
 	{
 		mVertexShader->renderSetup(iContext);

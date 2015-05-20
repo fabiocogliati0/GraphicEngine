@@ -23,8 +23,9 @@ namespace GraphicEngine
 			float iShininess,
 			const VertexShader* iVertexShader,
 			const PixelShader* iPixelShader,
-			ID3D11Device* iDevice
-			);
+			ID3D11Device* iDevice);
+
+		~Material();
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;
 

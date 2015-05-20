@@ -36,9 +36,6 @@
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Types</Filter>
     </ClInclude>
-    <ClInclude Include="Trasformations.h">
-      <Filter>Header Files\Types</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Header Files\Types</Filter>
     </ClInclude>
@@ -57,6 +54,12 @@
     <ClInclude Include="PixelShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldTransform.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldTransform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
