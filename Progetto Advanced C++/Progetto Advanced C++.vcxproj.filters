@@ -80,6 +80,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\GraphicsProgrammingCode14\GraphicsProgrammingCode\GraphicsProgramming\01-RenderingTriangolo\Src\Shaders\vertexShader.hlsl">

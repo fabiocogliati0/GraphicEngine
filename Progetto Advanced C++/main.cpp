@@ -11,6 +11,13 @@
 
 const int gMultiSampleCount = 1;
 
+//TODO : SPOSTARE DA QUI
+const unsigned int layoutVertexSize = 2;
+D3D11_INPUT_ELEMENT_DESC layoutVertex[] =
+{
+	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+};
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -22,8 +29,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GraphicEngine::VertexShader* vertexShader = 
 		new GraphicEngine::VertexShader(
 		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/vertexShader.cso",
-		GraphicEngine::layoutVertex,
-		GraphicEngine::layoutVertexSize,
+		layoutVertex,
+		layoutVertexSize,
 		device);
 	
 	//Create Pixel Shader

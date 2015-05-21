@@ -28,6 +28,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="WorldTransform.cpp" />
     <ClCompile Include="VertexShader.cpp" />
