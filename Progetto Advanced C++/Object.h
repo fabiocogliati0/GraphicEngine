@@ -6,7 +6,7 @@
 
 #include <memory>
 
-namespace GraphicEngine
+namespace GraphicsEngine
 {
 	class Object
 	{

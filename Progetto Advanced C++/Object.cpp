@@ -4,7 +4,7 @@
 #include "Material.h"
 #include "WorldTransform.h"
 
-namespace GraphicEngine
+namespace GraphicsEngine
 {
 	Object::Object(Mesh* iMesh, Material* iMaterial, WorldTransform* iWorldTransform)
 		: mMesh(iMesh), mMaterial(iMaterial), mWorldTransform(iWorldTransform), mIsClipped(false), mIsInvisible(false)

@@ -7,7 +7,7 @@
 #include <DirectXMath.h>
 
 
-namespace GraphicEngine
+namespace GraphicsEngine
 {
 
 	Material::Material(

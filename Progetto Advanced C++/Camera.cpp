@@ -4,7 +4,7 @@
 #include <DirectXMath.h>
 #include <cassert>
 
-namespace GraphicEngine
+namespace GraphicsEngine
 {
 
 	Camera::Camera(

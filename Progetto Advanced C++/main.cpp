@@ -1,12 +1,4 @@
-#include "Window.h"
-#include "Vertex.h"
-#include "Mesh.h"
-#include "Material.h"
-#include "WorldTransform.h"
-#include "PixelShader.h"
-#include "VertexShader.h"
-#include "Object.h"
-
+#include "GraphicsEngine.h"
 #include <Windows.h>
 #include <d3d11.h>
 #include <DirectXMath.h>
@@ -25,19 +17,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 
 	//Create Window
-	GraphicEngine::Window window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", 600L, 600L);
+	GraphicsEngine::Window window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", 600L, 600L);
 	ID3D11DeviceContext* deviceContext = window.getRender()->getDeviceContext();
 
 	//Create Vertex Shader
-	GraphicEngine::VertexShader* vertexShader = 
-		new GraphicEngine::VertexShader(
+	GraphicsEngine::VertexShader* vertexShader = 
+		new GraphicsEngine::VertexShader(
 		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/vertexShader.cso",
 		layoutVertex,
 		layoutVertexSize);
 	
 	//Create Pixel Shader
-	GraphicEngine::PixelShader* pixelShader = 
-		new GraphicEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/pixelShader.cso");
+	GraphicsEngine::PixelShader* pixelShader = 
+		new GraphicsEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/pixelShader.cso");
 
 	//Create Material
 	DirectX::XMFLOAT4 ambiental(0.1f, 0.3f, 0.3f, 1.0f);
@@ -46,11 +38,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DirectX::XMFLOAT4 emissive (0.0f, 0.0f, 0.0f, 1.0f);
 	float shininess = 128;
 
-	GraphicEngine::Material* material =
-		new GraphicEngine::Material(ambiental, diffusive, specular, emissive, shininess, vertexShader, pixelShader);
+	GraphicsEngine::Material* material =
+		new GraphicsEngine::Material(ambiental, diffusive, specular, emissive, shininess, vertexShader, pixelShader);
 
 	//Create Mesh
-	GraphicEngine::Vertex vertices[] =
+	GraphicsEngine::Vertex vertices[] =
 	{
 		{ DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f) },
 		{ DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f) },
@@ -62,15 +54,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		0, 1, 2
 	};
 
-	GraphicEngine::Mesh* mesh =
-		new GraphicEngine::Mesh(vertices, 3, indices, 3);
+	GraphicsEngine::Mesh* mesh =
+		new GraphicsEngine::Mesh(vertices, 3, indices, 3);
 
 	
 	//Create Trasnform
-	GraphicEngine::WorldTransform* transform = new GraphicEngine::WorldTransform();
+	GraphicsEngine::WorldTransform* transform = new GraphicsEngine::WorldTransform();
 
 	//Create Object
-	GraphicEngine::Object object(mesh, material, transform);
+	GraphicsEngine::Object object(mesh, material, transform);
 
 	// Main message loop
 	MSG msg = { 0 };

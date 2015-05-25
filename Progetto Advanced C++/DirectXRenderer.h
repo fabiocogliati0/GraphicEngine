@@ -4,7 +4,7 @@
 #include <d3d11.h>
 #include <cassert>
 
-namespace GraphicEngine
+namespace GraphicsEngine
 {
 
 	class DirectXRenderer

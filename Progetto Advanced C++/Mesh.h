@@ -4,7 +4,7 @@
 
 #include <d3d11.h>
 
-namespace GraphicEngine
+namespace GraphicsEngine
 {
 	class Mesh
 	{

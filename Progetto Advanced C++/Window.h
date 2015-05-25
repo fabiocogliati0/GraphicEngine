@@ -5,7 +5,7 @@
 #include <Windows.h>
 #include <cassert>
 
-namespace GraphicEngine
+namespace GraphicsEngine
 {
 
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

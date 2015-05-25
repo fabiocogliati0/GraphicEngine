@@ -3,7 +3,7 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 
-namespace GraphicEngine
+namespace GraphicsEngine
 {
 
 	//TODO: mettere giù un po' meglio il design per permettere di definire diverse projection

@@ -12,9 +12,6 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{e3f87d50-b1c3-4de4-903d-1689b92205c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Descriptors">
-      <UniqueIdentifier>{a8d19194-9ab5-4e48-b772-721e5fa0f014}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{9b15c7d4-f9ba-4103-ad19-01c689e41cee}</UniqueIdentifier>
     </Filter>
@@ -28,20 +25,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{7470ffcd-5a3e-4ef6-bd8d-b9f1b29e1807}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PixelShaderDescriptor.h">
-      <Filter>Header Files\Descriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexShaderDescriptor.h">
-      <Filter>Header Files\Descriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="InputLayoutElementDescriptor.h">
-      <Filter>Header Files\Descriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineDescriptors.h">
-      <Filter>Header Files\Descriptors</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
@@ -78,37 +66,34 @@
     <ClInclude Include="Window.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicEngine.h">
+    <ClInclude Include="GraphicsEngine.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MaterialDescriptor.h">
-      <Filter>Header Files\Descriptors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PixelShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexShader.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldTransform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldTransform.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

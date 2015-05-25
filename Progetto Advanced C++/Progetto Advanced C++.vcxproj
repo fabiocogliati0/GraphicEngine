@@ -12,18 +12,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="GraphicEngine.h" />
-    <ClInclude Include="EngineDescriptors.h" />
-    <ClInclude Include="InputLayoutElementDescriptor.h" />
+    <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="Lights.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="MaterialDescriptor.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="DirectXRenderer.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="PixelShaderDescriptor.h" />
-    <ClInclude Include="VertexShaderDescriptor.h" />
     <ClInclude Include="WorldTransform.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />

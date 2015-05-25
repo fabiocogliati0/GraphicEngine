@@ -3,7 +3,7 @@
 //#include "Object.h"
 //#include "Lights.h"
 //
-//namespace GraphicEngine
+//namespace GraphicsEngine
 //{
 //
 //	class World

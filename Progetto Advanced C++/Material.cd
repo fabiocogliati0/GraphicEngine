@@ -3,47 +3,47 @@
   <Comment CommentText="Struttura ottimizzata per creare il buffer da inviare alla GPU">
     <Position X="9.813" Y="5.055" Height="0.627" Width="1.844" />
   </Comment>
-  <Class Name="GraphicEngine::Material">
+  <Class Name="GraphicsEngine::Material">
     <Position X="8.25" Y="0.5" Width="3.25" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Struct Name="GraphicEngine::Material::MaterialStruct">
+      <Struct Name="GraphicsEngine::Material::MaterialStruct">
         <TypeIdentifier>
           <NewMemberFileName>Material.h</NewMemberFileName>
         </TypeIdentifier>
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AEEAkAAAkgBACAAAAAAABAAAAAA4AYAEIAAAAAgAAAA=</HashCode>
+      <HashCode>EEEAkAAAkgBECAAAAAAABAAAAAA4AYAEIAAAAAgAAAQ=</HashCode>
       <FileName>Material.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="mMaterialBuffer" />
-      <Field Name="mPixelShader" />
       <Field Name="mVertexShader" />
+      <Field Name="mPixelShader" />
+      <Field Name="mMaterialBuffer" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="GraphicEngine::PixelShader">
+  <Class Name="GraphicsEngine::PixelShader">
     <Position X="4.75" Y="3" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAEAAAAAAAAAAAAAAAAAABAAAAggAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAEAgAAAAAAAAAAAAAAAABAAAAggAAAAAAAAABAAAAA=</HashCode>
       <FileName>PixelShader.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="mPixelShader" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="GraphicEngine::VertexShader">
+  <Class Name="GraphicsEngine::VertexShader">
     <Position X="4.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAEAgAAAAAAAAAAAAEAAAAAAAAAgAAAAAAAAEAAAAAA=</HashCode>
+      <HashCode>EAEAgAAAAAAAAAAAAEAAAAAAAAAgAAAAEAAAEBAAAIA=</HashCode>
       <FileName>VertexShader.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="mInputLayout" />
       <Field Name="mVertexShader" />
+      <Field Name="mInputLayout" />
     </ShowAsAssociation>
   </Class>
   <Struct Name="ID3D11Buffer" Collapsed="true">

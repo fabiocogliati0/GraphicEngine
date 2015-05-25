@@ -3,17 +3,17 @@
   <Class Name="Window">
     <Position X="1.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAEAABAAAAQCAAQAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAABAAAAQAAAQAAA=</HashCode>
       <FileName>Window.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="mRenderer" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="GraphicEngine::DirectXRenderer">
+  <Class Name="GraphicsEngine::DirectXRenderer">
     <Position X="4.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAABAAIAABBAAAAAAAACACAAAAAAQAAAAIAAQAAA=</HashCode>
+      <HashCode>EAAAAABAAIAABBAAAAAAAACACAAAAAAQAAAAIAAQAAE=</HashCode>
       <FileName>DirectXRenderer.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
