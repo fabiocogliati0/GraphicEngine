@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{e3f87d50-b1c3-4de4-903d-1689b92205c3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{9b15c7d4-f9ba-4103-ad19-01c689e41cee}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,12 @@
     </Filter>
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{7470ffcd-5a3e-4ef6-bd8d-b9f1b29e1807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\UMLs">
+      <UniqueIdentifier>{36543b22-7e6a-404a-be12-3bcb4ea3a692}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{e3f87d50-b1c3-4de4-903d-1689b92205c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -98,18 +101,18 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\GraphicsProgrammingCode14\GraphicsProgrammingCode\GraphicsProgramming\01-RenderingTriangolo\Src\Shaders\vertexShader.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="..\..\GraphicsProgrammingCode14\GraphicsProgrammingCode\GraphicsProgramming\01-RenderingTriangolo\Src\Shaders\pixelShader.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Material.cd">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Window.cd">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\UMLs</Filter>
+    </None>
+    <None Include="Material.cd">
+      <Filter>Resource Files\UMLs</Filter>
     </None>
   </ItemGroup>
 </Project>
