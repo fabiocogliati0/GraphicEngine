@@ -10,16 +10,19 @@ namespace GraphicEngine
 
 	public:
 
-		PixelShader();
-
-		PixelShader(const LPCWSTR& iFileName, ID3D11Device* iDevice);
+		PixelShader(const LPCWSTR& iFileName);
 
 		~PixelShader();
 		
+		void initOnDevice(ID3D11Device* iDevice);
+
 		void renderSetup(ID3D11DeviceContext* iContext) const;
+
+		void release();
 
 	private:
 
+		LPCWSTR mFileName;
 		ID3D11PixelShader* mPixelShader;
 
 	};

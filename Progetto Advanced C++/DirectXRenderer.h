@@ -142,6 +142,11 @@ namespace GraphicEngine
 			return mDevice;
 		}
 
+		ID3D11DeviceContext* getDeviceContext() const
+		{
+			return mDeviceContext;
+		}
+
 	private:
 
 		D3D_DRIVER_TYPE mDriverType;

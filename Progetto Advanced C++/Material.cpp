@@ -16,49 +16,64 @@ namespace GraphicEngine
 		const DirectX::XMFLOAT4& iSpecular,
 		const DirectX::XMFLOAT4& iEmissive,
 		float iShininess,
-		const VertexShader* iVertexShader,
-		const PixelShader* iPixelShader,
-		ID3D11Device* iDevice
-		) : mMaterialStruct(iAmbiental, iDiffusive, iSpecular, iEmissive, iShininess)
+		VertexShader* iVertexShader,
+		PixelShader* iPixelShader) : 
+			mMaterialStruct(iAmbiental, iDiffusive, iSpecular, iEmissive, iShininess),
+			mVertexShader(iVertexShader),
+			mPixelShader(iPixelShader)
 	{
-
-		D3D11_BUFFER_DESC bufferDesc;
-		D3D11_SUBRESOURCE_DATA initData;
-		HRESULT result;
-
-		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		bufferDesc.ByteWidth = sizeof(MaterialStruct);
-		bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		bufferDesc.CPUAccessFlags = 0;
-		bufferDesc.MiscFlags = 0;
-		initData.pSysMem = &mMaterialStruct;
-		result = iDevice->CreateBuffer(&bufferDesc, &initData, &mMaterialBuffer);
-		assert(SUCCEEDED(result));
-
-		mVertexShader = iVertexShader;
-		mPixelShader = iPixelShader;
 	}
 
 	Material::~Material()
 	{
-		if (mMaterialBuffer)
-			mMaterialBuffer->Release();
+		release();
+	}
+
+	void Material::initializeOnDevice(ID3D11Device* iDevice)
+	{
+		if (!mMaterialBuffer && iDevice)
+		{
+			D3D11_BUFFER_DESC bufferDesc;
+			bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+			bufferDesc.ByteWidth = sizeof(MaterialStruct);
+			bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+			bufferDesc.CPUAccessFlags = 0;
+			bufferDesc.MiscFlags = 0;
+			D3D11_SUBRESOURCE_DATA initData;
+			initData.pSysMem = &mMaterialStruct;
+			HRESULT result = iDevice->CreateBuffer(&bufferDesc, &initData, &mMaterialBuffer);
+			assert(SUCCEEDED(result));
+
+			mVertexShader->initOnDevice(iDevice);		//TODO: sono giuste queste due linee?
+			mPixelShader->initOnDevice(iDevice);
+		}
 	}
 
 	void Material::renderSetup(ID3D11DeviceContext* iContext) const
 	{
-		mVertexShader->renderSetup(iContext);
-		mPixelShader->renderSetup(iContext);
+		if (mVertexShader && mPixelShader && mMaterialBuffer && iContext)
+		{
+			mVertexShader->renderSetup(iContext);
+			mPixelShader->renderSetup(iContext);
 
-		iContext->VSSetConstantBuffers(1, 1, &mMaterialBuffer);
+			iContext->VSSetConstantBuffers(1, 1, &mMaterialBuffer);
+		}
 	}
 
-	void Material::setVertexShader(const VertexShader* iVertexShader)
+	void Material::release()
+	{
+		if (mMaterialBuffer)
+		{
+			mMaterialBuffer->Release();
+		}
+	}
+
+	void Material::setVertexShader(VertexShader* iVertexShader)
 	{
 		mVertexShader = iVertexShader;
 	}
 
-	void Material::setPixelShader(const PixelShader* iPixelShader)
+	void Material::setPixelShader(PixelShader* iPixelShader)
 	{
 		mPixelShader = iPixelShader;
 	}

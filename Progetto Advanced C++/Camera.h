@@ -14,8 +14,6 @@ namespace GraphicEngine
 
 	public:
 
-		//Camera(ID3D11Device* iDevice);	//TODO
-
 		Camera(
 			const DirectX::XMVECTOR& iEyePosition,
 			const DirectX::XMVECTOR& iEyeDirection,
@@ -24,12 +22,15 @@ namespace GraphicEngine
 			float iAspectRatio,
 			float iNearZ,
 			float iFarZ,
-			const DirectX::XMFLOAT4& iCameraPosition,
-			ID3D11Device* iDevice);
+			const DirectX::XMFLOAT4& iCameraPosition);
 
 		~Camera();
 
+		void initializeOnDevice(ID3D11Device* iDevice);
+
 		void renderSetup(ID3D11DeviceContext* iContext) const;
+
+		void release();
 
 	private:
 

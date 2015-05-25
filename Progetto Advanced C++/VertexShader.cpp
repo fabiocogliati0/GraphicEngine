@@ -7,51 +7,71 @@
 namespace GraphicEngine
 {
 	
-	VertexShader::VertexShader() 
-		: mVertexShader(nullptr), mInputLayout(nullptr)
-	{
-	}
-
 	VertexShader::VertexShader(
 		const LPCWSTR& iFileName,
-		const D3D11_INPUT_ELEMENT_DESC* iInputLayoutDesc, 
-		unsigned int iInputLayoutSize,
-		ID3D11Device* iDevice)
+		const D3D11_INPUT_ELEMENT_DESC* iInputLayoutDesc,
+		unsigned int iInputLayoutSize) :
+			mFileName(iFileName),
+			mInputLayoutDesc(iInputLayoutDesc),
+			mInputLayoutSize(iInputLayoutSize)
 	{
-		UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
-
-#if defined( DEBUG ) || defined( _DEBUG )
-		flags |= D3DCOMPILE_DEBUG;
-#endif
-
-		//Load precompiled shaders
-		ID3DBlob* vertexShaderBlob = nullptr;
-		HRESULT result = D3DReadFileToBlob(iFileName, &vertexShaderBlob);
-		assert(!FAILED(result));
-
-		//Create Shader and link to the device
-		result = iDevice->CreateVertexShader(vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), nullptr, &mVertexShader);
-		assert(!FAILED(result));
-
-		//Create input layout
-		result = iDevice->CreateInputLayout(iInputLayoutDesc, iInputLayoutSize, vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &mInputLayout);
-
-		//Release Shader file
-		if (vertexShaderBlob)
-			vertexShaderBlob->Release();
 	}
 
 	VertexShader::~VertexShader()
 	{
-		if (mVertexShader)
-			mVertexShader->Release();
+		release();
+	}
+
+	void VertexShader::initOnDevice(ID3D11Device* iDevice)
+	{
+
+		if (!mVertexShader && iDevice)
+		{
+			//Load precompiled shaders
+			ID3DBlob* vertexShaderBlob = nullptr;
+			HRESULT result = D3DReadFileToBlob(mFileName, &vertexShaderBlob);
+			assert(SUCCEEDED(result));
+
+			//Create Shader and link to the device
+			result = iDevice->CreateVertexShader(vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), nullptr, &mVertexShader);
+			assert(SUCCEEDED(result));
+
+			//Create input layout
+			result = iDevice->CreateInputLayout(
+				mInputLayoutDesc,
+				mInputLayoutSize,
+				vertexShaderBlob->GetBufferPointer(),
+				vertexShaderBlob->GetBufferSize(),
+				&mInputLayout);
+
+			//Release Shader file
+			if (vertexShaderBlob)
+			{
+				vertexShaderBlob->Release();
+			}
+		}
 	}
 
 	void VertexShader::renderSetup(ID3D11DeviceContext* iContext) const
 	{
-		//TODO: i puntatori a inputLayout e vertexShader possono essere nulli, che fare?
-		iContext->IASetInputLayout(mInputLayout);
-		iContext->VSSetShader(mVertexShader, nullptr, 0);
+		if (mInputLayout && mVertexShader && iContext)
+		{
+			iContext->IASetInputLayout(mInputLayout);
+			iContext->VSSetShader(mVertexShader, nullptr, 0);
+		}
+	}
+
+	void VertexShader::release()
+	{
+		if (mVertexShader)
+		{
+			mVertexShader->Release();
+		}
+
+		if (mInputLayout)
+		{
+			mInputLayout->Release();
+		}
 	}
 
 }

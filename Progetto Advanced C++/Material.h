@@ -21,17 +21,20 @@ namespace GraphicEngine
 			const DirectX::XMFLOAT4& iSpecular,
 			const DirectX::XMFLOAT4& iEmissive,
 			float iShininess,
-			const VertexShader* iVertexShader,
-			const PixelShader* iPixelShader,
-			ID3D11Device* iDevice);
+			VertexShader* iVertexShader,
+			PixelShader* iPixelShader);
 
 		~Material();
 
+		void initializeOnDevice(ID3D11Device* iDevice);
+
 		void renderSetup(ID3D11DeviceContext* iContext) const;
 
-		void setVertexShader(const VertexShader* iVertexShader);
+		void release();
 
-		void setPixelShader(const PixelShader* iPixelShader);
+		void setVertexShader(VertexShader* iVertexShader);
+
+		void setPixelShader(PixelShader* iPixelShader);
 
 		void setAmbiental(const DirectX::XMFLOAT4& iAmbiental);
 
@@ -85,8 +88,8 @@ namespace GraphicEngine
 #pragma pack(pop)
 
 		MaterialStruct mMaterialStruct;
-		const VertexShader* mVertexShader;
-		const PixelShader* mPixelShader;
+		VertexShader* mVertexShader;
+		PixelShader* mPixelShader;
 		ID3D11Buffer* mMaterialBuffer;
 
 	};

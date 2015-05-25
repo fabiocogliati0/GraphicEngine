@@ -7,38 +7,53 @@
 namespace GraphicEngine
 {
 
-	WorldTransform::WorldTransform(ID3D11Device* iDevice)
-		:WorldTransform(DirectX::XMMatrixIdentity(),iDevice)
+	WorldTransform::WorldTransform()
+		:WorldTransform(DirectX::XMMatrixIdentity())
 	{
 	}
 
-	WorldTransform::WorldTransform(
-		const DirectX::XMMATRIX& iWorld,
-		ID3D11Device* iDevice) :
+	WorldTransform::WorldTransform(const DirectX::XMMATRIX& iWorld) :
 			mWorldTransformStruct(iWorld)
 	{
-
-		HRESULT result;
-
-		//Create transformations buffer
-		D3D11_BUFFER_DESC bufferDesc;
-		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		bufferDesc.ByteWidth = sizeof(WorldTransformStruct);
-		bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		bufferDesc.CPUAccessFlags = 0;
-		result = iDevice->CreateBuffer(&bufferDesc, nullptr, &mWorldTransformBuffer);
-		assert(SUCCEEDED(result));
 	}
 
 	WorldTransform::~WorldTransform()
 	{
-		if (mWorldTransformBuffer)
-			mWorldTransformBuffer->Release();
+		release();
+	}
+
+	void WorldTransform::initializeOnDevice(ID3D11Device* iDevice)
+	{
+		if (!mWorldTransformBuffer && iDevice)
+		{
+			//Create transformations buffer
+			D3D11_BUFFER_DESC bufferDesc;
+			bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+			bufferDesc.ByteWidth = sizeof(WorldTransformStruct);
+			bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+			bufferDesc.CPUAccessFlags = 0;
+			bufferDesc.MiscFlags = 0;
+			D3D11_SUBRESOURCE_DATA initData;
+			initData.pSysMem = &mWorldTransformStruct;
+			HRESULT result = iDevice->CreateBuffer(&bufferDesc, &initData, &mWorldTransformBuffer);
+			assert(SUCCEEDED(result));
+		}
 	}
 
 	void WorldTransform::renderSetup(ID3D11DeviceContext* iContext) const
 	{
-		iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);
+		if (mWorldTransformBuffer && iContext)
+		{
+			iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);
+		}	
+	}
+
+	void WorldTransform::release()
+	{
+		if (mWorldTransformBuffer)
+		{
+			mWorldTransformBuffer->Release();
+		}
 	}
 
 	void WorldTransform::translate(float iX, float iY, float iZ)
