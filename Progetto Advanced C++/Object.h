@@ -13,24 +13,17 @@ namespace GraphicEngine
 
 	public:
 
-		Object(Mesh* iMesh, Material* iMaterial, WorldTransform* iTransformations)
-			: mMesh(iMesh), mMaterial(iMaterial), mTransformations(iTransformations)
-		{	
-		}
+		Object(Mesh* iMesh, Material* iMaterial, WorldTransform* iWorldTransform);
 
-		void render(ID3D11DeviceContext* iContext)
-		{
-			mMaterial->renderSetup(iContext);
-			mTransformations->renderSetup(iContext);
-			
-			mMesh->	render(iContext);
-		}
+		void initializeOnDevice(ID3D11Device* iDevice);
+
+		void render(ID3D11DeviceContext* iContext);
 
 	private:
 
 		Mesh* mMesh;
 		Material* mMaterial;
-		WorldTransform* mTransformations;
+		WorldTransform* mWorldTransform;
 
 		bool mIsClipped;
 		bool mIsInvisible;
