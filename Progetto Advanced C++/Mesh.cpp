@@ -44,7 +44,15 @@ namespace GraphicsEngine
 
 	Mesh::~Mesh()
 	{
-		release();
+		if (mVertexBuffer)
+		{
+			mVertexBuffer->Release();
+		}
+
+		if (mIndexBuffer)
+		{
+			mIndexBuffer->Release();
+		}
 	}
 
 	void Mesh::initializeOnDevice(ID3D11Device* iDevice)
@@ -75,19 +83,6 @@ namespace GraphicsEngine
 			iContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 			iContext->DrawIndexed(mIndexCount, 0, 0);
-		}
-	}
-
-	void Mesh::release()
-	{
-		if (mVertexBuffer)
-		{
-			mVertexBuffer->Release();
-		}
-
-		if (mIndexBuffer)
-		{
-			mIndexBuffer->Release();
 		}
 	}
 

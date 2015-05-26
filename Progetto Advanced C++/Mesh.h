@@ -1,12 +1,13 @@
 #pragma once
 
+#include "RefCountBase.h"
 #include "Vertex.h"
 
 #include <d3d11.h>
 
 namespace GraphicsEngine
 {
-	class Mesh
+	class Mesh : public RefCountBase
 	{
 
 	public:
@@ -24,8 +25,6 @@ namespace GraphicsEngine
 		void initializeOnDevice(ID3D11Device* iDevice);
 
 		void render(ID3D11DeviceContext* iContext);
-
-		void release();
 
 	private:
 

@@ -13,7 +13,9 @@ namespace GraphicsEngine
 
 	public:
 
-		Object(Mesh* iMesh, Material* iMaterial, WorldTransform* iWorldTransform);
+		Object(Mesh* iMesh, Material* iMaterial, const WorldTransform& iWorldTransform);
+
+		~Object();
 
 		void initializeOnDevice(ID3D11Device* iDevice);
 
@@ -23,7 +25,7 @@ namespace GraphicsEngine
 
 		Mesh* mMesh;
 		Material* mMaterial;
-		WorldTransform* mWorldTransform;
+		WorldTransform mWorldTransform;
 
 		bool mIsClipped;
 		bool mIsInvisible;

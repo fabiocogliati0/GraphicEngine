@@ -12,12 +12,6 @@
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{9b15c7d4-f9ba-4103-ad19-01c689e41cee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Managers">
-      <UniqueIdentifier>{690ebb85-7c8d-4c15-a018-2c1d399381e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utils">
-      <UniqueIdentifier>{4cfa4bd1-cdc7-4aa6-9724-88b478f6f0e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -31,8 +25,17 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{e3f87d50-b1c3-4de4-903d-1689b92205c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Objects">
+    <Filter Include="Header Files\Engine\Utils">
+      <UniqueIdentifier>{37bcee54-c8ce-471d-aa94-b8a77cfb6171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Components">
       <UniqueIdentifier>{b91267d6-4af2-4589-a3ce-3630c8cc494a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Components">
+      <UniqueIdentifier>{1b3816db-bfe0-4d4f-b980-c73a457082b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Utils">
+      <UniqueIdentifier>{3fcbbb9c-747b-42cf-b456-37346c839669}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,34 +49,37 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Lights.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="WorldTransform.h">
-      <Filter>Header Files\Engine\Objects</Filter>
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RefCountBase.h">
+      <Filter>Header Files\Engine\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,25 +87,25 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="WorldTransform.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

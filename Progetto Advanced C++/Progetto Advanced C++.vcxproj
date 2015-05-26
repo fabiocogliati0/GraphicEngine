@@ -19,6 +19,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="DirectXRenderer.h" />
     <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="RefCountBase.h" />
     <ClInclude Include="WorldTransform.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />

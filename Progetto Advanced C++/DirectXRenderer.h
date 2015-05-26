@@ -108,7 +108,7 @@ namespace GraphicsEngine
 
 
 			///////////////////
-			mWorld.sinitializeOnDevice(mDevice);
+			mWorld.initializeOnDevice(mDevice);
 		}
 
 		~DirectXRenderer()

@@ -23,7 +23,7 @@ namespace GraphicsEngine
 		{
 		}*/
 
-		void sinitializeOnDevice(ID3D11Device* iDevice)
+		void initializeOnDevice(ID3D11Device* iDevice)
 		{
 			mLights.initializeOnDevice(iDevice);
 		}

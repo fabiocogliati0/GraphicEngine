@@ -1,4 +1,5 @@
 #include "GraphicsEngine.h"
+
 #include <Windows.h>
 #include <d3d11.h>
 #include <DirectXMath.h>
@@ -21,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//ID3D11DeviceContext* deviceContext = window.getRender()->getDeviceContext();
 
 	//Create Vertex Shader
-	GraphicsEngine::VertexShader* vertexShader = 
+	GraphicsEngine::VertexShader* vertexShader =
 		new GraphicsEngine::VertexShader(
 		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/PhongShadingVS.cso",
 		layoutVertex,
@@ -80,7 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	
 	//Create Trasnform
-	GraphicsEngine::WorldTransform* transform = new GraphicsEngine::WorldTransform();
+	GraphicsEngine::WorldTransform transform;
 
 	//Create Object
 	GraphicsEngine::Object* object = new GraphicsEngine::Object(mesh, material, transform);
@@ -104,17 +105,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	//clean
-	delete material;
-	delete vertexShader;
-	delete pixelShader;
-	delete mesh;
-	delete transform;
-
+	material->release();
 	material = nullptr;
+
+	vertexShader->release();
 	vertexShader = nullptr;
+	
+	pixelShader->release();
 	pixelShader = nullptr;
+	
+	mesh->release();
 	mesh = nullptr;
-	transform = nullptr;
 
 	return static_cast<int>(msg.wParam);
 

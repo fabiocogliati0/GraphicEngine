@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RefCountBase.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 
@@ -9,8 +10,8 @@
 
 namespace GraphicsEngine
 {
-	
-	class Material
+
+	class Material : public RefCountBase
 	{
 
 	public:
@@ -24,13 +25,11 @@ namespace GraphicsEngine
 			VertexShader* iVertexShader,
 			PixelShader* iPixelShader);
 
-		~Material();
+		
 
 		void initializeOnDevice(ID3D11Device* iDevice);
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;
-
-		void release();
 
 		void setVertexShader(VertexShader* iVertexShader);
 
@@ -57,6 +56,8 @@ namespace GraphicsEngine
 		float getShininess() const;
 
 	private:
+
+		~Material();	//Prevents stack allocation
 
 #pragma pack(push, 16)
 

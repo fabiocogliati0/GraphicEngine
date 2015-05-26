@@ -6,27 +6,42 @@
 
 namespace GraphicsEngine
 {
-	Object::Object(Mesh* iMesh, Material* iMaterial, WorldTransform* iWorldTransform)
+	Object::Object(Mesh* iMesh, Material* iMaterial, const WorldTransform& iWorldTransform)
 		: mMesh(iMesh), mMaterial(iMaterial), mWorldTransform(iWorldTransform), mIsClipped(false), mIsInvisible(false)
 	{
+		mMesh->grab();
+		mMaterial->grab();
+	}
+
+	Object::~Object()
+	{
+		if (mMaterial)
+		{
+			mMaterial->release();
+		}
+		
+		if (mMesh)
+		{
+			mMesh->release();
+		}
 	}
 
 	void Object::initializeOnDevice(ID3D11Device* iDevice)
 	{
-		if (mMaterial && mWorldTransform && mMesh && iDevice)
+		if (mMaterial && mMesh && iDevice)
 		{
 			mMaterial->initializeOnDevice(iDevice);
-			mWorldTransform->initializeOnDevice(iDevice);
+			mWorldTransform.initializeOnDevice(iDevice);
 			mMesh->initializeOnDevice(iDevice);
 		}
 	}
 
 	void Object::render(ID3D11DeviceContext* iContext)
 	{
-		if (mMaterial && mWorldTransform && mMesh && iContext)
+		if (mMaterial && mMesh && iContext)
 		{
 			mMaterial->renderSetup(iContext);
-			mWorldTransform->renderSetup(iContext);
+			mWorldTransform.renderSetup(iContext);
 
 			mMesh->render(iContext);
 		}
