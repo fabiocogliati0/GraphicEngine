@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Object.h"
+#include "World.h"
+
 #include <Windows.h>
 #include <d3d11.h>
 #include <cassert>
@@ -102,6 +105,10 @@ namespace GraphicsEngine
 			viewport.TopLeftX = 0;
 			viewport.TopLeftY = 0;
 			mDeviceContext->RSSetViewports(1, &viewport);
+
+
+			///////////////////
+			mWorld.sinitializeOnDevice(mDevice);
 		}
 
 		~DirectXRenderer()
@@ -128,6 +135,8 @@ namespace GraphicsEngine
 		{
 			//TODO: mettere delle assert per verificare che si possa eseguire una render
 			//TODO: ovviamente fa cose più complicate, continuare
+			
+			mWorld.render(mDeviceContext);
 
 			//clean screen with clean color
 			float clearColor[4] = { 0.39f, 0.58f, 0.93f, 1.0f };		//TODO: parametrizzare
@@ -147,7 +156,14 @@ namespace GraphicsEngine
 			return mDeviceContext;
 		}
 
+		void addObjectToRender(Object* iObject)
+		{
+			mWorld.addBody(iObject, mDevice);
+		}
+
 	private:
+
+		World mWorld;
 
 		D3D_DRIVER_TYPE mDriverType;
 		IDXGISwapChain* mSwapChain;

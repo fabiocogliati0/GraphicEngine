@@ -109,6 +109,11 @@ namespace GraphicsEngine
 		{
 			mRenderer->render();
 		}
+		
+		void addObjectToRender(Object* iObject)
+		{
+			mRenderer->addObjectToRender(iObject);
+		}
 
 		//PENSARE COME FARE A PRENDERE IL DEVICE
 		DirectXRenderer* getRender() const
