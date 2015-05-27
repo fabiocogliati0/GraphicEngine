@@ -12,22 +12,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DirectXWindow.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="Lights.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="DirectXRenderer.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RefCountBase.h" />
     <ClInclude Include="WorldTransform.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />
-    <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DirectXWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />

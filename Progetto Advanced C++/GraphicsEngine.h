@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Window.h"
-#include "DirectXRenderer.h"
+#include "DirectXWindow.h"
 #include "World.h"
 #include "Camera.h"
 #include "Lights.h"

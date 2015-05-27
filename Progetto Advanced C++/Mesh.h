@@ -20,13 +20,13 @@ namespace GraphicsEngine
 			unsigned int* iIndices,
 			unsigned int iIndicesNumber);
 
-		~Mesh();
-
 		void initializeOnDevice(ID3D11Device* iDevice);
 
 		void render(ID3D11DeviceContext* iContext);
 
 	private:
+
+		~Mesh();	//prevents stack allocation
 
 		ID3D11Buffer* mVertexBuffer;     
 		ID3D11Buffer* mIndexBuffer;

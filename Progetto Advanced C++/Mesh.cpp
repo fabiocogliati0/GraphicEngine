@@ -42,19 +42,6 @@ namespace GraphicsEngine
 		mIndexInitData.pSysMem = iIndices;	
 	}
 
-	Mesh::~Mesh()
-	{
-		if (mVertexBuffer)
-		{
-			mVertexBuffer->Release();
-		}
-
-		if (mIndexBuffer)
-		{
-			mIndexBuffer->Release();
-		}
-	}
-
 	void Mesh::initializeOnDevice(ID3D11Device* iDevice)
 	{
 		if (!mVertexBuffer && !mIndexBuffer && iDevice)
@@ -86,4 +73,16 @@ namespace GraphicsEngine
 		}
 	}
 
+	Mesh::~Mesh()
+	{
+		if (mVertexBuffer)
+		{
+			mVertexBuffer->Release();
+		}
+
+		if (mIndexBuffer)
+		{
+			mIndexBuffer->Release();
+		}
+	}
 }

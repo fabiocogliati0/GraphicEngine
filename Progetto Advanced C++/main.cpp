@@ -18,8 +18,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 
 	//Create Window
-	GraphicsEngine::Window window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", 600L, 600L);
-	//ID3D11DeviceContext* deviceContext = window.getRender()->getDeviceContext();
+	GraphicsEngine::DirectXWindow window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", 600L, 600L);
 
 	//Create Vertex Shader
 	GraphicsEngine::VertexShader* vertexShader =
@@ -87,36 +86,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GraphicsEngine::Object* object = new GraphicsEngine::Object(mesh, material, transform);
 	window.addObjectToRender(object);
 
-
-	// Main message loop
-	MSG msg = { 0 };
-	while (WM_QUIT != msg.message)
-	{
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-		else
-		{
-			window.render();
-		}
-	}
-
+	//Run program
+	int executionReturn = window.run();
 
 	//clean
-	material->release();
+	/*material->release();
 	material = nullptr;
-
 	vertexShader->release();
 	vertexShader = nullptr;
-	
 	pixelShader->release();
 	pixelShader = nullptr;
-	
 	mesh->release();
-	mesh = nullptr;
+	mesh = nullptr;*/
 
-	return static_cast<int>(msg.wParam);
+
+	return executionReturn;
 
 }

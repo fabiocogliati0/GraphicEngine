@@ -21,7 +21,6 @@ namespace GraphicsEngine
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;
 
-
 	private:
 
 		~VertexShader(); //Prevents stack allocation

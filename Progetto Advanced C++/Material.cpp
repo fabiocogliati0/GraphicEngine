@@ -26,24 +26,6 @@ namespace GraphicsEngine
 		mPixelShader->grab();
 	}
 
-	Material::~Material()
-	{
-		if (mMaterialBuffer)
-		{
-			mMaterialBuffer->Release();
-		}
-
-		if (mVertexShader)
-		{
-			mVertexShader->release();
-		}
-
-		if (mPixelShader)
-		{
-			mPixelShader->release();
-		}
-	}
-
 	void Material::initializeOnDevice(ID3D11Device* iDevice)
 	{
 		if (!mMaterialBuffer && iDevice)
@@ -139,5 +121,22 @@ namespace GraphicsEngine
 		return mMaterialStruct.shininess;
 	}
 
+	Material::~Material()
+	{
+		if (mMaterialBuffer)
+		{
+			mMaterialBuffer->Release();
+		}
+
+		if (mVertexShader)
+		{
+			mVertexShader->release();
+		}
+
+		if (mPixelShader)
+		{
+			mPixelShader->release();
+		}
+	}
 
 } 

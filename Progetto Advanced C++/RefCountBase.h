@@ -32,7 +32,7 @@ namespace GraphicsEngine
 
 	protected:
 
-		RefCountBase() : mRefCount(1)
+		RefCountBase() : mRefCount(0)
 		{
 		}
 

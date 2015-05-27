@@ -13,14 +13,6 @@ namespace GraphicsEngine
 	{
 	}
 
-	PixelShader::~PixelShader()
-	{
-		if (mPixelShader)
-		{
-			mPixelShader->Release();
-		}
-	}
-
 	void PixelShader::initOnDevice(ID3D11Device* iDevice)
 	{
 		if (!mPixelShader && iDevice)
@@ -43,12 +35,19 @@ namespace GraphicsEngine
 
 	}
 
-
 	void PixelShader::renderSetup(ID3D11DeviceContext* iContext) const
 	{
 		if (mPixelShader && iContext)
 		{
 			iContext->PSSetShader(mPixelShader, nullptr, 0);
+		}
+	}
+
+	PixelShader::~PixelShader()
+	{
+		if (mPixelShader)
+		{
+			mPixelShader->Release();
 		}
 	}
 

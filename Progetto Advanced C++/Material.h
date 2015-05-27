@@ -25,8 +25,6 @@ namespace GraphicsEngine
 			VertexShader* iVertexShader,
 			PixelShader* iPixelShader);
 
-		
-
 		void initializeOnDevice(ID3D11Device* iDevice);
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;

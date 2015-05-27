@@ -17,19 +17,6 @@ namespace GraphicsEngine
 	{
 	}
 
-	VertexShader::~VertexShader()
-	{
-		if (mVertexShader)
-		{
-			mVertexShader->Release();
-		}
-
-		if (mInputLayout)
-		{
-			mInputLayout->Release();
-		}
-	}
-
 	void VertexShader::initOnDevice(ID3D11Device* iDevice)
 	{
 
@@ -66,6 +53,19 @@ namespace GraphicsEngine
 		{
 			iContext->IASetInputLayout(mInputLayout);
 			iContext->VSSetShader(mVertexShader, nullptr, 0);
+		}
+	}
+
+	VertexShader::~VertexShader()
+	{
+		if (mVertexShader)
+		{
+			mVertexShader->Release();
+		}
+
+		if (mInputLayout)
+		{
+			mInputLayout->Release();
 		}
 	}
 
