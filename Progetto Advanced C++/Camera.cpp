@@ -7,9 +7,44 @@
 namespace GraphicsEngine
 {
 
+	Camera::Camera()
+		: Camera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f)
+	{
+	}
+
+	Camera::Camera(
+		float iCameraPosX,
+		float iCameraPosY,
+		float iCameraPosZ,
+		float iFocusPointX,
+		float iFocusPointY,
+		float iFocusPointZ,
+		float iAspectRatio)
+	{
+
+		//view
+		DirectX::XMVECTOR pos(DirectX::XMVectorSet(iCameraPosX, iCameraPosY, iCameraPosZ, 1.0f));
+		DirectX::XMVECTOR focus(DirectX::XMVectorSet(iFocusPointX, iFocusPointY, iFocusPointZ, 1.0f));
+		DirectX::XMVECTOR up(DirectX::XMVectorSet(gUpDirectionX, gUpDirectionY, gUpDirectionZ, 0.0f));
+		mCameraStruct.view = DirectX::XMMatrixLookAtLH(pos, focus, up);
+
+		//camera pos
+		DirectX::XMStoreFloat4(&mCameraStruct.cameraPosition, pos);
+
+		//projection
+		mCameraStruct.projection = DirectX::XMMatrixPerspectiveFovLH(
+			DirectX::XMConvertToRadians(gFovAngleY),
+			iAspectRatio,
+			gNearZ,
+			gFarZ);
+	}
+
 	Camera::~Camera()
 	{
-		release();
+		if (mCameraBuffer)
+		{
+			mCameraBuffer->Release();
+		}
 	}
 
 	void Camera::initializeOnDevice(ID3D11Device* iDevice)
@@ -36,14 +71,6 @@ namespace GraphicsEngine
 		{
 			//iContext->UpdateSubresource(mCameraBuffer, 0, nullptr, &mCameraStruct, 0, 0); //questo va fatto quando si modificano i dati
 			iContext->VSSetConstantBuffers(1, 1, &mCameraBuffer);
-		}
-	}
-
-	void Camera::release()
-	{
-		if (mCameraBuffer)
-		{
-			mCameraBuffer->Release();
 		}
 	}
 

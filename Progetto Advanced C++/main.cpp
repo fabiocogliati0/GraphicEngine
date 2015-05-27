@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GraphicsEngine::DirectXWindow window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", gWindowSizeX, gWindowSizeY);
 
 	//Create Camera
-	GraphicsEngine::Camera camera(0.0f, 0.0f, 0.0f, gAspectRatio);
+	GraphicsEngine::Camera camera(0.0f, 0.0f, -2.0f, 0.0f, 0.0f, 1.0f, gAspectRatio);
 	window.setCamera(camera);
 
 	//Create Vertex Shader

@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Comment CommentText="Struttura ottimizzata per creare il buffer da inviare alla GPU">
-    <Position X="9.813" Y="5.055" Height="0.627" Width="1.844" />
+    <Position X="9.796" Y="5.288" Height="0.627" Width="1.844" />
+  </Comment>
+  <Comment CommentText="Struttura ottimizzata per creare il buffer da inviare alla GPU">
+    <Position X="14.407" Y="9.927" Height="0.69" Width="1.844" />
   </Comment>
   <Class Name="GraphicsEngine::Material">
     <Position X="8.25" Y="0.5" Width="3.25" />
@@ -16,19 +19,18 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>EEEAkAAAkgBECAAAAAAABAAAAAA4AYAEIAAAAAgAAAQ=</HashCode>
+      <HashCode>AEEAkAAAkgBECAAAAAAABAAAAAA4AYAEIAAAAAgAAAQ=</HashCode>
       <FileName>Material.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="mVertexShader" />
       <Field Name="mPixelShader" />
-      <Field Name="mMaterialBuffer" />
     </ShowAsAssociation>
   </Class>
   <Class Name="GraphicsEngine::PixelShader">
-    <Position X="4.75" Y="3" Width="2.25" />
+    <Position X="4.75" Y="3.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>EAEAgAAAAAAAAAAAAAAAABAAAAggAAAAAAAAABAAAAA=</HashCode>
+      <HashCode>AAEAgAAAAAAAAAAAAAAAABAAAAggAAAAAAAAABAAAAA=</HashCode>
       <FileName>PixelShader.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -38,7 +40,7 @@
   <Class Name="GraphicsEngine::VertexShader">
     <Position X="4.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>EAEAgAAAAAAAAAAAAEAAAAAAAAAgAAAAEAAAEBAAAIA=</HashCode>
+      <HashCode>AAEAgAAAAAAAAAAAAEAAAAAAAAAgAAAAEAAAEBAAAIA=</HashCode>
       <FileName>VertexShader.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -46,13 +48,42 @@
       <Field Name="mInputLayout" />
     </ShowAsAssociation>
   </Class>
-  <Struct Name="ID3D11Buffer" Collapsed="true">
-    <Position X="12.75" Y="3.25" Width="1.5" />
+  <Class Name="GraphicsEngine::Object">
+    <Position X="13.75" Y="2.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>c:\program files (x86)\windows kits\8.1\include\um\d3d11.h</FileName>
+      <HashCode>AAAAAAAAAQAAAAIgAAAAAAAAAQAAAAAIIIAAAAAQAAQ=</HashCode>
+      <FileName>Object.h</FileName>
     </TypeIdentifier>
-  </Struct>
+    <ShowAsAssociation>
+      <Field Name="mMaterial" />
+      <Field Name="mMesh" />
+      <Field Name="mWorldTransform" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GraphicsEngine::Mesh">
+    <Position X="17.5" Y="2.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAACAAAAAAAAAAAAAAEIAYIAACAQAAw=</HashCode>
+      <FileName>Mesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicsEngine::WorldTransform">
+    <Position X="13.25" Y="6" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="GraphicsEngine::WorldTransform::WorldTransformStruct">
+        <TypeIdentifier>
+          <NewMemberFileName>WorldTransform.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAWAACACAyCAAAAAAAAAAABAQ=</HashCode>
+      <FileName>WorldTransform.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="ID3D11InputLayout" Collapsed="true">
     <Position X="1.75" Y="0.5" Width="1.75" />
     <TypeIdentifier>

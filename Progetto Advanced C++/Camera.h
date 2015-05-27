@@ -6,14 +6,9 @@
 namespace GraphicsEngine
 {
 
-	//TODO: mettere giù un po' meglio il design per permettere di definire diverse projection
-	//		esporre dei XMVECTOR non è una grandissima idea
-
+	//TODO: decidere dove mettere le globali qui sotto
 
 	//view
-	const float gFocusPointX = 0.0f;
-	const float gFocusPointY = 0.0f;
-	const float gFocusPointZ = 1.0f;
 	const float gUpDirectionX = 0.0f;
 	const float gUpDirectionY = 1.0f;
 	const float gUpDirectionZ = 0.0f;
@@ -23,44 +18,28 @@ namespace GraphicsEngine
 	const float gNearZ = 0.1f;
 	const float gFarZ = 100.0f;
 
+	//TODO: descrizione, penso di farla che può essere ruotata solo sull'asse y e spostata dove si vuole
 	class Camera
 	{
 
 	public:
 
-		Camera()
-			: Camera(0.0f, 0.0f, 0.0f, 1.0f)
-		{
+		Camera();
 
-		}
-
-		Camera(float cameraPosX, float cameraPosY, float cameraPosZ, float iAspectRatio)
-		{
-
-			//view
-			DirectX::XMVECTOR pos(DirectX::XMVectorSet(cameraPosX, cameraPosY, cameraPosZ, 1.0f));
-			DirectX::XMVECTOR focus(DirectX::XMVectorSet(gFocusPointX, gFocusPointY, gFocusPointZ, 1.0f));
-			DirectX::XMVECTOR up(DirectX::XMVectorSet(gUpDirectionX, gUpDirectionY, gUpDirectionZ, 0.0f));
-			mCameraStruct.view = DirectX::XMMatrixLookAtLH(pos, focus, up);
-
-			//camera pos
-			mCameraStruct.cameraPosition = DirectX::XMFLOAT4(cameraPosX, cameraPosY, cameraPosZ, 1.0f);	// TODO: non sono sicuro su questo 1.0f
-
-			//projection
-			mCameraStruct.projection = DirectX::XMMatrixPerspectiveFovLH(
-				DirectX::XMConvertToRadians(gFovAngleY),
-				iAspectRatio,
-				gNearZ,
-				gFarZ);
-		}
+		Camera(
+			float iCameraPosX,
+			float iCameraPosY,
+			float iCameraPosZ,
+			float iFocusPointX,
+			float iFocusPointY,
+			float iFocusPointZ,
+			float iAspectRatio);
 
 		~Camera();
 
 		void initializeOnDevice(ID3D11Device* iDevice);
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;
-
-		void release();
 
 	private:
 
@@ -72,7 +51,7 @@ namespace GraphicsEngine
 			DirectX::XMMATRIX projection;
 			DirectX::XMFLOAT4 cameraPosition;
 
-			CameraStruct(){} //TOGLIERE ASSOULUTAMENTE
+			CameraStruct(){}	//TODO: togliere se riesco a iniziallizare la camera nell initializer list, ma mi sembra dura
 
 			CameraStruct(
 				const DirectX::XMMATRIX& iWiew,
