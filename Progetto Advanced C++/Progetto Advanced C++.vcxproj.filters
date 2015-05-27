@@ -19,9 +19,6 @@
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{7470ffcd-5a3e-4ef6-bd8d-b9f1b29e1807}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\UMLs">
-      <UniqueIdentifier>{36543b22-7e6a-404a-be12-3bcb4ea3a692}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{e3f87d50-b1c3-4de4-903d-1689b92205c3}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,9 @@
     </Filter>
     <Filter Include="Source Files\Engine\Utils">
       <UniqueIdentifier>{3fcbbb9c-747b-42cf-b456-37346c839669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Documentation">
+      <UniqueIdentifier>{36543b22-7e6a-404a-be12-3bcb4ea3a692}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -124,10 +124,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Window.cd">
-      <Filter>Resource Files\UMLs</Filter>
+      <Filter>Resource Files\Documentation</Filter>
     </None>
     <None Include="Material.cd">
-      <Filter>Resource Files\UMLs</Filter>
+      <Filter>Resource Files\Documentation</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="BufferConvention.txt">
+      <Filter>Resource Files\Documentation</Filter>
+    </Text>
   </ItemGroup>
 </Project>

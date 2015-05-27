@@ -1,10 +1,14 @@
 cbuffer TransformsBuffer : register(cb0)
 {
 	float4x4 World;
+};
+
+cbuffer CameraBuffer : register(cb1)
+{
 	float4x4 View;
 	float4x4 Projection;
 	float3 CameraPosition;
-};
+}
 
 struct VertexShaderInput
 {

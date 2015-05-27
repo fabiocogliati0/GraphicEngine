@@ -7,22 +7,6 @@
 namespace GraphicsEngine
 {
 
-	Camera::Camera(
-		const DirectX::XMVECTOR& iEyePosition,
-		const DirectX::XMVECTOR& iEyeDirection,
-		const DirectX::XMVECTOR& iUpDirection,
-		float iFovAngleY,
-		float iAspectRatio,
-		float iNearZ,
-		float iFarZ,
-		const DirectX::XMFLOAT4& iCameraPosition) :
-			mCameraStruct(
-				DirectX::XMMatrixLookToLH(iEyePosition, iEyeDirection, iUpDirection),
-				DirectX::XMMatrixPerspectiveFovLH(iFovAngleY, iAspectRatio, iNearZ, iFarZ),
-				iCameraPosition)
-	{
-	}
-
 	Camera::~Camera()
 	{
 		release();
@@ -38,7 +22,10 @@ namespace GraphicsEngine
 			bufferDesc.ByteWidth = sizeof(CameraStruct);
 			bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 			bufferDesc.CPUAccessFlags = 0;
-			HRESULT result = iDevice->CreateBuffer(&bufferDesc, nullptr, &mCameraBuffer);
+			bufferDesc.MiscFlags = 0;
+			D3D11_SUBRESOURCE_DATA initData;
+			initData.pSysMem = &mCameraStruct;
+			HRESULT result = iDevice->CreateBuffer(&bufferDesc, &initData, &mCameraBuffer);
 			assert(SUCCEEDED(result));
 		}
 	}
@@ -47,7 +34,8 @@ namespace GraphicsEngine
 	{
 		if (mCameraBuffer && iContext)
 		{
-			iContext->UpdateSubresource(mCameraBuffer, 0, nullptr, &mCameraStruct, 0, 0);
+			//iContext->UpdateSubresource(mCameraBuffer, 0, nullptr, &mCameraStruct, 0, 0); //questo va fatto quando si modificano i dati
+			iContext->VSSetConstantBuffers(1, 1, &mCameraBuffer);
 		}
 	}
 

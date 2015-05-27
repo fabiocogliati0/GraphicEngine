@@ -4,6 +4,8 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 
+const long gWindowSizeX = 600L;
+const long gWindowSizeY = 600L;
 const int gMultiSampleCount = 1;
 
 //TODO : SPOSTARE DA QUI
@@ -16,9 +18,15 @@ D3D11_INPUT_ELEMENT_DESC layoutVertex[] =
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	//Calculate aspetct ratio
+	const float gAspectRatio = static_cast<float>(gWindowSizeX) / gWindowSizeY;
 
 	//Create Window
-	GraphicsEngine::DirectXWindow window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", 600L, 600L);
+	GraphicsEngine::DirectXWindow window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", gWindowSizeX, gWindowSizeY);
+
+	//Create Camera
+	GraphicsEngine::Camera camera(0.0f, 0.0f, 0.0f, gAspectRatio);
+	window.setCamera(camera);
 
 	//Create Vertex Shader
 	GraphicsEngine::VertexShader* vertexShader =
@@ -44,41 +52,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//Create Mesh
 	GraphicsEngine::Vertex vertices[] =
 	{
-		{ DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 1.0f) },
-		{ DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 1.0f) },
-		{ DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f) },
-		{ DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f) },
+		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(0.0f, 0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(0.5f, -0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
 	};
 
 	unsigned int indices[] =
 	{
-		3, 1, 0,
-		2, 1, 3, // Prima faccia cubo
-
-		0, 5, 4,
-		1, 5, 0, // Seconda faccia cubo
-
-		3, 4, 7,
-		0, 4, 3, // Terza faccia cubo
-
-		1, 6, 5,
-		2, 6, 1, // Quarta faccia cubo
-
-		2, 7, 6,
-		3, 7, 2, // Quinta faccia cubo
-
-		6, 4, 5,
-		7, 4, 6, // Sesta faccia cubo
+		0, 1, 2,
+		2, 1, 0,
+		1, 2, 0
 	};
 
 	GraphicsEngine::Mesh* mesh =
-		new GraphicsEngine::Mesh(vertices, 8, indices, 36);
+		new GraphicsEngine::Mesh(vertices, 3, indices, 9);
 
-	
 	//Create Trasnform
 	GraphicsEngine::WorldTransform transform;
 
@@ -89,7 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//Run program
 	int executionReturn = window.run();
 
-	//clean
+	//clean								//TODO: non ce n'è bisogno perchè non ho fatto grab, pensare a cosa sarebbe la cosa migliore da fare
 	/*material->release();
 	material = nullptr;
 	vertexShader->release();

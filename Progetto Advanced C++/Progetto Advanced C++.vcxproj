@@ -70,6 +70,9 @@
     <None Include="Material.cd" />
     <None Include="Window.cd" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="BufferConvention.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC9DB536-B4F1-4FAA-8954-B2BB75CCCE40}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

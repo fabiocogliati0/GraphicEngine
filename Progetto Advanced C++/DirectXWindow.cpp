@@ -189,13 +189,22 @@ namespace GraphicsEngine
 		mWorld.addBody(iObject, mDevice);
 	}
 
+	void DirectXWindow::setCamera(const Camera& iCamera)
+	{
+		mWorld.setCamera(iCamera, mDevice);
+	}
+
 	void DirectXWindow::render()
 	{
-		mWorld.render(mDeviceContext);
+		//Set render target
+		mDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, nullptr);
 
 		//clean screen with clean color
-		float clearColor[4] = { 0.39f, 0.58f, 0.93f, 1.0f };		//TODO: parametrizzare
+		float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };		//TODO: parametrizzare
 		mDeviceContext->ClearRenderTargetView(mRenderTargetView, clearColor);
+
+		//render world
+		mWorld.render(mDeviceContext);
 
 		//swap buffers
 		mSwapChain->Present(0, 0);

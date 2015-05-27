@@ -44,7 +44,8 @@ namespace GraphicsEngine
 	{
 		if (mWorldTransformBuffer && iContext)
 		{
-			iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);
+			//iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);	//questo va fatto quando si modifica la trasform
+			iContext->VSSetConstantBuffers(0, 1, &mWorldTransformBuffer);
 		}	
 	}
 

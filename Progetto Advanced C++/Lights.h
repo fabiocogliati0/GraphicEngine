@@ -61,7 +61,8 @@ namespace GraphicsEngine
 
 		void renderSetup(ID3D11DeviceContext* iContext)
 		{
-			iContext->UpdateSubresource(mLightsBuffer, 0, nullptr, &mLightsStruct, 0, 0);
+			//iContext->UpdateSubresource(mLightsBuffer, 0, nullptr, &mLightsStruct, 0, 0);	// va fatto quando cambiano i dati
+			iContext->PSSetConstantBuffers(1, 1, &mLightsBuffer);
 		}
 
 	private:

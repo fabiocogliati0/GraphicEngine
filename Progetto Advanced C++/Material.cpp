@@ -53,7 +53,7 @@ namespace GraphicsEngine
 			mVertexShader->renderSetup(iContext);
 			mPixelShader->renderSetup(iContext);
 
-			iContext->VSSetConstantBuffers(1, 1, &mMaterialBuffer);
+			iContext->PSSetConstantBuffers(0, 1, &mMaterialBuffer);
 		}
 	}
 
