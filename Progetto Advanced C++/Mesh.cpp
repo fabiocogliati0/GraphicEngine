@@ -66,7 +66,8 @@ namespace GraphicsEngine
 			UINT32 offset = 0;
 
 			iContext->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
-			iContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+			iContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
 			iContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 			iContext->DrawIndexed(mIndexCount, 0, 0);

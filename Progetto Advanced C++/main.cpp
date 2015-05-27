@@ -60,12 +60,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	unsigned int indices[] =
 	{
 		0, 1, 2,
-		2, 1, 0,
-		1, 2, 0
 	};
 
 	GraphicsEngine::Mesh* mesh =
-		new GraphicsEngine::Mesh(vertices, 3, indices, 9);
+		new GraphicsEngine::Mesh(vertices, 3, indices, 3);
 
 	//Create Trasnform
 	GraphicsEngine::WorldTransform transform;
