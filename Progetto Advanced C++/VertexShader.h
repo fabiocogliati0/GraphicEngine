@@ -1,13 +1,11 @@
 #pragma once
 
-#include "RefCountBase.h"
-
 #include <d3d11.h>
 
 namespace GraphicsEngine
 {
 
-	class VertexShader : public RefCountBase
+	class VertexShader
 	{
 
 	public:

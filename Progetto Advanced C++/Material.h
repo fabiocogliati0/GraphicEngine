@@ -1,6 +1,5 @@
 #pragma once
 
-#include "RefCountBase.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 
@@ -11,7 +10,7 @@
 namespace GraphicsEngine
 {
 
-	class Material : public RefCountBase
+	class Material
 	{
 
 	public:

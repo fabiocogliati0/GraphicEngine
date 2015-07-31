@@ -61,6 +61,16 @@ namespace GraphicsEngine
 	{
 		mWorldTransformStruct.world =
 			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixTranslation(iX, iY, iZ));
+
+	}
+
+
+	void WorldTransform::translate(float iX, float iY, float iZ, ID3D11DeviceContext* iContext)
+	{
+		mWorldTransformStruct.world =
+			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixTranslation(iX, iY, iZ));
+
+		iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);
 	}
 
 	void WorldTransform::scale(float iX, float iY, float iZ)

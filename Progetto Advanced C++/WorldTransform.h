@@ -23,7 +23,9 @@ namespace GraphicsEngine
 
 		void release();
 
-		void translate(float iX, float iY, float iZ);
+		void translate(float iX, float iY, float iZ);	//TODO: questo dovrebbe essere tolto
+
+		void translate(float iX, float iY, float iZ, ID3D11DeviceContext* iContext);
 
 		void scale(float iX, float iY, float iZ);
 

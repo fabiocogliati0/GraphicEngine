@@ -22,8 +22,8 @@ namespace GraphicsEngine
 			mVertexShader(iVertexShader),
 			mPixelShader(iPixelShader)
 	{
-		mVertexShader->grab();
-		mPixelShader->grab();
+		//mVertexShader->grab();
+		//mPixelShader->grab();
 	}
 
 	void Material::initializeOnDevice(ID3D11Device* iDevice)
@@ -59,16 +59,16 @@ namespace GraphicsEngine
 
 	void Material::setVertexShader(VertexShader* iVertexShader)
 	{
-		mVertexShader->release();
+		//mVertexShader->release();
 		mVertexShader = iVertexShader;
-		mVertexShader->grab();
+		//mVertexShader->grab();
 	}
 
 	void Material::setPixelShader(PixelShader* iPixelShader)
 	{
-		mPixelShader->release();
+		//mPixelShader->release();
 		mPixelShader = iPixelShader;
-		mPixelShader->grab();
+		//mPixelShader->grab();
 	}
 
 	void Material::setAmbiental(const DirectX::XMFLOAT4& iAmbiental)
@@ -130,12 +130,12 @@ namespace GraphicsEngine
 
 		if (mVertexShader)
 		{
-			mVertexShader->release();
+			//mVertexShader->release();
 		}
 
 		if (mPixelShader)
 		{
-			mPixelShader->release();
+			//mPixelShader->release();
 		}
 	}
 

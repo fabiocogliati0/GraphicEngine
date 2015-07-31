@@ -1,13 +1,12 @@
 #pragma once
 
-#include "RefCountBase.h"
 #include "Vertex.h"
 
 #include <d3d11.h>
 
 namespace GraphicsEngine
 {
-	class Mesh : public RefCountBase
+	class Mesh 
 	{
 
 	public:

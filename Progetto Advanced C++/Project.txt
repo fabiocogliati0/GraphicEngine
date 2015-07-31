@@ -1,0 +1,33 @@
+Implementare una mini pipeline di rendering (opengl o directX) in grado di mostrare a schermo una serie di figure geometriche
+ in movimento  nello specifico:
+
+il progetto e' mono thread
+
+formalizzare le classi 
+	oggetto, 
+	mesh, 
+	materiale
+
+le figure geometriche sono prefissate (almeno due es: cerchi, quadrati), si muovono sullo schermo (anche in maniera randomica),
+possono essere un numero max configurabile.
+
+viene eseguito il test del frustum sugli oggetti
+
+gli oggetti possono essere settati visibili o invisibili (da interfaccia di classe)
+
+la pipeline ha almeno due categorie : opachi e alphati.
+
+la camera puo' essere spostata, ruotata, cambiare il fov il near e il far (da interfaccia quindi via codice)
+
+gli oggetti devono avere colori differenti (o texture) es: quadrati rossi, triangoli blu.
+
+non e' richiesta alcuna interazione con l'utente, il programma parte e si vedono oggetti che si muovono sullo schermo
+ (nessuno se il max viene settato A ZERO per tutti e , n < MAXCERCHI  + m<MAXQUADRATI per valori diversi dei max), 
+ con camera fissa (ma cambiabile via codice)
+
+LE OTTIMIZZAZIONI sono un punto cruciale, il progetto deve essere performante, 
+come prova nella documentazione scrivete il numero massimo totale di oggetti che riuscite a renderizzare contemporaneamente prima di perdere fps,
+riferimento 60 fps. Provero' tutti i progetti sulla stessa macchina per metterli a confronto.
+
+Questo esercizio da solo e' sufficiente per passare l'esame e prendere 30 e lode se fatto in modo impeccabile. 
+Puo' essere fatto max da una persona.

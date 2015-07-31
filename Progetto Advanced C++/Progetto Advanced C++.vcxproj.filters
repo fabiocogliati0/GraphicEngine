@@ -28,14 +28,8 @@
     <Filter Include="Source Files\Engine\Components">
       <UniqueIdentifier>{1b3816db-bfe0-4d4f-b980-c73a457082b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Utils">
-      <UniqueIdentifier>{3fcbbb9c-747b-42cf-b456-37346c839669}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Documentation">
       <UniqueIdentifier>{36543b22-7e6a-404a-be12-3bcb4ea3a692}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Utils">
-      <UniqueIdentifier>{37bcee54-c8ce-471d-aa94-b8a77cfb6171}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,9 +37,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files\Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Lights.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
@@ -66,16 +57,13 @@
     <ClInclude Include="VertexShader.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Header Files\Engine\Components</Filter>
-    </ClInclude>
     <ClInclude Include="WorldTransform.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="RefCountBase.h">
-      <Filter>Header Files\Engine\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="DirectXWindow.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDirectXWindow.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,6 +95,9 @@
     <ClCompile Include="DirectXWindow.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="MyDirectXWindow.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\GraphicsProgrammingCode14\GraphicsProgrammingCode\GraphicsProgramming\01-RenderingTriangolo\Src\Shaders\vertexShader.hlsl">
@@ -132,6 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="BufferConvention.txt">
+      <Filter>Resource Files\Documentation</Filter>
+    </Text>
+    <Text Include="Project.txt">
       <Filter>Resource Files\Documentation</Filter>
     </Text>
   </ItemGroup>

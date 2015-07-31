@@ -14,16 +14,14 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectXWindow.h" />
     <ClInclude Include="GraphicsEngine.h" />
-    <ClInclude Include="Lights.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MyDirectXWindow.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="RefCountBase.h" />
     <ClInclude Include="WorldTransform.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />
-    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -31,6 +29,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MyDirectXWindow.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="WorldTransform.cpp" />
@@ -72,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="BufferConvention.txt" />
+    <Text Include="Project.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC9DB536-B4F1-4FAA-8954-B2BB75CCCE40}</ProjectGuid>

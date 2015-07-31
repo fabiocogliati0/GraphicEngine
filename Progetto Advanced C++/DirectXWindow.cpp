@@ -1,6 +1,5 @@
 #include "DirectXWindow.h"
 
-#include "World.h"
 #include "Object.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -160,10 +159,6 @@ namespace GraphicsEngine
 		mDeviceContext->RSSetViewports(1, &viewport);
 
 
-		///////////////////
-		mWorld.initializeOnDevice(mDevice);
-
-
 		//show Window
 		ShowWindow(mWindowHandler, iNCmdShow);
 
@@ -182,52 +177,6 @@ namespace GraphicsEngine
 
 		if (mDevice)
 			mDevice->Release();
-	}
-
-	void DirectXWindow::addObjectToRender(Object* iObject)
-	{
-		mWorld.addBody(iObject, mDevice);
-	}
-
-	void DirectXWindow::setCamera(const Camera& iCamera)
-	{
-		mWorld.setCamera(iCamera, mDevice);
-	}
-
-	void DirectXWindow::render()
-	{
-		//Set render target
-		mDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, nullptr);
-
-		//clean screen with clean color
-		float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };		//TODO: parametrizzare
-		mDeviceContext->ClearRenderTargetView(mRenderTargetView, clearColor);
-
-		//render world
-		mWorld.render(mDeviceContext);
-
-		//swap buffers
-		mSwapChain->Present(0, 0);
-	}
-
-	int DirectXWindow::run()
-	{
-		// Main message loop
-		MSG msg = { 0 };
-		while (WM_QUIT != msg.message)
-		{
-			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-			else
-			{
-				render();
-			}
-		}
-
-		return msg.wParam;
 	}
 
 }

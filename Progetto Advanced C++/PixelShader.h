@@ -1,13 +1,11 @@
 #pragma once
 
-#include "RefCountBase.h"
-
 #include <d3d11.h>
 
 namespace GraphicsEngine
 {
 
-	class PixelShader : public RefCountBase 
+	class PixelShader 
 	{
 
 	public:
