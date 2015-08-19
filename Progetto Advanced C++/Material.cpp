@@ -11,14 +11,10 @@ namespace GraphicsEngine
 {
 
 	Material::Material(
-		const DirectX::XMFLOAT4& iAmbiental,
-		const DirectX::XMFLOAT4& iDiffusive,
-		const DirectX::XMFLOAT4& iSpecular,
-		const DirectX::XMFLOAT4& iEmissive,
-		float iShininess,
+		const DirectX::XMFLOAT4& iColor,
 		VertexShader* iVertexShader,
-		PixelShader* iPixelShader) : 
-			mMaterialStruct(iAmbiental, iDiffusive, iSpecular, iEmissive, iShininess),
+		PixelShader* iPixelShader) :
+			mMaterialStruct(iColor),
 			mVertexShader(iVertexShader),
 			mPixelShader(iPixelShader)
 	{
@@ -53,7 +49,7 @@ namespace GraphicsEngine
 			mVertexShader->renderSetup(iContext);
 			mPixelShader->renderSetup(iContext);
 
-			iContext->PSSetConstantBuffers(0, 1, &mMaterialBuffer);
+			iContext->VSSetConstantBuffers(2, 1, &mMaterialBuffer);
 		}
 	}
 
@@ -71,54 +67,14 @@ namespace GraphicsEngine
 		//mPixelShader->grab();
 	}
 
-	void Material::setAmbiental(const DirectX::XMFLOAT4& iAmbiental)
+	void Material::setColor(const DirectX::XMFLOAT4& iColor)
 	{
-		mMaterialStruct.ambiental = iAmbiental;
+		mMaterialStruct.color = iColor;
 	}
 
-	void Material::setDiffusive(const DirectX::XMFLOAT4& iDiffusive)
+	DirectX::XMFLOAT4 Material::getColor() const
 	{
-		mMaterialStruct.diffusive = iDiffusive;
-	}
-
-	void Material::setSpecular(const DirectX::XMFLOAT4& iSpecular)
-	{
-		mMaterialStruct.specular = iSpecular;
-	}
-
-	void Material::setEmissive(const DirectX::XMFLOAT4& iEmissive)
-	{
-		mMaterialStruct.emissive = iEmissive;
-	}
-
-	void Material::setShininess(float iShininess)
-	{
-		mMaterialStruct.shininess = iShininess;
-	}
-
-	DirectX::XMFLOAT4 Material::getAmbiental() const
-	{
-		return mMaterialStruct.ambiental;
-	}
-
-	DirectX::XMFLOAT4 Material::getDiffusive() const
-	{
-		return mMaterialStruct.diffusive;
-	}
-
-	DirectX::XMFLOAT4 Material::getSpecular() const
-	{
-		return mMaterialStruct.specular;
-	}
-
-	DirectX::XMFLOAT4 Material::getEmissive() const
-	{
-		return mMaterialStruct.emissive;
-	}
-
-	float Material::getShininess() const
-	{
-		return mMaterialStruct.shininess;
+		return mMaterialStruct.color;
 	}
 
 	Material::~Material()

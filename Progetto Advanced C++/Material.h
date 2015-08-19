@@ -16,11 +16,7 @@ namespace GraphicsEngine
 	public:
 
 		Material(
-			const DirectX::XMFLOAT4& iAmbiental,
-			const DirectX::XMFLOAT4& iDiffusive,
-			const DirectX::XMFLOAT4& iSpecular,
-			const DirectX::XMFLOAT4& iEmissive,
-			float iShininess,
+			const DirectX::XMFLOAT4& iColor,
 			VertexShader* iVertexShader,
 			PixelShader* iPixelShader);
 
@@ -32,25 +28,9 @@ namespace GraphicsEngine
 
 		void setPixelShader(PixelShader* iPixelShader);
 
-		void setAmbiental(const DirectX::XMFLOAT4& iAmbiental);
+		void setColor(const DirectX::XMFLOAT4& iColor);
 
-		void setDiffusive(const DirectX::XMFLOAT4& iDiffusive);
-
-		void setSpecular(const DirectX::XMFLOAT4& iSpecular);
-
-		void setEmissive(const DirectX::XMFLOAT4& iEmissive);
-
-		void setShininess(float iShininess);
-
-		DirectX::XMFLOAT4 getAmbiental() const;
-
-		DirectX::XMFLOAT4 getDiffusive() const;
-
-		DirectX::XMFLOAT4 getSpecular() const;
-
-		DirectX::XMFLOAT4 getEmissive() const;
-
-		float getShininess() const;
+		DirectX::XMFLOAT4 getColor() const;
 
 	private:
 
@@ -60,24 +40,9 @@ namespace GraphicsEngine
 
 		struct MaterialStruct
 		{
-			DirectX::XMFLOAT4 ambiental;
-			DirectX::XMFLOAT4 diffusive;
-			DirectX::XMFLOAT4 specular;
-			DirectX::XMFLOAT4 emissive;
-			float shininess;
-			float padding[3];
+			DirectX::XMFLOAT4 color;
 
-			MaterialStruct(
-				const DirectX::XMFLOAT4& iAmbiental,
-				const DirectX::XMFLOAT4& iDiffusive,
-				const DirectX::XMFLOAT4& iSpecular,
-				const DirectX::XMFLOAT4& iEmissive,
-				float iShininess) :
-					ambiental(iAmbiental),
-					diffusive(iDiffusive),
-					specular(iSpecular),
-					emissive(iEmissive), 
-					shininess(iShininess)
+			MaterialStruct( const DirectX::XMFLOAT4& iColor) : color(iColor)
 			{
 			}
 

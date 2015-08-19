@@ -104,24 +104,20 @@ void MyDirectXWindow::createTrinangles()
 	//Create Vertex Shader
 	GraphicsEngine::VertexShader* vertexShader =
 		new GraphicsEngine::VertexShader(
-		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/PhongShadingVS.cso",	//TODO: path relativo
+		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorVS.cso",	//TODO: path relativo
 		layoutVertex,
 		layoutVertexSize);
 
 	//Create Pixel Shader
 	GraphicsEngine::PixelShader* pixelShader =	//TODO: path relativo
-		new GraphicsEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/PhongShadingPS.cso");
+		new GraphicsEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorPS.cso");
 
 
 	//Create Material
-	DirectX::XMFLOAT4 ambiental(0.1f, 0.3f, 0.3f, 1.0f);
-	DirectX::XMFLOAT4 diffusive(0.2f, 0.5f, 0.5f, 1.0f);
-	DirectX::XMFLOAT4 specular(1.0f, 1.0f, 1.0f, 1.0f);
-	DirectX::XMFLOAT4 emissive(0.0f, 0.0f, 0.0f, 1.0f);
-	float shininess = 128;
+	DirectX::XMFLOAT4 color(0.0f, 1.0f, 0.0f, 1.0f);
 
 	GraphicsEngine::Material* material =
-		new GraphicsEngine::Material(ambiental, diffusive, specular, emissive, shininess, vertexShader, pixelShader);
+		new GraphicsEngine::Material(color, vertexShader, pixelShader);
 
 	//Create Mesh
 	GraphicsEngine::Vertex vertices[] =
@@ -159,24 +155,20 @@ void MyDirectXWindow::createSquares()
 	//Create Vertex Shader
 	GraphicsEngine::VertexShader* vertexShader =
 		new GraphicsEngine::VertexShader(
-		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/PhongShadingVS.cso",	//TODO: path relativo
+		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorVS.cso",	//TODO: path relativo
 		layoutVertex,
 		layoutVertexSize);
 
 	//Create Pixel Shader
 	GraphicsEngine::PixelShader* pixelShader =	//TODO: path relativo
-		new GraphicsEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/PhongShadingPS.cso");
+		new GraphicsEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorPS.cso");
 
 
 	//Create Material
-	DirectX::XMFLOAT4 ambiental(0.1f, 0.3f, 0.3f, 1.0f);
-	DirectX::XMFLOAT4 diffusive(0.2f, 0.5f, 0.5f, 1.0f);
-	DirectX::XMFLOAT4 specular(1.0f, 1.0f, 1.0f, 1.0f);
-	DirectX::XMFLOAT4 emissive(0.0f, 0.0f, 0.0f, 1.0f);
-	float shininess = 128;
+	DirectX::XMFLOAT4 color(0.0f, 0.0f, 1.0f, 1.0f);
 
 	GraphicsEngine::Material* material =
-		new GraphicsEngine::Material(ambiental, diffusive, specular, emissive, shininess, vertexShader, pixelShader);
+		new GraphicsEngine::Material(color, vertexShader, pixelShader);
 
 	//Create Mesh
 	GraphicsEngine::Vertex vertices[] =
