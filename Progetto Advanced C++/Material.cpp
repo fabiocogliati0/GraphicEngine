@@ -77,6 +77,11 @@ namespace GraphicsEngine
 		return mMaterialStruct.color;
 	}
 
+	bool Material::isOpaque() const
+	{
+		return mMaterialStruct.color.w == 1.0f;
+	}
+
 	Material::~Material()
 	{
 		if (mMaterialBuffer)

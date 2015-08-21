@@ -1,6 +1,7 @@
 #include "MyDirectXWindow.h"
 
 #include <cmath>
+#include <cassert>
 
 D3D11_INPUT_ELEMENT_DESC layoutVertex[] =
 {
@@ -41,12 +42,12 @@ int MyDirectXWindow::run()
 
 			mCamera->renderSetup(mDeviceContext);
 
+			//random translation
 			for (int i = 0; i < gMaxNumberOfTriangles; ++i)
 			{
 				//mTriangles[i].translate(static_cast<float>(rand()) / 1000.0f, static_cast<float>(rand()) / 1000.0f, 0.0f);
 				mTriangles[i].translate(	(static_cast<float>(rand() % 100) -50) / 10000.0f,
 											(static_cast<float>(rand() % 100) -50) / 10000.0f, 0.0f, mDeviceContext);
-				mTriangles[i].render(mDeviceContext);
 			}
 
 			for (int i = 0; i < gMaxNumberOfSquares; ++i)
@@ -54,6 +55,40 @@ int MyDirectXWindow::run()
 				mSquares[i].translate(	(static_cast<float>(rand() % 100) -50) / 10000.0f,
 										(static_cast<float>(rand() % 100) -50) / 10000.0f, 0.0f, mDeviceContext);
 				mSquares[i].render(mDeviceContext);
+			}
+
+			//rendering opaques
+
+			mDeviceContext->OMSetBlendState(mBlendingStateOff, nullptr, 0xffffffff);
+
+			int i = 0;
+			while (i<gMaxNumberOfTriangles && mTriangles[i].isOpaque() && mTriangles[i].isVisible())
+			{
+				mTriangles[i].render(mDeviceContext);
+				++i;
+			}
+
+			int j = 0;
+			while (j<gMaxNumberOfSquares && mSquares[j].isOpaque() && mSquares[j].isVisible())
+			{
+				mSquares[j].render(mDeviceContext);
+				++j;
+			}
+
+			//rendering transparents
+
+			mDeviceContext->OMSetBlendState(mBlendingStateOn, nullptr, 0xffffffff);
+
+			while (i < gMaxNumberOfTriangles && mTriangles[i].isVisible())
+			{
+				mTriangles[i].render(mDeviceContext);
+				++i;
+			}
+
+			while (j<gMaxNumberOfSquares && mSquares[j].isVisible())
+			{
+				mSquares[j].render(mDeviceContext);
+				++j;
 			}
 
 			//swap buffers
@@ -77,7 +112,7 @@ void MyDirectXWindow::init()
 
 	//setCamera(camera);
 
-	
+	createBlendingStates();
 	createTrinangles();
 	createSquares();
 
@@ -113,11 +148,15 @@ void MyDirectXWindow::createTrinangles()
 		new GraphicsEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorPS.cso");
 
 
-	//Create Material
-	DirectX::XMFLOAT4 color(0.0f, 1.0f, 0.0f, 1.0f);
+	//Create Materials
+	DirectX::XMFLOAT4 opaqueColor(0.0f, 1.0f, 0.0f, 1.0f);
+	DirectX::XMFLOAT4 transparentColor(0.0f, 1.0f, 0.0f, 0.5f);
 
-	GraphicsEngine::Material* material =
-		new GraphicsEngine::Material(color, vertexShader, pixelShader);
+	GraphicsEngine::Material* opaqueMaterial =
+		new GraphicsEngine::Material(opaqueColor, vertexShader, pixelShader);
+
+	GraphicsEngine::Material* transparentMaterial =
+		new GraphicsEngine::Material(transparentColor, vertexShader, pixelShader);
 
 	//Create Mesh
 	GraphicsEngine::Vertex vertices[] =
@@ -143,9 +182,18 @@ void MyDirectXWindow::createTrinangles()
 		transform.translate((i - (static_cast<int>(gMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
 
 		//Create Object
-		mTriangles[i] = GraphicsEngine::Object(mesh, material, transform);
+		if (i < gMaxNumberOfTriangles / 2)
+		{
+			mTriangles[i] = GraphicsEngine::Object(mesh, opaqueMaterial, transform);
+		}
+		else
+		{
+			mTriangles[i] = GraphicsEngine::Object(mesh, transparentMaterial, transform);
+		}
 		mTriangles[i].initializeOnDevice(mDevice);
 	}
+
+	//mTriangles[3].setVisible(false); ////
 
 }
 
@@ -193,11 +241,33 @@ void MyDirectXWindow::createSquares()
 	{
 		//Create Trasnform
 		GraphicsEngine::WorldTransform transform;
-		transform.translate((i - (static_cast<int>(gMaxNumberOfSquares) / 2)) * 1.5f, -1.0f, 0.0f);
+		transform.translate((i - (static_cast<int>(gMaxNumberOfSquares) / 2)) * 1.5f, -0.0f, 10.0f);
 
 		//Create Object
 		mSquares[i] = GraphicsEngine::Object(mesh, material, transform);
 		mSquares[i].initializeOnDevice(mDevice);
 	}
 
+}
+
+void MyDirectXWindow::createBlendingStates()
+{
+	D3D11_BLEND_DESC blendDesc;
+	blendDesc.AlphaToCoverageEnable = false;
+	blendDesc.IndependentBlendEnable = false;
+	blendDesc.RenderTarget[0].BlendEnable = true;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	HRESULT result = mDevice->CreateBlendState(&blendDesc, &mBlendingStateOn);
+	assert(SUCCEEDED(result));
+
+	blendDesc.RenderTarget[0].BlendEnable = false;
+	result = mDevice->CreateBlendState(&blendDesc, &mBlendingStateOff);
+	assert(SUCCEEDED(result));
 }

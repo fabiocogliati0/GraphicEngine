@@ -13,7 +13,7 @@ namespace GraphicsEngine
 	}
 
 	Object::Object(Mesh* iMesh, Material* iMaterial, const WorldTransform& iWorldTransform)
-		: mMesh(iMesh), mMaterial(iMaterial), mWorldTransform(iWorldTransform), mIsClipped(false), mIsInvisible(false)
+		: mMesh(iMesh), mMaterial(iMaterial), mWorldTransform(iWorldTransform), mIsClipped(false), mIsHidden(false)
 	{
 		//mMesh->grab();
 		//mMaterial->grab();
@@ -44,7 +44,7 @@ namespace GraphicsEngine
 
 	void Object::render(ID3D11DeviceContext* iContext)
 	{
-		if (mMaterial && mMesh && iContext)
+		if (!mIsHidden && mMaterial && mMesh && iContext)
 		{
 			mMaterial->renderSetup(iContext);
 			mWorldTransform.renderSetup(iContext);
@@ -63,5 +63,19 @@ namespace GraphicsEngine
 		mWorldTransform.translate(iX, iY, iZ, iContext);
 	}
 	
+	void Object::setVisible(bool iVisible)
+	{
+		mIsHidden = !iVisible;
+	}
+
+	bool Object::isVisible() const
+	{
+		return !mIsHidden;
+	}
+
+	bool Object::isOpaque() const
+	{
+		return mMaterial->isOpaque();
+	}
 
 }

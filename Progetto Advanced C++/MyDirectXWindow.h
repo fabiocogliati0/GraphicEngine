@@ -18,7 +18,7 @@ private:
 	static const unsigned int layoutVertexSize = 2;
 
 	static const unsigned int gMaxNumberOfTriangles = 10;
-	static const unsigned int gMaxNumberOfSquares = 5;
+	static const unsigned int gMaxNumberOfSquares = 8;
 
 public:
 
@@ -34,8 +34,13 @@ private :
 
 	void createSquares();
 
+	void createBlendingStates();
+
 	GraphicsEngine::Object mTriangles[gMaxNumberOfTriangles];
 	GraphicsEngine::Object mSquares[gMaxNumberOfSquares];
+
+	ID3D11BlendState* mBlendingStateOff;
+	ID3D11BlendState* mBlendingStateOn;
 
 	GraphicsEngine::Camera* mCamera;
 

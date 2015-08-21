@@ -27,6 +27,12 @@ namespace GraphicsEngine
 
 		void translate(float iX, float iY, float iZ, ID3D11DeviceContext* iContext);
 
+		void setVisible(bool iVisible);
+
+		bool isVisible() const;
+
+		bool isOpaque() const;
+
 	private:
 
 		Mesh* mMesh;
@@ -34,7 +40,7 @@ namespace GraphicsEngine
 		WorldTransform mWorldTransform;
 
 		bool mIsClipped;
-		bool mIsInvisible;
+		bool mIsHidden;
 
 	};
 

@@ -32,6 +32,8 @@ namespace GraphicsEngine
 
 		DirectX::XMFLOAT4 getColor() const;
 
+		bool isOpaque() const;
+
 	private:
 
 		~Material();	//Prevents stack allocation
