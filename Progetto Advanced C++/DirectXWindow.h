@@ -36,6 +36,7 @@ namespace GraphicsEngine
 		IDXGISwapChain* mSwapChain;
 		ID3D11Device* mDevice;
 		ID3D11RenderTargetView* mRenderTargetView;
+		ID3D11DepthStencilView* mDepthStencilView;
 
 	private:
 

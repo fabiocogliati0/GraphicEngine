@@ -142,11 +142,43 @@ namespace GraphicsEngine
 		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
 		assert(SUCCEEDED(hr));
 
-		//Create and set render target
+		//Create render target view
 		hr = mDevice->CreateRenderTargetView(backBuffer, nullptr, &mRenderTargetView);
 		backBuffer->Release();
 		assert(SUCCEEDED(hr));
-		mDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, nullptr);
+
+
+		//Create Depth and Stencil Buffer
+		ID3D11Texture2D* pDepthStencil = nullptr;
+		D3D11_TEXTURE2D_DESC descDepth;
+		descDepth.Width = iWidth;
+		descDepth.Height = iHeight;
+		descDepth.MipLevels = 1;
+		descDepth.ArraySize = 1;
+		descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;;
+		descDepth.SampleDesc.Count = iMultiSampleCount;
+		descDepth.SampleDesc.Quality = 0;
+		descDepth.Usage = D3D11_USAGE_DEFAULT;
+		descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		descDepth.CPUAccessFlags = 0;
+		descDepth.MiscFlags = 0;
+
+		hr = mDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
+		assert(SUCCEEDED(hr));
+
+		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+		descDSV.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		descDSV.ViewDimension = (iMultiSampleCount > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+		descDSV.Texture2D.MipSlice = 0;
+		descDSV.Flags = 0;
+
+		// Create the depth stencil view
+		hr = mDevice->CreateDepthStencilView(pDepthStencil, &descDSV, &mDepthStencilView);
+		assert(SUCCEEDED(hr));
+
+		// Collega il buffer al merger stage in modo che l'output sia effettuato qui
+		mDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
+
 
 		//Set Viewport
 		D3D11_VIEWPORT viewport;

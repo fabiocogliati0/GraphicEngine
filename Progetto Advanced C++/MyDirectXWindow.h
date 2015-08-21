@@ -34,11 +34,16 @@ private :
 
 	void createSquares();
 
+	void createDepthStencilState();
+	void createRasterizerStates();
 	void createBlendingStates();
 
 	GraphicsEngine::Object mTriangles[gMaxNumberOfTriangles];
 	GraphicsEngine::Object mSquares[gMaxNumberOfSquares];
 
+	ID3D11DepthStencilState* mDepthStateOff;
+	ID3D11DepthStencilState* mDepthStateOn;
+	ID3D11RasterizerState* mRasterizerStateBackFaceCulling;
 	ID3D11BlendState* mBlendingStateOff;
 	ID3D11BlendState* mBlendingStateOn;
 

@@ -34,18 +34,19 @@ int MyDirectXWindow::run()
 		else
 		{
 			//Set render target
-			mDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, nullptr);
+			mDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
 
 			//clean screen with clean color
 			float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };		//TODO: parametrizzare
 			mDeviceContext->ClearRenderTargetView(mRenderTargetView, clearColor);
 
+			mDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
 			mCamera->renderSetup(mDeviceContext);
 
 			//random translation
-			for (int i = 0; i < gMaxNumberOfTriangles; ++i)
+			/*for (int i = 0; i < gMaxNumberOfTriangles; ++i)
 			{
-				//mTriangles[i].translate(static_cast<float>(rand()) / 1000.0f, static_cast<float>(rand()) / 1000.0f, 0.0f);
 				mTriangles[i].translate(	(static_cast<float>(rand() % 100) -50) / 10000.0f,
 											(static_cast<float>(rand() % 100) -50) / 10000.0f, 0.0f, mDeviceContext);
 			}
@@ -54,11 +55,14 @@ int MyDirectXWindow::run()
 			{
 				mSquares[i].translate(	(static_cast<float>(rand() % 100) -50) / 10000.0f,
 										(static_cast<float>(rand() % 100) -50) / 10000.0f, 0.0f, mDeviceContext);
-				mSquares[i].render(mDeviceContext);
-			}
+			}*/
+
+
+			mDeviceContext->RSSetState(mRasterizerStateBackFaceCulling);
 
 			//rendering opaques
 
+			mDeviceContext->OMSetDepthStencilState(mDepthStateOn, 0);
 			mDeviceContext->OMSetBlendState(mBlendingStateOff, nullptr, 0xffffffff);
 
 			int i = 0;
@@ -77,6 +81,7 @@ int MyDirectXWindow::run()
 
 			//rendering transparents
 
+			mDeviceContext->OMSetDepthStencilState(mDepthStateOff, 0);
 			mDeviceContext->OMSetBlendState(mBlendingStateOn, nullptr, 0xffffffff);
 
 			while (i < gMaxNumberOfTriangles && mTriangles[i].isVisible())
@@ -112,6 +117,8 @@ void MyDirectXWindow::init()
 
 	//setCamera(camera);
 
+	createDepthStencilState();
+	createRasterizerStates();
 	createBlendingStates();
 	createTrinangles();
 	createSquares();
@@ -161,9 +168,9 @@ void MyDirectXWindow::createTrinangles()
 	//Create Mesh
 	GraphicsEngine::Vertex vertices[] =
 	{
-		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(0.0f, 0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(0.5f, -0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(0.0f, 0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
 	};
 
 	unsigned int indices[] =
@@ -221,10 +228,10 @@ void MyDirectXWindow::createSquares()
 	//Create Mesh
 	GraphicsEngine::Vertex vertices[] =
 	{
-		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(-0.5f, 0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(0.5f, -0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) }
+		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(-0.5f, 0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(0.5f, 0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) }
 	};
 
 	unsigned int indices[] =
@@ -241,13 +248,46 @@ void MyDirectXWindow::createSquares()
 	{
 		//Create Trasnform
 		GraphicsEngine::WorldTransform transform;
-		transform.translate((i - (static_cast<int>(gMaxNumberOfSquares) / 2)) * 1.5f, -0.0f, 10.0f);
+		transform.translate((i - (static_cast<int>(gMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 10.0f);
 
 		//Create Object
 		mSquares[i] = GraphicsEngine::Object(mesh, material, transform);
 		mSquares[i].initializeOnDevice(mDevice);
 	}
 
+}
+
+void MyDirectXWindow::createDepthStencilState()
+{
+	D3D11_DEPTH_STENCIL_DESC dsDesc;
+	dsDesc.DepthEnable = true;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	dsDesc.StencilEnable = false;
+
+	HRESULT result = mDevice->CreateDepthStencilState(&dsDesc, &mDepthStateOn);
+	assert(SUCCEEDED(result));
+
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	result = mDevice->CreateDepthStencilState(&dsDesc, &mDepthStateOff);
+	assert(SUCCEEDED(result));
+}
+
+void MyDirectXWindow::createRasterizerStates()
+{
+	D3D11_RASTERIZER_DESC rsDesc;
+	rsDesc.CullMode = D3D11_CULL_FRONT;
+	rsDesc.FillMode = D3D11_FILL_SOLID;
+	rsDesc.FrontCounterClockwise = true;
+	rsDesc.DepthBias = false;
+	rsDesc.DepthBiasClamp = 0;
+	rsDesc.SlopeScaledDepthBias = 0;
+	rsDesc.DepthClipEnable = true;
+	rsDesc.ScissorEnable = false;
+	rsDesc.MultisampleEnable = false;
+
+	HRESULT result = mDevice->CreateRasterizerState(&rsDesc, &mRasterizerStateBackFaceCulling);
+	assert(SUCCEEDED(result));
 }
 
 void MyDirectXWindow::createBlendingStates()
