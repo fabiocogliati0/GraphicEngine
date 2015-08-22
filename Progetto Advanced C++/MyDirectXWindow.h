@@ -1,28 +1,46 @@
 #pragma once
 
 #include "DirectXWindow.h"
+#include "Object.h"
 
-#include "GraphicsEngine.h"
+#include <d3d11.h>
 
-const LPCWSTR gWindowTitle = L"Advanced C++ Project";
-const LPCWSTR gWindowClassName = L"Project";
+//Forward Declarations
+namespace GraphicsEngine
+{
+	class Camera;
+}
+
 
 class MyDirectXWindow : public GraphicsEngine::DirectXWindow
 {
 
 private:
 
-	static const long gWindowSizeX = 600L;
-	static const long gWindowSizeY = 600L;
-	static const int gMultiSampleCount = 1;
-	static const unsigned int layoutVertexSize = 2;
+	static const long sWindowSizeX = 600L;
 
-	static const unsigned int gMaxNumberOfTriangles = 10;
-	static const unsigned int gMaxNumberOfSquares = 8;
+	static const long sWindowSizeY = 600L;
+
+	static const int sMultiSampleCount = 1;
+
+	static const unsigned int sMaxNumberOfTriangles = 10;
+
+	static const unsigned int sMaxNumberOfSquares = 8;
+
+
+	static const unsigned int sLayoutVertexSize = 2;
+
+	static const D3D11_INPUT_ELEMENT_DESC* sLayoutVertex;
+
+	static const LPCWSTR sWindowTitle;
+
+	static const LPCWSTR sWindowClassName;
 
 public:
 
 	MyDirectXWindow(const HINSTANCE iHInstance, int iNCmdShow);
+
+	~MyDirectXWindow();
 
 	int run();
 
@@ -30,25 +48,36 @@ private :
 
 	void init();
 
+	void moveObjects();
+
+	void renderObjects();
+
+	void createCamera();
+
 	void createTrinangles();
 
 	void createSquares();
 
 	void createDepthStencilState();
+
 	void createRasterizerStates();
+	
 	void createBlendingStates();
 
-	GraphicsEngine::Object mTriangles[gMaxNumberOfTriangles];
-	GraphicsEngine::Object mSquares[gMaxNumberOfSquares];
+
+	GraphicsEngine::Object mTriangles[sMaxNumberOfTriangles];
+
+	GraphicsEngine::Object mSquares[sMaxNumberOfSquares];
 
 	ID3D11DepthStencilState* mDepthStateOff;
+
 	ID3D11DepthStencilState* mDepthStateOn;
+
 	ID3D11RasterizerState* mRasterizerStateBackFaceCulling;
+
 	ID3D11BlendState* mBlendingStateOff;
+
 	ID3D11BlendState* mBlendingStateOn;
 
 	GraphicsEngine::Camera* mCamera;
-
-	const float mAspectRatio;
-
 };

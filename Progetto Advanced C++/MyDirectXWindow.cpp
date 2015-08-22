@@ -1,20 +1,58 @@
 #include "MyDirectXWindow.h"
 
+#include "DirectXWindow.h"
+#include "Object.h"
+#include "Camera.h"
+#include "Material.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
+#include "Mesh.h"
+#include "Vertex.h"
+#include "WorldTransform.h"
+#include <d3d11.h>
 #include <cmath>
 #include <cassert>
 
-D3D11_INPUT_ELEMENT_DESC layoutVertex[] =
+//static arrays definitions
+
+static const		LPCWSTR sWindowTitleDefinition						=	L"Advanced C++ Project";
+static const		LPCWSTR sWindowClassNameDefinition					=	L"Project";
+static const		D3D11_INPUT_ELEMENT_DESC sLayoutVertexDefinition[]	=
 {
 	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 };
+const LPCWSTR MyDirectXWindow::sWindowTitle = sWindowTitleDefinition;
+const LPCWSTR MyDirectXWindow::sWindowClassName = sWindowClassNameDefinition;
+const D3D11_INPUT_ELEMENT_DESC* MyDirectXWindow::sLayoutVertex = sLayoutVertexDefinition;
+
+
+//class definition
 
 MyDirectXWindow::MyDirectXWindow(
 	const HINSTANCE iHInstance,
 	int iNCmdShow
-	) : DirectXWindow(iHInstance, iNCmdShow, gMultiSampleCount, gWindowTitle, gWindowClassName, gWindowSizeX, gWindowSizeY),
-		mAspectRatio(static_cast<float>(gWindowSizeX) / gWindowSizeY)
+	) : DirectXWindow(iHInstance, iNCmdShow, sMultiSampleCount, sWindowTitle, sWindowClassName, sWindowSizeX, sWindowSizeY),
+		mCamera(nullptr)
 {
+}
+
+MyDirectXWindow::~MyDirectXWindow()
+{
+	if (mDepthStateOff)
+		mDepthStateOff->Release();
+
+	if (mDepthStateOn)
+		mDepthStateOn->Release();
+
+	if (mRasterizerStateBackFaceCulling)
+		mRasterizerStateBackFaceCulling->Release();
+
+	if (mBlendingStateOff)
+		mBlendingStateOff->Release();
+
+	if (mBlendingStateOn)
+		mBlendingStateOn->Release();
 }
 
 int MyDirectXWindow::run()
@@ -33,68 +71,21 @@ int MyDirectXWindow::run()
 		}
 		else
 		{
-			//Set render target
-			mDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
-
-			//clean screen with clean color
-			float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };		//TODO: parametrizzare
+			//clean render target
+			float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 			mDeviceContext->ClearRenderTargetView(mRenderTargetView, clearColor);
 
+			//clean depthStencil Buffer
 			mDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
+			//setup Camera
 			mCamera->renderSetup(mDeviceContext);
 
-			//random translation
-			/*for (int i = 0; i < gMaxNumberOfTriangles; ++i)
-			{
-				mTriangles[i].translate(	(static_cast<float>(rand() % 100) -50) / 10000.0f,
-											(static_cast<float>(rand() % 100) -50) / 10000.0f, 0.0f, mDeviceContext);
-			}
+			//randomic Translation to each object
+			moveObjects();
 
-			for (int i = 0; i < gMaxNumberOfSquares; ++i)
-			{
-				mSquares[i].translate(	(static_cast<float>(rand() % 100) -50) / 10000.0f,
-										(static_cast<float>(rand() % 100) -50) / 10000.0f, 0.0f, mDeviceContext);
-			}*/
-
-
-			mDeviceContext->RSSetState(mRasterizerStateBackFaceCulling);
-
-			//rendering opaques
-
-			mDeviceContext->OMSetDepthStencilState(mDepthStateOn, 0);
-			mDeviceContext->OMSetBlendState(mBlendingStateOff, nullptr, 0xffffffff);
-
-			int i = 0;
-			while (i<gMaxNumberOfTriangles && mTriangles[i].isOpaque() && mTriangles[i].isVisible())
-			{
-				mTriangles[i].render(mDeviceContext);
-				++i;
-			}
-
-			int j = 0;
-			while (j<gMaxNumberOfSquares && mSquares[j].isOpaque() && mSquares[j].isVisible())
-			{
-				mSquares[j].render(mDeviceContext);
-				++j;
-			}
-
-			//rendering transparents
-
-			mDeviceContext->OMSetDepthStencilState(mDepthStateOff, 0);
-			mDeviceContext->OMSetBlendState(mBlendingStateOn, nullptr, 0xffffffff);
-
-			while (i < gMaxNumberOfTriangles && mTriangles[i].isVisible())
-			{
-				mTriangles[i].render(mDeviceContext);
-				++i;
-			}
-
-			while (j<gMaxNumberOfSquares && mSquares[j].isVisible())
-			{
-				mSquares[j].render(mDeviceContext);
-				++j;
-			}
+			//render Objects
+			renderObjects();
 
 			//swap buffers
 			mSwapChain->Present(0, 0);
@@ -104,42 +95,78 @@ int MyDirectXWindow::run()
 	return msg.wParam;
 }
 
-
 void MyDirectXWindow::init()
 {
-
-	//Create Window
-	//GraphicsEngine::DirectXWindow window(hInstance, nCmdShow, gMultiSampleCount, L"Advanced C++ Project", L"Project", gWindowSizeX, gWindowSizeY);
-
-	//Create Camera
-	mCamera = new GraphicsEngine::Camera(0.0f, 0.0f, -20.0f, 0.0f, 0.0f, 1.0f, mAspectRatio);
-	mCamera->initializeOnDevice(mDevice);
-
-	//setCamera(camera);
-
 	createDepthStencilState();
 	createRasterizerStates();
 	createBlendingStates();
+	createCamera();
 	createTrinangles();
 	createSquares();
-
-	//Run program
-	//int executionReturn = window.run();
-
-	//clean								//TODO: non ce n'è bisogno perchè non ho fatto grab, pensare a cosa sarebbe la cosa migliore da fare
-	/*material->release();
-	material = nullptr;
-	vertexShader->release();
-	vertexShader = nullptr;
-	pixelShader->release();
-	pixelShader = nullptr;
-	mesh->release();
-	mesh = nullptr;*/
-
-
-	//return executionReturn;
 }
 
+void MyDirectXWindow::moveObjects()
+{
+	for (int i = 0; i < sMaxNumberOfTriangles; ++i)
+	{
+		mTriangles[i].translate((static_cast<float>(rand() % 100) - 50) / 10000.0f,
+			(static_cast<float>(rand() % 100) - 50) / 10000.0f, 0.0f, mDeviceContext);
+	}
+
+	for (int i = 0; i < sMaxNumberOfSquares; ++i)
+	{
+		mSquares[i].translate((static_cast<float>(rand() % 100) - 50) / 10000.0f,
+			(static_cast<float>(rand() % 100) - 50) / 10000.0f, 0.0f, mDeviceContext);
+	}
+}
+
+void MyDirectXWindow::renderObjects()
+{
+
+	mDeviceContext->RSSetState(mRasterizerStateBackFaceCulling);
+
+	//rendering opaques
+	mDeviceContext->OMSetDepthStencilState(mDepthStateOn, 0);
+	mDeviceContext->OMSetBlendState(mBlendingStateOff, nullptr, 0xffffffff);
+
+	int i = 0;
+	while (i<sMaxNumberOfTriangles && mTriangles[i].isOpaque() && mTriangles[i].isVisible())
+	{
+		mTriangles[i].render(mDeviceContext);
+		++i;
+	}
+
+	int j = 0;
+	while (j<sMaxNumberOfSquares && mSquares[j].isOpaque() && mSquares[j].isVisible())
+	{
+		mSquares[j].render(mDeviceContext);
+		++j;
+	}
+
+	//rendering transparents
+	mDeviceContext->OMSetDepthStencilState(mDepthStateOff, 0);
+	mDeviceContext->OMSetBlendState(mBlendingStateOn, nullptr, 0xffffffff);
+
+	while (i < sMaxNumberOfTriangles && mTriangles[i].isVisible())
+	{
+		mTriangles[i].render(mDeviceContext);
+		++i;
+	}
+
+	while (j<sMaxNumberOfSquares && mSquares[j].isVisible())
+	{
+		mSquares[j].render(mDeviceContext);
+		++j;
+	}
+}
+
+void MyDirectXWindow::createCamera()
+{
+	mCamera = new GraphicsEngine::Camera(0.0f, 0.0f, -20.0f, 0.0f, 0.0f, 1.0f, static_cast<float>(sWindowSizeX) / sWindowSizeY);
+	mCamera->initializeOnDevice(mDevice);
+}
+
+//TODO: Path relativo ai file degli shader
 void MyDirectXWindow::createTrinangles()
 {
 
@@ -147,8 +174,8 @@ void MyDirectXWindow::createTrinangles()
 	GraphicsEngine::VertexShader* vertexShader =
 		new GraphicsEngine::VertexShader(
 		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorVS.cso",	//TODO: path relativo
-		layoutVertex,
-		layoutVertexSize);
+		sLayoutVertex,
+		sLayoutVertexSize);
 
 	//Create Pixel Shader
 	GraphicsEngine::PixelShader* pixelShader =	//TODO: path relativo
@@ -165,7 +192,7 @@ void MyDirectXWindow::createTrinangles()
 	GraphicsEngine::Material* transparentMaterial =
 		new GraphicsEngine::Material(transparentColor, vertexShader, pixelShader);
 
-	//Create Mesh
+	//Create Triangle Mesh
 	GraphicsEngine::Vertex vertices[] =
 	{
 		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
@@ -182,14 +209,14 @@ void MyDirectXWindow::createTrinangles()
 		new GraphicsEngine::Mesh(vertices, 3, indices, 3);
 
 
-	for (int i = 0; i < gMaxNumberOfTriangles; ++i)
+	for (int i = 0; i < sMaxNumberOfTriangles; ++i)
 	{
 		//Create Trasnform
 		GraphicsEngine::WorldTransform transform;
-		transform.translate((i - (static_cast<int>(gMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
+		transform.translate((i - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
 
 		//Create Object
-		if (i < gMaxNumberOfTriangles / 2)
+		if (i < sMaxNumberOfTriangles / 2)
 		{
 			mTriangles[i] = GraphicsEngine::Object(mesh, opaqueMaterial, transform);
 		}
@@ -200,10 +227,9 @@ void MyDirectXWindow::createTrinangles()
 		mTriangles[i].initializeOnDevice(mDevice);
 	}
 
-	//mTriangles[3].setVisible(false); ////
-
 }
 
+//TODO: Path relativo ai file degli shader
 void MyDirectXWindow::createSquares()
 {
 
@@ -211,8 +237,8 @@ void MyDirectXWindow::createSquares()
 	GraphicsEngine::VertexShader* vertexShader =
 		new GraphicsEngine::VertexShader(
 		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorVS.cso",	//TODO: path relativo
-		layoutVertex,
-		layoutVertexSize);
+		sLayoutVertex,
+		sLayoutVertexSize);
 
 	//Create Pixel Shader
 	GraphicsEngine::PixelShader* pixelShader =	//TODO: path relativo
@@ -244,11 +270,11 @@ void MyDirectXWindow::createSquares()
 		new GraphicsEngine::Mesh(vertices, 4, indices, 6);
 
 
-	for (int i = 0; i < gMaxNumberOfSquares; ++i)
+	for (int i = 0; i < sMaxNumberOfSquares; ++i)
 	{
 		//Create Trasnform
 		GraphicsEngine::WorldTransform transform;
-		transform.translate((i - (static_cast<int>(gMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 10.0f);
+		transform.translate((i - (static_cast<int>(sMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 5.0f);
 
 		//Create Object
 		mSquares[i] = GraphicsEngine::Object(mesh, material, transform);

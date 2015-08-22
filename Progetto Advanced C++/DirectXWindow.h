@@ -1,14 +1,12 @@
 #pragma once
 
-#include "Object.h"
-#include "Camera.h"
-
 #include <Windows.h>
 #include <d3d11.h>
-#include <cassert>
 
 namespace GraphicsEngine
 {
+
+	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	class DirectXWindow
 	{
@@ -23,6 +21,10 @@ namespace GraphicsEngine
 			const LPCWSTR iWindowClassName,
 			LONG iWidth,
 			LONG iHeight);
+
+		DirectXWindow(const DirectXWindow&) = delete;
+
+		DirectXWindow& operator=(const DirectXWindow&) = delete;
 
 		~DirectXWindow();
 

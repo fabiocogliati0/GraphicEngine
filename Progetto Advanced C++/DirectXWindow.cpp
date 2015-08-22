@@ -1,36 +1,39 @@
 #include "DirectXWindow.h"
 
-#include "Object.h"
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	PAINTSTRUCT ps;
-	HDC hdc;
-
-	switch (message)
-	{
-	case WM_PAINT:
-	{
-		hdc = BeginPaint(hWnd, &ps);
-		EndPaint(hWnd, &ps);
-	} break;
-
-	case WM_DESTROY:
-	{
-		PostQuitMessage(0);
-	} break;
-
-	default:
-	{
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-	}
-
-	return 0;
-}
+#include <Windows.h>
+#include <d3d11.h>
+#include <cassert>
 
 namespace GraphicsEngine
 {
+
+	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+	{
+		PAINTSTRUCT ps;
+		HDC hdc;
+
+		switch (message)
+		{
+		case WM_PAINT:
+		{
+			hdc = BeginPaint(hWnd, &ps);
+			EndPaint(hWnd, &ps);
+		} break;
+
+		case WM_DESTROY:
+		{
+			PostQuitMessage(0);
+		} break;
+
+		default:
+		{
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
+		}
+
+		return 0;
+	}
+
 
 	DirectXWindow::DirectXWindow(
 		const HINSTANCE iHInstance,
@@ -110,7 +113,7 @@ namespace GraphicsEngine
 #endif
 		UINT numDriverTypes = sizeof(driverTypes) / sizeof(driverTypes[0]);
 
-		//Try to create Device and SwapChain for the first driver type avaibles
+		//Try to create Device and SwapChain for the first avaible driver type
 		HRESULT hr;
 		for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; ++driverTypeIndex)
 		{
@@ -147,7 +150,6 @@ namespace GraphicsEngine
 		backBuffer->Release();
 		assert(SUCCEEDED(hr));
 
-
 		//Create Depth and Stencil Buffer
 		ID3D11Texture2D* pDepthStencil = nullptr;
 		D3D11_TEXTURE2D_DESC descDepth;
@@ -166,19 +168,19 @@ namespace GraphicsEngine
 		hr = mDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
 		assert(SUCCEEDED(hr));
 
+		//Create Depth and Stencil view
 		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
 		descDSV.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 		descDSV.ViewDimension = (iMultiSampleCount > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
 		descDSV.Texture2D.MipSlice = 0;
 		descDSV.Flags = 0;
 
-		// Create the depth stencil view
+		//Create the depth stencil view
 		hr = mDevice->CreateDepthStencilView(pDepthStencil, &descDSV, &mDepthStencilView);
 		assert(SUCCEEDED(hr));
 
-		// Collega il buffer al merger stage in modo che l'output sia effettuato qui
+		//Set RenderTarget
 		mDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
-
 
 		//Set Viewport
 		D3D11_VIEWPORT viewport;
@@ -190,10 +192,8 @@ namespace GraphicsEngine
 		viewport.TopLeftY = 0;
 		mDeviceContext->RSSetViewports(1, &viewport);
 
-
 		//show Window
 		ShowWindow(mWindowHandler, iNCmdShow);
-
 	}
 
 	DirectXWindow::~DirectXWindow()
@@ -203,6 +203,9 @@ namespace GraphicsEngine
 
 		if (mRenderTargetView)
 			mRenderTargetView->Release();
+
+		if (mDepthStencilView)
+			mDepthStencilView->Release();
 
 		if (mSwapChain)
 			mSwapChain->Release();
