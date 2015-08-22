@@ -111,17 +111,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Window.cd">
-      <Filter>Resource Files\Documentation</Filter>
-    </None>
-    <None Include="Material.cd">
-      <Filter>Resource Files\Documentation</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="BufferConvention.txt">
-      <Filter>Resource Files\Documentation</Filter>
-    </Text>
     <Text Include="Project.txt">
       <Filter>Resource Files\Documentation</Filter>
     </Text>

@@ -65,6 +65,8 @@ private :
 	void createBlendingStates();
 
 
+	GraphicsEngine::Camera* mCamera;
+
 	GraphicsEngine::Object mTriangles[sMaxNumberOfTriangles];
 
 	GraphicsEngine::Object mSquares[sMaxNumberOfSquares];
@@ -78,6 +80,4 @@ private :
 	ID3D11BlendState* mBlendingStateOff;
 
 	ID3D11BlendState* mBlendingStateOn;
-
-	GraphicsEngine::Camera* mCamera;
 };

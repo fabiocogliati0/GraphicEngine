@@ -1,7 +1,0 @@
-
-Constant Buffers:
-
-VS0 : World
-VS1 : Camera (view + projection + cameraPos)
-PS0 : Material
-PS1 : Lights

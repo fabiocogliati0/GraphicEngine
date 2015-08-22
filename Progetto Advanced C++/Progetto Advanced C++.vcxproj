@@ -55,11 +55,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Material.cd" />
-    <None Include="Window.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="BufferConvention.txt" />
     <Text Include="Project.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
