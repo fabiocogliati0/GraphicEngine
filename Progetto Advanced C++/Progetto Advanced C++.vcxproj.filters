@@ -61,7 +61,7 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="MyDirectXWindow.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +93,7 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="MyDirectXWindow.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
