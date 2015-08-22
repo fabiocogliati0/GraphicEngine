@@ -97,12 +97,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\PhongShadingPS.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Shaders\PhongShadingVS.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Shaders\MonoColorPS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
