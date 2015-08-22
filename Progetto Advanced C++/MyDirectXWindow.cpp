@@ -166,20 +166,18 @@ void MyDirectXWindow::createCamera()
 	mCamera->initializeOnDevice(mDevice);
 }
 
-//TODO: Path relativo ai file degli shader
 void MyDirectXWindow::createTrinangles()
 {
 
 	//Create Vertex Shader
 	GraphicsEngine::VertexShader* vertexShader =
 		new GraphicsEngine::VertexShader(
-		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorVS.cso",	//TODO: path relativo
+		L"./MonoColorVS.cso",
 		sLayoutVertex,
 		sLayoutVertexSize);
 
 	//Create Pixel Shader
-	GraphicsEngine::PixelShader* pixelShader =	//TODO: path relativo
-		new GraphicsEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorPS.cso");
+	GraphicsEngine::PixelShader* pixelShader = new GraphicsEngine::PixelShader(L"./MonoColorPS.cso");
 
 
 	//Create Materials
@@ -229,20 +227,18 @@ void MyDirectXWindow::createTrinangles()
 
 }
 
-//TODO: Path relativo ai file degli shader
 void MyDirectXWindow::createSquares()
 {
 
 	//Create Vertex Shader
 	GraphicsEngine::VertexShader* vertexShader =
 		new GraphicsEngine::VertexShader(
-		L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorVS.cso",	//TODO: path relativo
+		L"./MonoColorVS.cso",
 		sLayoutVertex,
 		sLayoutVertexSize);
 
 	//Create Pixel Shader
-	GraphicsEngine::PixelShader* pixelShader =	//TODO: path relativo
-		new GraphicsEngine::PixelShader(L"C:/Users/Fabio/Documents/Visual Studio 2013/Projects/Progetto Advanced C++/Debug/MonoColorPS.cso");
+	GraphicsEngine::PixelShader* pixelShader =	new GraphicsEngine::PixelShader(L"./MonoColorPS.cso");
 
 
 	//Create Material
