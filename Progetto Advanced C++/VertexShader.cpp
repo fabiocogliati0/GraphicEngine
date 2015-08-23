@@ -13,7 +13,9 @@ namespace GraphicsEngine
 		unsigned int iInputLayoutSize) :
 			mFileName(iFileName),
 			mInputLayoutDesc(iInputLayoutDesc),
-			mInputLayoutSize(iInputLayoutSize)
+			mInputLayoutSize(iInputLayoutSize),
+			mVertexShader(nullptr),
+			mInputLayout(nullptr)
 	{
 	}
 

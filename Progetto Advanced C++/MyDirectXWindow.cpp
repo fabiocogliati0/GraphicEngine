@@ -29,11 +29,9 @@ const D3D11_INPUT_ELEMENT_DESC* MyDirectXWindow::sLayoutVertex = sLayoutVertexDe
 
 //class definition
 
-MyDirectXWindow::MyDirectXWindow(
-	const HINSTANCE iHInstance,
-	int iNCmdShow
-	) : DirectXWindow(iHInstance, iNCmdShow, sMultiSampleCount, sWindowTitle, sWindowClassName, sWindowSizeX, sWindowSizeY),
-		mCamera(nullptr)
+MyDirectXWindow::MyDirectXWindow( const HINSTANCE iHInstance, int iNCmdShow) : 
+	DirectXWindow(iHInstance, iNCmdShow, sMultiSampleCount, sWindowTitle, sWindowClassName, sWindowSizeX, sWindowSizeY),
+	mCamera(GraphicsEngine::Camera(0.0f, 0.0f, -20.0f, 0.0f, 0.0f, 1.0f, static_cast<float>(sWindowSizeX) / sWindowSizeY))
 {
 }
 
@@ -79,7 +77,7 @@ int MyDirectXWindow::run()
 			mDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 			//setup Camera
-			mCamera->renderSetup(mDeviceContext);
+			mCamera.renderSetup(mDeviceContext);
 
 			//randomic Translation to each object
 			moveObjects();
@@ -97,10 +95,10 @@ int MyDirectXWindow::run()
 
 void MyDirectXWindow::init()
 {
+	mCamera.initializeOnDevice(mDevice);
 	createDepthStencilState();
 	createRasterizerStates();
 	createBlendingStates();
-	createCamera();
 	createTrinangles();
 	createSquares();
 }
@@ -130,14 +128,14 @@ void MyDirectXWindow::renderObjects()
 	mDeviceContext->OMSetBlendState(mBlendingStateOff, nullptr, 0xffffffff);
 
 	int i = 0;
-	while (i<sMaxNumberOfTriangles && mTriangles[i].isOpaque() && mTriangles[i].isVisible())
+	while (i < sMaxNumberOfTriangles && mTriangles[i].isOpaque() && mTriangles[i].isVisible())
 	{
 		mTriangles[i].render(mDeviceContext);
 		++i;
 	}
 
 	int j = 0;
-	while (j<sMaxNumberOfSquares && mSquares[j].isOpaque() && mSquares[j].isVisible())
+	while (j < sMaxNumberOfSquares && mSquares[j].isOpaque() && mSquares[j].isVisible())
 	{
 		mSquares[j].render(mDeviceContext);
 		++j;
@@ -153,17 +151,11 @@ void MyDirectXWindow::renderObjects()
 		++i;
 	}
 
-	while (j<sMaxNumberOfSquares && mSquares[j].isVisible())
+	while (j < sMaxNumberOfSquares && mSquares[j].isVisible())
 	{
 		mSquares[j].render(mDeviceContext);
 		++j;
 	}
-}
-
-void MyDirectXWindow::createCamera()
-{
-	mCamera = new GraphicsEngine::Camera(0.0f, 0.0f, -20.0f, 0.0f, 0.0f, 1.0f, static_cast<float>(sWindowSizeX) / sWindowSizeY);
-	mCamera->initializeOnDevice(mDevice);
 }
 
 void MyDirectXWindow::createTrinangles()

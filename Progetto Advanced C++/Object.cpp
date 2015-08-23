@@ -7,13 +7,13 @@
 namespace GraphicsEngine
 {
 
-	Object::Object()
-		: mMesh(nullptr), mMaterial(nullptr)
+	Object::Object() :
+		mMesh(nullptr), mMaterial(nullptr)
 	{
 	}
 
-	Object::Object(Mesh* iMesh, Material* iMaterial, const WorldTransform& iWorldTransform)
-		: mMesh(iMesh), mMaterial(iMaterial), mWorldTransform(iWorldTransform), mIsClipped(false), mIsHidden(false)
+	Object::Object(Mesh* iMesh, Material* iMaterial, const WorldTransform& iWorldTransform) :
+		mMesh(iMesh), mMaterial(iMaterial), mWorldTransform(iWorldTransform), mIsClipped(false), mIsHidden(false)
 	{
 		//mMesh->grab();
 		//mMaterial->grab();

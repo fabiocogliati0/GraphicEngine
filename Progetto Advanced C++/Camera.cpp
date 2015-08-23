@@ -7,8 +7,8 @@
 namespace GraphicsEngine
 {
 
-	Camera::Camera()
-		: Camera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f)
+	Camera::Camera() :
+		Camera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f)
 	{
 	}
 
@@ -20,6 +20,7 @@ namespace GraphicsEngine
 		float iFocusPointY,
 		float iFocusPointZ,
 		float iAspectRatio)
+			: mCameraBuffer(nullptr)
 	{
 
 		//view

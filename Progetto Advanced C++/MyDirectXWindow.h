@@ -1,16 +1,10 @@
 #pragma once
 
 #include "DirectXWindow.h"
+#include "Camera.h"
 #include "Object.h"
 
 #include <d3d11.h>
-
-//Forward Declarations
-namespace GraphicsEngine
-{
-	class Camera;
-}
-
 
 class MyDirectXWindow : public GraphicsEngine::DirectXWindow
 {
@@ -52,8 +46,6 @@ private :
 
 	void renderObjects();
 
-	void createCamera();
-
 	void createTrinangles();
 
 	void createSquares();
@@ -65,7 +57,7 @@ private :
 	void createBlendingStates();
 
 
-	GraphicsEngine::Camera* mCamera;
+	GraphicsEngine::Camera mCamera;
 
 	GraphicsEngine::Object mTriangles[sMaxNumberOfTriangles];
 

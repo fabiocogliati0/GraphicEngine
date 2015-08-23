@@ -7,13 +7,14 @@
 namespace GraphicsEngine
 {
 
-	WorldTransform::WorldTransform()
-		:WorldTransform(DirectX::XMMatrixIdentity())
+	WorldTransform::WorldTransform() :
+		WorldTransform(DirectX::XMMatrixIdentity())
 	{
 	}
 
 	WorldTransform::WorldTransform(const DirectX::XMMATRIX& iWorld) :
-			mWorldTransformStruct(iWorld)
+		mWorldTransformStruct(iWorld),
+		mWorldTransformBuffer(nullptr)
 	{
 	}
 

@@ -16,7 +16,8 @@ namespace GraphicsEngine
 		PixelShader* iPixelShader) :
 			mMaterialStruct(iColor),
 			mVertexShader(iVertexShader),
-			mPixelShader(iPixelShader)
+			mPixelShader(iPixelShader),
+			mMaterialBuffer(nullptr)
 	{
 		//mVertexShader->grab();
 		//mPixelShader->grab();
