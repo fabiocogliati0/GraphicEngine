@@ -5,6 +5,9 @@
 namespace GraphicsEngine
 {
 
+	//Forward declaration
+	struct Vertex;
+
 	class AABB
 	{
 		
@@ -12,7 +15,7 @@ namespace GraphicsEngine
 
 		AABB();
 
-		AABB(const DirectX::XMFLOAT3* iVertices, int iVerticesNumber);
+		AABB(const Vertex* iVertices, int iVerticesNumber);
 
 		const DirectX::XMFLOAT3& getMin() const;
 

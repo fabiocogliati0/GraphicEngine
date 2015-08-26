@@ -1,5 +1,6 @@
 #include "Frustum.h"
 #include "AABB.h"
+#include "WorldTransform.h"
 
 #include <DirectXMath.h>
 #include <cmath>
@@ -85,13 +86,13 @@ namespace GraphicsEngine
 
 	}
 
-	bool Frustum::CheckAABB(const AABB& iAABB)
+	bool Frustum::CheckAABB(const AABB& iAABB, const WorldTransform& iObjectTransform) const
 	{
 
 		bool cull = false;
 
-		const DirectX::XMFLOAT3 min = iAABB.getMin();
-		const DirectX::XMFLOAT3 max = iAABB.getMax();
+		const DirectX::XMFLOAT3 min = iObjectTransform.getGlobalPosition(iAABB.getMin());
+		const DirectX::XMFLOAT3 max = iObjectTransform.getGlobalPosition(iAABB.getMax());
 
 		for (int i = 0; i < 6; ++i)
 		{

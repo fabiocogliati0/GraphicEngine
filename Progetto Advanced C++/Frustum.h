@@ -7,6 +7,7 @@ namespace GraphicsEngine
 
 	//Forward declarations
 	class AABB;
+	class WorldTransform;
 
 
 	class Frustum
@@ -22,7 +23,7 @@ namespace GraphicsEngine
 
 		void ConstructFrustum(const DirectX::XMMATRIX& iViewMatrix, const DirectX::XMMATRIX& iProjectionMatrix);
 
-		bool CheckAABB(const AABB& iAABB);
+		bool CheckAABB(const AABB& iAABB, const WorldTransform& iObjectTransform) const;
 
 	
 	private:

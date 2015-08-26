@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Frustum.h"
+
 #include <d3d11.h>
 #include <DirectXMath.h>
 
@@ -41,6 +43,8 @@ namespace GraphicsEngine
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;
 
+		const Frustum& getFrustum() const;
+
 	private:
 
 #pragma pack(push, 16)
@@ -69,6 +73,8 @@ namespace GraphicsEngine
 
 		CameraStruct mCameraStruct;
 		ID3D11Buffer* mCameraBuffer;
+
+		Frustum mFrustum;
 
 	};
 

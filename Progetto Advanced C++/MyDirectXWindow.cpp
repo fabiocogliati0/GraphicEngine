@@ -2,6 +2,7 @@
 
 #include "DirectXWindow.h"
 #include "Object.h"
+#include "AABB.h"
 #include "Camera.h"
 #include "Material.h"
 #include "VertexShader.h"
@@ -9,6 +10,7 @@
 #include "Mesh.h"
 #include "Vertex.h"
 #include "WorldTransform.h"
+#include "Frustum.h"
 #include <d3d11.h>
 #include <cmath>
 #include <cassert>
@@ -120,11 +122,20 @@ void MyDirectXWindow::renderObjects()
 	mDeviceContext->OMSetDepthStencilState(mDepthStateOn, 0);
 	mDeviceContext->OMSetBlendState(mBlendingStateOff, nullptr, 0xffffffff);
 
+	const GraphicsEngine::Frustum& frustum = mCamera.getFrustum();
+
 	int i;
 	for (i = 0; i < mFirstTransparentIndex; ++i)
 	{
-		mObjectsTransform[i].renderSetup(mDeviceContext);
-		mObjects[i].render(mDeviceContext);
+		if (!frustum.CheckAABB(mAABBs[i], mObjectsTransform[i]))
+		{
+			mObjectsTransform[i].renderSetup(mDeviceContext);
+			mObjects[i].render(mDeviceContext);
+		}
+		else
+		{
+			int a = 3; //Debug
+		}
 	}
 
 	//render transparents
@@ -133,8 +144,15 @@ void MyDirectXWindow::renderObjects()
 
 	for (; i < mFirstInactiveIndex; ++i)
 	{
-		mObjectsTransform[i].renderSetup(mDeviceContext);
-		mObjects[i].render(mDeviceContext);
+		if (!frustum.CheckAABB(mAABBs[i], mObjectsTransform[i]))
+		{
+			mObjectsTransform[i].renderSetup(mDeviceContext);
+			mObjects[i].render(mDeviceContext);
+		}
+		else
+		{
+			int a = 3; //Debug
+		}
 	}
 }
 
@@ -142,6 +160,7 @@ void MyDirectXWindow::createObjects()
 {
 
 	mObjects = new GraphicsEngine::Object[sMaxNumberOfTriangles + sMaxNumberOfSquares];
+	mAABBs = new GraphicsEngine::AABB[sMaxNumberOfTriangles + sMaxNumberOfSquares];
 
 	//Create Vertex Shader
 	GraphicsEngine::VertexShader* vertexShader =
@@ -169,6 +188,7 @@ void MyDirectXWindow::createObjects()
 		new GraphicsEngine::Material(opaqueColorSquares, vertexShader, pixelShader);
 
 	//Create Meshes
+	int numberOfVerticesTriangles = 3;
 	GraphicsEngine::Vertex verticesTriangles[] =
 	{
 		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
@@ -176,11 +196,13 @@ void MyDirectXWindow::createObjects()
 		{ DirectX::XMFLOAT3(0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
 	};
 
+	int numberOfIindicesTriangles = 3;
 	unsigned int indicesTriangles[] =
 	{
 		0, 1, 2,
 	};
 
+	int numberOfVerticesSquares = 4;
 	GraphicsEngine::Vertex verticesSquares[] =
 	{
 		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
@@ -189,6 +211,7 @@ void MyDirectXWindow::createObjects()
 		{ DirectX::XMFLOAT3(0.5f, 0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) }
 	};
 
+	int numberOfIindicesSquares = 6;
 	unsigned int indicesSquares[] =
 	{
 		0, 1, 2,
@@ -196,10 +219,10 @@ void MyDirectXWindow::createObjects()
 	};
 
 	GraphicsEngine::Mesh* meshTriangles =
-		new GraphicsEngine::Mesh(verticesTriangles, 3, indicesTriangles, 3);
+		new GraphicsEngine::Mesh(verticesTriangles, numberOfVerticesTriangles, indicesTriangles, numberOfIindicesTriangles);
 
 	GraphicsEngine::Mesh* meshSquares =
-		new GraphicsEngine::Mesh(verticesSquares, 4, indicesSquares, 6);
+		new GraphicsEngine::Mesh(verticesSquares, numberOfVerticesSquares, indicesSquares, numberOfIindicesSquares);
 
 
 	int opaqueTriangles = sMaxNumberOfTriangles / 2;
@@ -208,26 +231,44 @@ void MyDirectXWindow::createObjects()
 
 	for (int i = 0; i < sMaxNumberOfTriangles + sMaxNumberOfSquares; ++i)
 	{
+
+		bool triangle;
 		
+		//Create Objects
 		mObjectsTransform[i].initializeOnDevice(mDevice);
 		
 		if (i < opaqueTriangles)
 		{
+			triangle = true;
 			mObjects[i] = GraphicsEngine::Object(meshTriangles, opaqueMaterialTriangles);
 			mObjectsTransform[i].translate((i - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
 		}
 		else if (i < mFirstTransparentIndex)
 		{
+			triangle = false;
 			mObjects[i] = GraphicsEngine::Object(meshSquares, opaqueMaterialSquares);
 			mObjectsTransform[i].translate(((i - opaqueTriangles) - (static_cast<int>(sMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 5.0f);
 		}
 		else if (i < mFirstInactiveIndex)
 		{
+			triangle = true;
 			mObjects[i] = GraphicsEngine::Object(meshTriangles, transparentMaterialTriangles);
 			mObjectsTransform[i].translate(((i - sMaxNumberOfSquares) - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
 		}
 
 		mObjects[i].initializeOnDevice(mDevice);
+
+
+		//Create AABBs
+		if (triangle)
+		{
+			mAABBs[i] = GraphicsEngine::AABB(verticesTriangles, numberOfVerticesTriangles);
+		}
+		else
+		{ 
+			mAABBs[i] = GraphicsEngine::AABB(verticesSquares, numberOfVerticesSquares);
+		}
+
 	}
 
 }

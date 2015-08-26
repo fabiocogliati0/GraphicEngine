@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Frustum.h"
 
 #include <d3d11.h>
 #include <DirectXMath.h>
@@ -38,6 +39,9 @@ namespace GraphicsEngine
 			iAspectRatio,
 			gNearZ,
 			gFarZ);
+
+		//frustum
+		mFrustum.ConstructFrustum(mCameraStruct.view, mCameraStruct.projection);
 	}
 
 	Camera::~Camera()
@@ -73,6 +77,11 @@ namespace GraphicsEngine
 			//iContext->UpdateSubresource(mCameraBuffer, 0, nullptr, &mCameraStruct, 0, 0); //questo va fatto quando si modificano i dati
 			iContext->VSSetConstantBuffers(1, 1, &mCameraBuffer);
 		}
+	}
+
+	const Frustum& Camera::getFrustum() const
+	{
+		return mFrustum;
 	}
 
 }

@@ -2,10 +2,16 @@
 
 #include "DirectXWindow.h"
 #include "Camera.h"
-#include "Object.h"
 #include "WorldTransform.h"
 
 #include <d3d11.h>
+
+//Forward declarations
+namespace GraphicsEngine
+{
+	class Object;
+	class AABB;
+}
 
 class MyDirectXWindow : public GraphicsEngine::DirectXWindow
 {
@@ -18,9 +24,9 @@ private:
 
 	static const int sMultiSampleCount = 1;
 
-	static const unsigned int sMaxNumberOfTriangles = 4000;
+	static const unsigned int sMaxNumberOfTriangles = 15;
 
-	static const unsigned int sMaxNumberOfSquares = 4000;
+	static const unsigned int sMaxNumberOfSquares = 0;
 
 
 	static const unsigned int sLayoutVertexSize = 2;
@@ -65,6 +71,8 @@ private :
 	GraphicsEngine::WorldTransform mObjectsTransform[sMaxNumberOfTriangles + sMaxNumberOfTriangles];
 
 	GraphicsEngine::Object* mObjects;
+
+	GraphicsEngine::AABB* mAABBs;
 
 	ID3D11DepthStencilState* mDepthStateOff;
 

@@ -98,4 +98,12 @@ namespace GraphicsEngine
 			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixRotationZ(iAngle));
 	}
 
+	DirectX::XMFLOAT3 WorldTransform::getGlobalPosition(const DirectX::XMFLOAT3 &iLocalPosition) const
+	{
+		DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&iLocalPosition);
+		pos = DirectX::XMVector3Transform(pos, mWorldTransformStruct.world);
+		DirectX::XMFLOAT3 result;
+		DirectX::XMStoreFloat3(&result, pos);
+		return result;
+	}
 }

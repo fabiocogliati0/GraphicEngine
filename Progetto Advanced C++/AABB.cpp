@@ -1,4 +1,5 @@
 #include "AABB.h"
+#include "Vertex.h"
 
 #include <DirectXMath.h>
 #include <cmath>
@@ -11,19 +12,19 @@ namespace GraphicsEngine
 	{
 	}
 
-	AABB::AABB(const DirectX::XMFLOAT3* iVertices, int iVerticesNumber) :
+	AABB::AABB(const Vertex* iVertices, int iVerticesNumber) :
 		mMin(DirectX::XMFLOAT3(FLT_MAX,FLT_MAX,FLT_MAX)),
 		mMax(DirectX::XMFLOAT3(FLT_MIN, FLT_MIN, FLT_MIN))
 	{
 		for (int i = 0; i < iVerticesNumber; ++i)
 		{
-			mMin.x = fmin(mMin.x, iVertices[i].x);
-			mMin.y = fmin(mMin.y, iVertices[i].y);
-			mMin.z = fmin(mMin.z, iVertices[i].z);
+			mMin.x = fmin(mMin.x, iVertices[i].position.x);
+			mMin.y = fmin(mMin.y, iVertices[i].position.y);
+			mMin.z = fmin(mMin.z, iVertices[i].position.z);
 
-			mMax.x = fmax(mMax.x, iVertices[i].x);
-			mMax.y = fmax(mMax.y, iVertices[i].y);
-			mMax.z = fmax(mMax.z, iVertices[i].z);
+			mMax.x = fmax(mMax.x, iVertices[i].position.x);
+			mMax.y = fmax(mMax.y, iVertices[i].position.y);
+			mMax.z = fmax(mMax.z, iVertices[i].position.z);
 		}
 	}
 

@@ -35,6 +35,8 @@ namespace GraphicsEngine
 
 		void rotateZ(float iAngle);
 
+		DirectX::XMFLOAT3 getGlobalPosition(const DirectX::XMFLOAT3 &iLocalPosition) const;
+
 	private:
 
 #pragma pack(push, 16)
