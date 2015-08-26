@@ -132,10 +132,6 @@ void MyDirectXWindow::renderObjects()
 			mObjectsTransform[i].renderSetup(mDeviceContext);
 			mObjects[i].render(mDeviceContext);
 		}
-		else
-		{
-			int a = 3; //Debug
-		}
 	}
 
 	//render transparents
@@ -149,16 +145,15 @@ void MyDirectXWindow::renderObjects()
 			mObjectsTransform[i].renderSetup(mDeviceContext);
 			mObjects[i].render(mDeviceContext);
 		}
-		else
-		{
-			int a = 3; //Debug
-		}
 	}
 }
 
 void MyDirectXWindow::createObjects()
 {
 
+	//TODO: brutto così, sovrascrivere l'operatore new di WorldTransform
+	void* ptr = _aligned_malloc(sizeof(GraphicsEngine::WorldTransform) * (sMaxNumberOfTriangles + sMaxNumberOfSquares), 16);
+	mObjectsTransform = new(ptr) GraphicsEngine::WorldTransform[sMaxNumberOfTriangles + sMaxNumberOfSquares];
 	mObjects = new GraphicsEngine::Object[sMaxNumberOfTriangles + sMaxNumberOfSquares];
 	mAABBs = new GraphicsEngine::AABB[sMaxNumberOfTriangles + sMaxNumberOfSquares];
 

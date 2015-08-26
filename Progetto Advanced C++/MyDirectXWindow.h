@@ -24,9 +24,9 @@ private:
 
 	static const int sMultiSampleCount = 1;
 
-	static const unsigned int sMaxNumberOfTriangles = 15;
+	static const unsigned int sMaxNumberOfTriangles = 12000;
 
-	static const unsigned int sMaxNumberOfSquares = 0;
+	static const unsigned int sMaxNumberOfSquares = 12000;
 
 
 	static const unsigned int sLayoutVertexSize = 2;
@@ -68,7 +68,7 @@ private :
 
 	GraphicsEngine::Camera mCamera;
 
-	GraphicsEngine::WorldTransform mObjectsTransform[sMaxNumberOfTriangles + sMaxNumberOfTriangles];
+	GraphicsEngine::WorldTransform* mObjectsTransform;
 
 	GraphicsEngine::Object* mObjects;
 
