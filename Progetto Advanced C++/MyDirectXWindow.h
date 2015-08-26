@@ -3,6 +3,7 @@
 #include "DirectXWindow.h"
 #include "Camera.h"
 #include "Object.h"
+#include "WorldTransform.h"
 
 #include <d3d11.h>
 
@@ -17,9 +18,9 @@ private:
 
 	static const int sMultiSampleCount = 1;
 
-	static const unsigned int sMaxNumberOfTriangles = 10;
+	static const unsigned int sMaxNumberOfTriangles = 4000;
 
-	static const unsigned int sMaxNumberOfSquares = 8;
+	static const unsigned int sMaxNumberOfSquares = 4000;
 
 
 	static const unsigned int sLayoutVertexSize = 2;
@@ -46,9 +47,7 @@ private :
 
 	void renderObjects();
 
-	void createTrinangles();
-
-	void createSquares();
+	void createObjects();
 
 	void createDepthStencilState();
 
@@ -57,11 +56,15 @@ private :
 	void createBlendingStates();
 
 
+	int mFirstTransparentIndex;
+
+	int mFirstInactiveIndex;
+
 	GraphicsEngine::Camera mCamera;
 
-	GraphicsEngine::Object mTriangles[sMaxNumberOfTriangles];
+	GraphicsEngine::WorldTransform mObjectsTransform[sMaxNumberOfTriangles + sMaxNumberOfTriangles];
 
-	GraphicsEngine::Object mSquares[sMaxNumberOfSquares];
+	GraphicsEngine::Object* mObjects;
 
 	ID3D11DepthStencilState* mDepthStateOff;
 

@@ -99,21 +99,14 @@ void MyDirectXWindow::init()
 	createDepthStencilState();
 	createRasterizerStates();
 	createBlendingStates();
-	createTrinangles();
-	createSquares();
+	createObjects();
 }
 
 void MyDirectXWindow::moveObjects()
 {
-	for (int i = 0; i < sMaxNumberOfTriangles; ++i)
+	for (int i = 0; i < sMaxNumberOfTriangles + sMaxNumberOfSquares; ++i)
 	{
-		mTriangles[i].translate((static_cast<float>(rand() % 100) - 50) / 10000.0f,
-			(static_cast<float>(rand() % 100) - 50) / 10000.0f, 0.0f, mDeviceContext);
-	}
-
-	for (int i = 0; i < sMaxNumberOfSquares; ++i)
-	{
-		mSquares[i].translate((static_cast<float>(rand() % 100) - 50) / 10000.0f,
+		mObjectsTransform[i].translate((static_cast<float>(rand() % 100) - 50) / 10000.0f,
 			(static_cast<float>(rand() % 100) - 50) / 10000.0f, 0.0f, mDeviceContext);
 	}
 }
@@ -123,43 +116,32 @@ void MyDirectXWindow::renderObjects()
 
 	mDeviceContext->RSSetState(mRasterizerStateBackFaceCulling);
 
-	//rendering opaques
+	//render opaques
 	mDeviceContext->OMSetDepthStencilState(mDepthStateOn, 0);
 	mDeviceContext->OMSetBlendState(mBlendingStateOff, nullptr, 0xffffffff);
 
-	int i = 0;
-	while (i < sMaxNumberOfTriangles && mTriangles[i].isOpaque() && mTriangles[i].isVisible())
+	int i;
+	for (i = 0; i < mFirstTransparentIndex; ++i)
 	{
-		mTriangles[i].render(mDeviceContext);
-		++i;
+		mObjectsTransform[i].renderSetup(mDeviceContext);
+		mObjects[i].render(mDeviceContext);
 	}
 
-	int j = 0;
-	while (j < sMaxNumberOfSquares && mSquares[j].isOpaque() && mSquares[j].isVisible())
-	{
-		mSquares[j].render(mDeviceContext);
-		++j;
-	}
-
-	//rendering transparents
+	//render transparents
 	mDeviceContext->OMSetDepthStencilState(mDepthStateOff, 0);
 	mDeviceContext->OMSetBlendState(mBlendingStateOn, nullptr, 0xffffffff);
 
-	while (i < sMaxNumberOfTriangles && mTriangles[i].isVisible())
+	for (; i < mFirstInactiveIndex; ++i)
 	{
-		mTriangles[i].render(mDeviceContext);
-		++i;
-	}
-
-	while (j < sMaxNumberOfSquares && mSquares[j].isVisible())
-	{
-		mSquares[j].render(mDeviceContext);
-		++j;
+		mObjectsTransform[i].renderSetup(mDeviceContext);
+		mObjects[i].render(mDeviceContext);
 	}
 }
 
-void MyDirectXWindow::createTrinangles()
+void MyDirectXWindow::createObjects()
 {
+
+	mObjects = new GraphicsEngine::Object[sMaxNumberOfTriangles + sMaxNumberOfSquares];
 
 	//Create Vertex Shader
 	GraphicsEngine::VertexShader* vertexShader =
@@ -173,74 +155,33 @@ void MyDirectXWindow::createTrinangles()
 
 
 	//Create Materials
-	DirectX::XMFLOAT4 opaqueColor(0.0f, 1.0f, 0.0f, 1.0f);
-	DirectX::XMFLOAT4 transparentColor(0.0f, 1.0f, 0.0f, 0.5f);
+	DirectX::XMFLOAT4 opaqueColorTriangles(0.0f, 1.0f, 0.0f, 1.0f);
+	DirectX::XMFLOAT4 transparentColorTriangles(0.0f, 1.0f, 0.0f, 0.5f);
+	DirectX::XMFLOAT4 opaqueColorSquares(0.0f, 0.0f, 1.0f, 1.0f);
 
-	GraphicsEngine::Material* opaqueMaterial =
-		new GraphicsEngine::Material(opaqueColor, vertexShader, pixelShader);
+	GraphicsEngine::Material* opaqueMaterialTriangles =
+		new GraphicsEngine::Material(opaqueColorTriangles, vertexShader, pixelShader);
 
-	GraphicsEngine::Material* transparentMaterial =
-		new GraphicsEngine::Material(transparentColor, vertexShader, pixelShader);
+	GraphicsEngine::Material* transparentMaterialTriangles =
+		new GraphicsEngine::Material(transparentColorTriangles, vertexShader, pixelShader);
 
-	//Create Triangle Mesh
-	GraphicsEngine::Vertex vertices[] =
+	GraphicsEngine::Material* opaqueMaterialSquares =
+		new GraphicsEngine::Material(opaqueColorSquares, vertexShader, pixelShader);
+
+	//Create Meshes
+	GraphicsEngine::Vertex verticesTriangles[] =
 	{
 		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
 		{ DirectX::XMFLOAT3(0.0f, 0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
 		{ DirectX::XMFLOAT3(0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
 	};
 
-	unsigned int indices[] =
+	unsigned int indicesTriangles[] =
 	{
 		0, 1, 2,
 	};
 
-	GraphicsEngine::Mesh* mesh =
-		new GraphicsEngine::Mesh(vertices, 3, indices, 3);
-
-
-	for (int i = 0; i < sMaxNumberOfTriangles; ++i)
-	{
-		//Create Trasnform
-		GraphicsEngine::WorldTransform transform;
-		transform.translate((i - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
-
-		//Create Object
-		if (i < sMaxNumberOfTriangles / 2)
-		{
-			mTriangles[i] = GraphicsEngine::Object(mesh, opaqueMaterial, transform);
-		}
-		else
-		{
-			mTriangles[i] = GraphicsEngine::Object(mesh, transparentMaterial, transform);
-		}
-		mTriangles[i].initializeOnDevice(mDevice);
-	}
-
-}
-
-void MyDirectXWindow::createSquares()
-{
-
-	//Create Vertex Shader
-	GraphicsEngine::VertexShader* vertexShader =
-		new GraphicsEngine::VertexShader(
-		L"./MonoColorVS.cso",
-		sLayoutVertex,
-		sLayoutVertexSize);
-
-	//Create Pixel Shader
-	GraphicsEngine::PixelShader* pixelShader =	new GraphicsEngine::PixelShader(L"./MonoColorPS.cso");
-
-
-	//Create Material
-	DirectX::XMFLOAT4 color(0.0f, 0.0f, 1.0f, 1.0f);
-
-	GraphicsEngine::Material* material =
-		new GraphicsEngine::Material(color, vertexShader, pixelShader);
-
-	//Create Mesh
-	GraphicsEngine::Vertex vertices[] =
+	GraphicsEngine::Vertex verticesSquares[] =
 	{
 		{ DirectX::XMFLOAT3(-0.5f, -0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
 		{ DirectX::XMFLOAT3(-0.5f, 0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) },
@@ -248,25 +189,45 @@ void MyDirectXWindow::createSquares()
 		{ DirectX::XMFLOAT3(0.5f, 0.5f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) }
 	};
 
-	unsigned int indices[] =
+	unsigned int indicesSquares[] =
 	{
 		0, 1, 2,
 		1, 3, 2
 	};
 
-	GraphicsEngine::Mesh* mesh =
-		new GraphicsEngine::Mesh(vertices, 4, indices, 6);
+	GraphicsEngine::Mesh* meshTriangles =
+		new GraphicsEngine::Mesh(verticesTriangles, 3, indicesTriangles, 3);
+
+	GraphicsEngine::Mesh* meshSquares =
+		new GraphicsEngine::Mesh(verticesSquares, 4, indicesSquares, 6);
 
 
-	for (int i = 0; i < sMaxNumberOfSquares; ++i)
+	int opaqueTriangles = sMaxNumberOfTriangles / 2;
+	mFirstTransparentIndex = opaqueTriangles + sMaxNumberOfSquares;
+	mFirstInactiveIndex = sMaxNumberOfTriangles + sMaxNumberOfSquares;
+
+	for (int i = 0; i < sMaxNumberOfTriangles + sMaxNumberOfSquares; ++i)
 	{
-		//Create Trasnform
-		GraphicsEngine::WorldTransform transform;
-		transform.translate((i - (static_cast<int>(sMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 5.0f);
+		
+		mObjectsTransform[i].initializeOnDevice(mDevice);
+		
+		if (i < opaqueTriangles)
+		{
+			mObjects[i] = GraphicsEngine::Object(meshTriangles, opaqueMaterialTriangles);
+			mObjectsTransform[i].translate((i - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
+		}
+		else if (i < mFirstTransparentIndex)
+		{
+			mObjects[i] = GraphicsEngine::Object(meshSquares, opaqueMaterialSquares);
+			mObjectsTransform[i].translate(((i - opaqueTriangles) - (static_cast<int>(sMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 5.0f);
+		}
+		else if (i < mFirstInactiveIndex)
+		{
+			mObjects[i] = GraphicsEngine::Object(meshTriangles, transparentMaterialTriangles);
+			mObjectsTransform[i].translate(((i - sMaxNumberOfSquares) - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
+		}
 
-		//Create Object
-		mSquares[i] = GraphicsEngine::Object(mesh, material, transform);
-		mSquares[i].initializeOnDevice(mDevice);
+		mObjects[i].initializeOnDevice(mDevice);
 	}
 
 }

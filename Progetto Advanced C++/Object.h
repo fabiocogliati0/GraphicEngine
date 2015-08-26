@@ -15,17 +15,13 @@ namespace GraphicsEngine
 
 		Object();	//TODO: ho dovuto aggiungerlo per poter mettere un array sullo stack
 
-		Object(Mesh* iMesh, Material* iMaterial, const WorldTransform& iWorldTransform);
+		Object(Mesh* iMesh, Material* iMaterial);
 
 		~Object();
 
 		void initializeOnDevice(ID3D11Device* iDevice);
 
 		void render(ID3D11DeviceContext* iContext);
-
-		void translate(float iX, float iY, float iZ);
-
-		void translate(float iX, float iY, float iZ, ID3D11DeviceContext* iContext);
 
 		void setVisible(bool iVisible);
 
@@ -37,7 +33,6 @@ namespace GraphicsEngine
 
 		Mesh* mMesh;
 		Material* mMaterial;
-		WorldTransform mWorldTransform;
 
 		bool mIsClipped;
 		bool mIsHidden;
