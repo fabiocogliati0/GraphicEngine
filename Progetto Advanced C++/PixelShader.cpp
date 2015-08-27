@@ -40,6 +40,7 @@ namespace GraphicsEngine
 			mFileName = iOther.mFileName;
 			mPixelShader = nullptr;
 		}
+		return *this;
 	}
 
 	void PixelShader::initOnDevice(ID3D11Device* iDevice)

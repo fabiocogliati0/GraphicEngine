@@ -81,6 +81,7 @@ namespace GraphicsEngine
 		iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);
 	}
 
+
 	DirectX::XMFLOAT3 WorldTransform::getGlobalPosition(const DirectX::XMFLOAT3 &iLocalPosition) const
 	{
 		DirectX::XMVECTOR pos = DirectX::XMLoadFloat3(&iLocalPosition);
