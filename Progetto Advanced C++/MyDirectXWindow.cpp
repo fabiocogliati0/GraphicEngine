@@ -249,19 +249,19 @@ void MyDirectXWindow::createObjects()
 		{
 			triangle = true;
 			mObjects[i] = GraphicsEngine::Object(mMeshTriangles, mOpaqueMaterialTriangles);
-			mObjectsTransform[i].translate((i - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
+			mObjectsTransform[i].translate((i - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f, mDeviceContext);
 		}
 		else if (i < mFirstTransparentIndex)
 		{
 			triangle = false;
 			mObjects[i] = GraphicsEngine::Object(mMeshSquares, mOpaqueMaterialSquares);
-			mObjectsTransform[i].translate(((i - opaqueTriangles) - (static_cast<int>(sMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 5.0f);
+			mObjectsTransform[i].translate(((i - opaqueTriangles) - (static_cast<int>(sMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 5.0f, mDeviceContext);
 		}
 		else if (i < mFirstInactiveIndex)
 		{
 			triangle = true;
 			mObjects[i] = GraphicsEngine::Object(mMeshTriangles, mTransparentMaterialTriangles);
-			mObjectsTransform[i].translate(((i - sMaxNumberOfSquares) - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
+			mObjectsTransform[i].translate(((i - sMaxNumberOfSquares) - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f, mDeviceContext);
 		}
 
 		mObjects[i].initializeOnDevice(mDevice);
