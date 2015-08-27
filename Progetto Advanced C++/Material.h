@@ -15,28 +15,26 @@ namespace GraphicsEngine
 
 	public:
 
+		Material();
+
 		Material(
 			const DirectX::XMFLOAT4& iColor,
 			VertexShader* iVertexShader,
 			PixelShader* iPixelShader);
 
+		Material(const Material& iOther);
+
+		~Material();
+
+		Material& operator=(const Material& iOther);
+
 		void initializeOnDevice(ID3D11Device* iDevice);
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;
 
-		void setVertexShader(VertexShader* iVertexShader);
-
-		void setPixelShader(PixelShader* iPixelShader);
-
-		void setColor(const DirectX::XMFLOAT4& iColor);
-
-		DirectX::XMFLOAT4 getColor() const;
-
 		bool isOpaque() const;
 
 	private:
-
-		~Material();	//Prevents stack allocation
 
 #pragma pack(push, 16)
 
@@ -44,7 +42,13 @@ namespace GraphicsEngine
 		{
 			DirectX::XMFLOAT4 color;
 
-			MaterialStruct( const DirectX::XMFLOAT4& iColor) : color(iColor)
+			MaterialStruct() :
+				color(DirectX::XMFLOAT4())
+			{
+			}
+
+			MaterialStruct( const DirectX::XMFLOAT4& iColor) :
+				color(iColor)
 			{
 			}
 

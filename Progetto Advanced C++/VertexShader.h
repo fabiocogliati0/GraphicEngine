@@ -10,18 +10,24 @@ namespace GraphicsEngine
 
 	public:
 
+		VertexShader();
+
 		VertexShader(
 			const LPCWSTR& iFileName,
 			const D3D11_INPUT_ELEMENT_DESC* iInputLayoutDesc,
 			unsigned int iInputLayoutSize);
+
+		VertexShader(const VertexShader& iOther);
+
+		~VertexShader();
+
+		VertexShader& operator= (const VertexShader& iOther);
 
 		void initOnDevice(ID3D11Device* iDevice);
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;
 
 	private:
-
-		~VertexShader(); //Prevents stack allocation
 
 		LPCWSTR mFileName;
 		const D3D11_INPUT_ELEMENT_DESC* mInputLayoutDesc;

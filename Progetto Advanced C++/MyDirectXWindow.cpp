@@ -11,6 +11,7 @@
 #include "Vertex.h"
 #include "WorldTransform.h"
 #include "Frustum.h"
+
 #include <d3d11.h>
 #include <cmath>
 #include <cassert>
@@ -53,6 +54,18 @@ MyDirectXWindow::~MyDirectXWindow()
 
 	if (mBlendingStateOn)
 		mBlendingStateOn->Release();
+
+	delete[] mObjectsTransform;
+	delete[] mObjects;
+	delete[] mAABBs;
+
+	delete mVertexShader;
+	delete mPixelShader;
+	delete mOpaqueMaterialTriangles;
+	delete mTransparentMaterialTriangles;
+	delete mOpaqueMaterialSquares;
+	delete mMeshTriangles;
+	delete mMeshSquares;
 }
 
 int MyDirectXWindow::run()
@@ -158,14 +171,14 @@ void MyDirectXWindow::createObjects()
 	mAABBs = new GraphicsEngine::AABB[sMaxNumberOfTriangles + sMaxNumberOfSquares];
 
 	//Create Vertex Shader
-	GraphicsEngine::VertexShader* vertexShader =
+	mVertexShader =
 		new GraphicsEngine::VertexShader(
 		L"./MonoColorVS.cso",
 		sLayoutVertex,
 		sLayoutVertexSize);
 
 	//Create Pixel Shader
-	GraphicsEngine::PixelShader* pixelShader = new GraphicsEngine::PixelShader(L"./MonoColorPS.cso");
+	mPixelShader = new GraphicsEngine::PixelShader(L"./MonoColorPS.cso");
 
 
 	//Create Materials
@@ -173,14 +186,14 @@ void MyDirectXWindow::createObjects()
 	DirectX::XMFLOAT4 transparentColorTriangles(0.0f, 1.0f, 0.0f, 0.5f);
 	DirectX::XMFLOAT4 opaqueColorSquares(0.0f, 0.0f, 1.0f, 1.0f);
 
-	GraphicsEngine::Material* opaqueMaterialTriangles =
-		new GraphicsEngine::Material(opaqueColorTriangles, vertexShader, pixelShader);
+	mOpaqueMaterialTriangles =
+		new GraphicsEngine::Material(opaqueColorTriangles, mVertexShader, mPixelShader);
 
-	GraphicsEngine::Material* transparentMaterialTriangles =
-		new GraphicsEngine::Material(transparentColorTriangles, vertexShader, pixelShader);
+	mTransparentMaterialTriangles =
+		new GraphicsEngine::Material(transparentColorTriangles, mVertexShader, mPixelShader);
 
-	GraphicsEngine::Material* opaqueMaterialSquares =
-		new GraphicsEngine::Material(opaqueColorSquares, vertexShader, pixelShader);
+	mOpaqueMaterialSquares =
+		new GraphicsEngine::Material(opaqueColorSquares, mVertexShader, mPixelShader);
 
 	//Create Meshes
 	int numberOfVerticesTriangles = 3;
@@ -213,10 +226,10 @@ void MyDirectXWindow::createObjects()
 		1, 3, 2
 	};
 
-	GraphicsEngine::Mesh* meshTriangles =
+	mMeshTriangles =
 		new GraphicsEngine::Mesh(verticesTriangles, numberOfVerticesTriangles, indicesTriangles, numberOfIindicesTriangles);
 
-	GraphicsEngine::Mesh* meshSquares =
+	mMeshSquares =
 		new GraphicsEngine::Mesh(verticesSquares, numberOfVerticesSquares, indicesSquares, numberOfIindicesSquares);
 
 
@@ -235,19 +248,19 @@ void MyDirectXWindow::createObjects()
 		if (i < opaqueTriangles)
 		{
 			triangle = true;
-			mObjects[i] = GraphicsEngine::Object(meshTriangles, opaqueMaterialTriangles);
+			mObjects[i] = GraphicsEngine::Object(mMeshTriangles, mOpaqueMaterialTriangles);
 			mObjectsTransform[i].translate((i - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
 		}
 		else if (i < mFirstTransparentIndex)
 		{
 			triangle = false;
-			mObjects[i] = GraphicsEngine::Object(meshSquares, opaqueMaterialSquares);
+			mObjects[i] = GraphicsEngine::Object(mMeshSquares, mOpaqueMaterialSquares);
 			mObjectsTransform[i].translate(((i - opaqueTriangles) - (static_cast<int>(sMaxNumberOfSquares) / 2)) * 1.5f, 1.0f, 5.0f);
 		}
 		else if (i < mFirstInactiveIndex)
 		{
 			triangle = true;
-			mObjects[i] = GraphicsEngine::Object(meshTriangles, transparentMaterialTriangles);
+			mObjects[i] = GraphicsEngine::Object(mMeshTriangles, mTransparentMaterialTriangles);
 			mObjectsTransform[i].translate(((i - sMaxNumberOfSquares) - (static_cast<int>(sMaxNumberOfTriangles) / 2)) * 1.5f, 1.0f, 0.0f);
 		}
 

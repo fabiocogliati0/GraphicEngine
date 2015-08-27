@@ -18,14 +18,36 @@ namespace GraphicsEngine
 	{
 	}
 
+	WorldTransform::WorldTransform(const WorldTransform& iOther) :
+		mWorldTransformStruct(iOther.mWorldTransformStruct),
+		mWorldTransformBuffer(nullptr)
+	{
+	}
+
 	WorldTransform::~WorldTransform()
 	{
-		release();
+		if (mWorldTransformBuffer)
+		{
+			mWorldTransformBuffer->Release();
+		}
+	}
+
+	WorldTransform& WorldTransform:: operator = (const WorldTransform& iOther)
+	{
+		if (this != &iOther)
+		{
+			mWorldTransformStruct = iOther.mWorldTransformStruct;
+			mWorldTransformBuffer = nullptr;
+		}
+		return *this;
 	}
 
 	void WorldTransform::initializeOnDevice(ID3D11Device* iDevice)
 	{
-		if (!mWorldTransformBuffer && iDevice)
+
+		assert(iDevice);
+
+		if (!mWorldTransformBuffer)
 		{
 			//Create transformations buffer
 			D3D11_BUFFER_DESC bufferDesc;
@@ -43,28 +65,13 @@ namespace GraphicsEngine
 
 	void WorldTransform::renderSetup(ID3D11DeviceContext* iContext) const
 	{
-		if (mWorldTransformBuffer && iContext)
+		assert(iContext);
+
+		if (mWorldTransformBuffer)
 		{
-			//iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);	//questo va fatto quando si modifica la trasform
 			iContext->VSSetConstantBuffers(0, 1, &mWorldTransformBuffer);
 		}	
 	}
-
-	void WorldTransform::release()
-	{
-		if (mWorldTransformBuffer)
-		{
-			mWorldTransformBuffer->Release();
-		}
-	}
-
-	void WorldTransform::translate(float iX, float iY, float iZ)
-	{
-		mWorldTransformStruct.world =
-			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixTranslation(iX, iY, iZ));
-
-	}
-
 
 	void WorldTransform::translate(float iX, float iY, float iZ, ID3D11DeviceContext* iContext)
 	{
@@ -72,30 +79,6 @@ namespace GraphicsEngine
 			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixTranslation(iX, iY, iZ));
 
 		iContext->UpdateSubresource(mWorldTransformBuffer, 0, nullptr, &mWorldTransformStruct, 0, 0);
-	}
-
-	void WorldTransform::scale(float iX, float iY, float iZ)
-	{
-		mWorldTransformStruct.world =
-			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixScaling(iX, iY, iZ));
-	}
-
-	void WorldTransform::rotateX(float iAngle)
-	{
-		mWorldTransformStruct.world =
-			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixRotationX(iAngle));
-	}
-
-	void WorldTransform::rotateY(float iAngle)
-	{
-		mWorldTransformStruct.world =
-			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixRotationY(iAngle));
-	}
-
-	void WorldTransform::rotateZ(float iAngle)
-	{
-		mWorldTransformStruct.world =
-			DirectX::XMMatrixMultiply(mWorldTransformStruct.world, DirectX::XMMatrixRotationZ(iAngle));
 	}
 
 	DirectX::XMFLOAT3 WorldTransform::getGlobalPosition(const DirectX::XMFLOAT3 &iLocalPosition) const

@@ -12,16 +12,6 @@ namespace GraphicsEngine
 	{
 	}
 
-	Frustum::Frustum(const Frustum&)
-	{
-
-	}
-
-	Frustum::~Frustum()
-	{
-
-	}
-
 	void Frustum::ConstructFrustum(const DirectX::XMMATRIX& iViewMatrix, const DirectX::XMMATRIX& iProjectionMatrix)
 	{
 

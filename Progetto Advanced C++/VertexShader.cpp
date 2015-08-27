@@ -7,6 +7,15 @@
 namespace GraphicsEngine
 {
 	
+	VertexShader::VertexShader() :
+		mFileName(L""),
+		mInputLayoutDesc(nullptr),
+		mInputLayoutSize(0),
+		mVertexShader(nullptr),
+		mInputLayout(nullptr)
+	{
+	}
+
 	VertexShader::VertexShader(
 		const LPCWSTR& iFileName,
 		const D3D11_INPUT_ELEMENT_DESC* iInputLayoutDesc,
@@ -19,10 +28,34 @@ namespace GraphicsEngine
 	{
 	}
 
+	VertexShader::VertexShader(const VertexShader& iOther) :
+		mFileName(iOther.mFileName),
+		mInputLayoutDesc(iOther.mInputLayoutDesc),
+		mInputLayoutSize(iOther.mInputLayoutSize),
+		mVertexShader(nullptr),
+		mInputLayout(nullptr)
+	{
+	}
+
+	VertexShader& VertexShader::operator = (const VertexShader& iOther)
+	{
+		if (this != &iOther)
+		{
+			mFileName = iOther.mFileName;
+			mInputLayoutDesc = iOther.mInputLayoutDesc;
+			mInputLayoutSize = iOther.mInputLayoutSize;
+			mVertexShader = nullptr;
+			mInputLayout = nullptr;
+		}
+		return *this;
+	}
+
 	void VertexShader::initOnDevice(ID3D11Device* iDevice)
 	{
 
-		if (!mVertexShader && iDevice)
+		assert(iDevice);
+
+		if (!mVertexShader)
 		{
 			//Load precompiled shaders
 			ID3DBlob* vertexShaderBlob = nullptr;
@@ -51,11 +84,13 @@ namespace GraphicsEngine
 
 	void VertexShader::renderSetup(ID3D11DeviceContext* iContext) const
 	{
-		if (mInputLayout && mVertexShader && iContext)
-		{
+		assert(iContext);
+
+		if (mInputLayout)
 			iContext->IASetInputLayout(mInputLayout);
+
+		if (mVertexShader)
 			iContext->VSSetShader(mVertexShader, nullptr, 0);
-		}
 	}
 
 	VertexShader::~VertexShader()

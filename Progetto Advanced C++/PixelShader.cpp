@@ -7,15 +7,46 @@
 namespace GraphicsEngine
 {
 
+	PixelShader::PixelShader() :
+		mFileName(L""),
+		mPixelShader(nullptr)
+	{
+	}
+
 	PixelShader::PixelShader(const LPCWSTR& iFileName) :
 		mFileName(iFileName),
 		mPixelShader(nullptr)
 	{
 	}
 
+	PixelShader::PixelShader(const PixelShader& iOther) :
+		mFileName(iOther.mFileName),
+		mPixelShader(nullptr)
+	{
+	}
+
+	PixelShader::~PixelShader()
+	{
+		if (mPixelShader)
+		{
+			mPixelShader->Release();
+		}
+	}
+
+	PixelShader& PixelShader::operator = (const PixelShader& iOther)
+	{
+		if (this != &iOther)
+		{
+			mFileName = iOther.mFileName;
+			mPixelShader = nullptr;
+		}
+	}
+
 	void PixelShader::initOnDevice(ID3D11Device* iDevice)
 	{
-		if (!mPixelShader && iDevice)
+		assert(iDevice);
+
+		if (!mPixelShader)
 		{
 			//Load precompiled shaders
 			ID3DBlob* pixelShaderBlob = nullptr;
@@ -37,17 +68,11 @@ namespace GraphicsEngine
 
 	void PixelShader::renderSetup(ID3D11DeviceContext* iContext) const
 	{
-		if (mPixelShader && iContext)
-		{
-			iContext->PSSetShader(mPixelShader, nullptr, 0);
-		}
-	}
+		assert(iContext);
 
-	PixelShader::~PixelShader()
-	{
 		if (mPixelShader)
 		{
-			mPixelShader->Release();
+			iContext->PSSetShader(mPixelShader, nullptr, 0);
 		}
 	}
 

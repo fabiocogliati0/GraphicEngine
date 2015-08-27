@@ -13,19 +13,23 @@ namespace GraphicsEngine
 
 		Mesh();
 
+		Mesh(const Mesh& iOther);
+
 		Mesh(
 			Vertex* iVertices,
 			unsigned int iVerticesNumber,
 			unsigned int* iIndices,
 			unsigned int iIndicesNumber);
 
+		~Mesh();
+
+		Mesh& operator= (const Mesh& iOther);
+
 		void initializeOnDevice(ID3D11Device* iDevice);
 
-		void render(ID3D11DeviceContext* iContext);
+		void renderSetup(ID3D11DeviceContext* iContext) const;
 
 	private:
-
-		~Mesh();	//prevents stack allocation
 
 		ID3D11Buffer* mVertexBuffer;     
 		ID3D11Buffer* mIndexBuffer;

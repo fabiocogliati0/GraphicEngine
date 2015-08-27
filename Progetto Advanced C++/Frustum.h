@@ -16,10 +16,6 @@ namespace GraphicsEngine
 	public:
 		
 		Frustum();
-		
-		Frustum(const Frustum&);
-		
-		~Frustum();
 
 		void ConstructFrustum(const DirectX::XMMATRIX& iViewMatrix, const DirectX::XMMATRIX& iProjectionMatrix);
 

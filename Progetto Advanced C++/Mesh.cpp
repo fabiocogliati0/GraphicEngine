@@ -17,6 +17,18 @@ namespace GraphicsEngine
 	{
 	}
 
+	Mesh::Mesh(const Mesh& iOther) :
+		mVertexBufferDesc(iOther.mVertexBufferDesc),
+		mIndexBufferDesc(iOther.mIndexBufferDesc),
+		mVertexInitData(iOther.mVertexInitData),
+		mIndexInitData(iOther.mIndexInitData),
+		mVertexBuffer(nullptr),
+		mIndexBuffer(nullptr),
+		mVertexCount(iOther.mVertexCount),
+		mIndexCount(iOther.mIndexCount)
+	{
+	}
+
 	Mesh::Mesh(
 		Vertex* iVertices,
 		unsigned int iVerticesNumber,
@@ -42,9 +54,41 @@ namespace GraphicsEngine
 		mIndexInitData.pSysMem = iIndices;	
 	}
 
+	Mesh::~Mesh()
+	{
+		if (mVertexBuffer)
+		{
+			mVertexBuffer->Release();
+		}
+
+		if (mIndexBuffer)
+		{
+			mIndexBuffer->Release();
+		}
+	}
+
+	Mesh& Mesh::operator= (const Mesh& iOther)
+	{
+		if (this != &iOther)
+		{
+			mVertexBufferDesc = iOther.mVertexBufferDesc;
+			mIndexBufferDesc = iOther.mIndexBufferDesc;
+			mVertexInitData = iOther.mVertexInitData;
+			mIndexInitData = iOther.mIndexInitData;
+			mVertexBuffer = nullptr;
+			mIndexBuffer = nullptr;
+			mVertexCount = iOther.mVertexCount;
+			mIndexCount = iOther.mIndexCount;
+		}
+		return *this;
+	}
+
 	void Mesh::initializeOnDevice(ID3D11Device* iDevice)
 	{
-		if (!mVertexBuffer && !mIndexBuffer && iDevice)
+
+		assert(iDevice);
+
+		if (!mVertexBuffer && !mIndexBuffer)
 		{
 			HRESULT result;
 
@@ -58,9 +102,12 @@ namespace GraphicsEngine
 		}
 	}
 
-	void Mesh::render(ID3D11DeviceContext* iContext)
+	void Mesh::renderSetup(ID3D11DeviceContext* iContext) const
 	{
-		if (mVertexBuffer && mIndexBuffer && iContext)
+		
+		assert(iContext);
+
+		if (mVertexBuffer && mIndexBuffer)
 		{
 			UINT32 stride = sizeof(Vertex);
 			UINT32 offset = 0;
@@ -74,16 +121,5 @@ namespace GraphicsEngine
 		}
 	}
 
-	Mesh::~Mesh()
-	{
-		if (mVertexBuffer)
-		{
-			mVertexBuffer->Release();
-		}
-
-		if (mIndexBuffer)
-		{
-			mIndexBuffer->Release();
-		}
-	}
+	
 }

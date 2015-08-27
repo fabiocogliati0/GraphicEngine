@@ -10,6 +10,14 @@
 namespace GraphicsEngine
 {
 
+	Material::Material() :
+		mMaterialStruct(),
+		mVertexShader(nullptr),
+		mPixelShader(nullptr),
+		mMaterialBuffer(nullptr)
+	{
+	}
+
 	Material::Material(
 		const DirectX::XMFLOAT4& iColor,
 		VertexShader* iVertexShader,
@@ -19,13 +27,42 @@ namespace GraphicsEngine
 			mPixelShader(iPixelShader),
 			mMaterialBuffer(nullptr)
 	{
-		//mVertexShader->grab();
-		//mPixelShader->grab();
+	}
+
+	Material::Material(const Material& iOther) :
+		mMaterialStruct(iOther.mMaterialStruct),
+		mVertexShader(iOther.mVertexShader),
+		mPixelShader(iOther.mPixelShader),
+		mMaterialBuffer(nullptr)
+	{
+	}
+
+	Material::~Material()
+	{
+		if (mMaterialBuffer)
+		{
+			mMaterialBuffer->Release();
+		}
+	}
+
+	Material& Material::operator= (const Material& iOther)
+	{
+		if (this != &iOther)
+		{
+			mMaterialStruct = iOther.mMaterialStruct;
+			mVertexShader = iOther.mVertexShader;
+			mPixelShader = iOther.mPixelShader;
+			mMaterialBuffer = nullptr;
+		}
+		return *this;
 	}
 
 	void Material::initializeOnDevice(ID3D11Device* iDevice)
 	{
-		if (!mMaterialBuffer && iDevice)
+
+		assert(iDevice);
+
+		if (!mMaterialBuffer)
 		{
 			D3D11_BUFFER_DESC bufferDesc;
 			bufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -38,67 +75,32 @@ namespace GraphicsEngine
 			HRESULT result = iDevice->CreateBuffer(&bufferDesc, &initData, &mMaterialBuffer);
 			assert(SUCCEEDED(result));
 
-			mVertexShader->initOnDevice(iDevice);		//TODO: sono giuste queste due linee?
-			mPixelShader->initOnDevice(iDevice);
+			if (mVertexShader)
+				mVertexShader->initOnDevice(iDevice);
+
+			if (mPixelShader)
+				mPixelShader->initOnDevice(iDevice);
 		}
 	}
 
 	void Material::renderSetup(ID3D11DeviceContext* iContext) const
 	{
-		if (mVertexShader && mPixelShader && mMaterialBuffer && iContext)
-		{
+
+		assert(iContext);
+		
+		if (mVertexShader)
 			mVertexShader->renderSetup(iContext);
+
+		if (mPixelShader)
 			mPixelShader->renderSetup(iContext);
 
+		if (mMaterialBuffer)
 			iContext->VSSetConstantBuffers(2, 1, &mMaterialBuffer);
-		}
-	}
-
-	void Material::setVertexShader(VertexShader* iVertexShader)
-	{
-		//mVertexShader->release();
-		mVertexShader = iVertexShader;
-		//mVertexShader->grab();
-	}
-
-	void Material::setPixelShader(PixelShader* iPixelShader)
-	{
-		//mPixelShader->release();
-		mPixelShader = iPixelShader;
-		//mPixelShader->grab();
-	}
-
-	void Material::setColor(const DirectX::XMFLOAT4& iColor)
-	{
-		mMaterialStruct.color = iColor;
-	}
-
-	DirectX::XMFLOAT4 Material::getColor() const
-	{
-		return mMaterialStruct.color;
 	}
 
 	bool Material::isOpaque() const
 	{
 		return mMaterialStruct.color.w == 1.0f;
-	}
-
-	Material::~Material()
-	{
-		if (mMaterialBuffer)
-		{
-			mMaterialBuffer->Release();
-		}
-
-		if (mVertexShader)
-		{
-			//mVertexShader->release();
-		}
-
-		if (mPixelShader)
-		{
-			//mPixelShader->release();
-		}
 	}
 
 } 

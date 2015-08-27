@@ -11,6 +11,10 @@ namespace GraphicsEngine
 {
 	class Object;
 	class AABB;
+	class VertexShader;
+	class PixelShader;
+	class Material;
+	class Mesh;
 }
 
 class MyDirectXWindow : public GraphicsEngine::DirectXWindow
@@ -62,10 +66,6 @@ private :
 	void createBlendingStates();
 
 
-	int mFirstTransparentIndex;
-
-	int mFirstInactiveIndex;
-
 	GraphicsEngine::Camera mCamera;
 
 	GraphicsEngine::WorldTransform* mObjectsTransform;
@@ -73,6 +73,21 @@ private :
 	GraphicsEngine::Object* mObjects;
 
 	GraphicsEngine::AABB* mAABBs;
+
+	GraphicsEngine::VertexShader* mVertexShader;
+
+	GraphicsEngine::PixelShader* mPixelShader;
+
+	GraphicsEngine::Material* mOpaqueMaterialTriangles;
+
+	GraphicsEngine::Material* mTransparentMaterialTriangles;
+
+	GraphicsEngine::Material* mOpaqueMaterialSquares;
+
+	GraphicsEngine::Mesh* mMeshTriangles;
+
+	GraphicsEngine::Mesh* mMeshSquares;
+
 
 	ID3D11DepthStencilState* mDepthStateOff;
 
@@ -83,4 +98,10 @@ private :
 	ID3D11BlendState* mBlendingStateOff;
 
 	ID3D11BlendState* mBlendingStateOn;
+
+
+	int mFirstTransparentIndex;
+
+	int mFirstInactiveIndex;
+	
 };

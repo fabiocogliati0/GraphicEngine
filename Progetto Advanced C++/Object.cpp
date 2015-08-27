@@ -4,49 +4,64 @@
 #include "Material.h"
 #include "WorldTransform.h"
 
+#include <cassert>
+
 namespace GraphicsEngine
 {
 
 	Object::Object() :
-		mMesh(nullptr), mMaterial(nullptr)
+		mMesh(nullptr), mMaterial(nullptr), mIsHidden(true)
 	{
 	}
 
 	Object::Object(Mesh* iMesh, Material* iMaterial) :
-		mMesh(iMesh), mMaterial(iMaterial), mIsClipped(false), mIsHidden(false)
+		mMesh(iMesh), mMaterial(iMaterial), mIsHidden(false)
 	{
-		//mMesh->grab();
-		//mMaterial->grab();
+	}
+
+	Object::Object(const Object& iOther) :
+		mMesh(iOther.mMesh), mMaterial(iOther.mMaterial), mIsHidden(iOther.mIsHidden)
+	{
 	}
 
 	Object::~Object()
 	{
-		if (mMaterial)
+	}
+
+	Object& Object::operator = (const Object& iOther)
+	{
+		if (this != &iOther)
 		{
-			//mMaterial->release();
+			mMesh = iOther.mMesh;
+			mMaterial = iOther.mMaterial;
+			mIsHidden = iOther.mIsHidden;
 		}
-		
-		if (mMesh)
-		{
-			//mMesh->release();
-		}
+		return *this;
 	}
 
 	void Object::initializeOnDevice(ID3D11Device* iDevice)
 	{
-		if (mMaterial && mMesh && iDevice)
-		{
+		assert(iDevice);
+
+		if (mMaterial)
 			mMaterial->initializeOnDevice(iDevice);
+
+		if (mMesh)
 			mMesh->initializeOnDevice(iDevice);
-		}
+
 	}
 
-	void Object::render(ID3D11DeviceContext* iContext)
+	void Object::render(ID3D11DeviceContext* iContext) const
 	{
-		if (!mIsHidden && mMaterial && mMesh && iContext)
+		assert(iContext);
+
+		if (!mIsHidden)
 		{
-			mMaterial->renderSetup(iContext);
-			mMesh->render(iContext);
+			if (mMaterial)
+				mMaterial->renderSetup(iContext);
+			
+			if (mMesh)
+				mMesh->renderSetup(iContext);
 		}
 	}
 	

@@ -13,15 +13,19 @@ namespace GraphicsEngine
 
 	public:
 
-		Object();	//TODO: ho dovuto aggiungerlo per poter mettere un array sullo stack
+		Object();
 
 		Object(Mesh* iMesh, Material* iMaterial);
 
+		Object(const Object& iOther);
+
 		~Object();
+
+		Object& operator= (const Object& iOther);
 
 		void initializeOnDevice(ID3D11Device* iDevice);
 
-		void render(ID3D11DeviceContext* iContext);
+		void render(ID3D11DeviceContext* iContext) const;
 
 		void setVisible(bool iVisible);
 
@@ -34,7 +38,6 @@ namespace GraphicsEngine
 		Mesh* mMesh;
 		Material* mMaterial;
 
-		bool mIsClipped;
 		bool mIsHidden;
 
 	};

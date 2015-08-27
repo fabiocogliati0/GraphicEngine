@@ -15,25 +15,17 @@ namespace GraphicsEngine
 
 		WorldTransform(const DirectX::XMMATRIX& iWorld);
 
+		WorldTransform(const WorldTransform& iOther);
+
 		~WorldTransform();
+
+		WorldTransform& operator= (const WorldTransform& iOther);
 
 		void initializeOnDevice(ID3D11Device* iDevice);
 
 		void renderSetup(ID3D11DeviceContext* iContext) const;
 
-		void release();
-
-		void translate(float iX, float iY, float iZ);	//TODO: questo dovrebbe essere tolto
-
 		void translate(float iX, float iY, float iZ, ID3D11DeviceContext* iContext);
-
-		void scale(float iX, float iY, float iZ);
-
-		void rotateX(float iAngle);
-
-		void rotateY(float iAngle);
-
-		void rotateZ(float iAngle);
 
 		DirectX::XMFLOAT3 getGlobalPosition(const DirectX::XMFLOAT3 &iLocalPosition) const;
 
